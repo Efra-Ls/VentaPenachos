@@ -48,11 +48,11 @@ class Inventory
 	}
 	public function login($email, $password)
 	{
-		#$password = md5($password);		
+		//$password = md5($password);
 		$sqlQuery = "
 			SELECT userid, email, password, name, type, status
-			FROM ".$this->userTable." 
-			WHERE email='".$email."' AND password='".$password."'";
+			FROM " . $this->userTable . " 
+			WHERE email='" . $email . "' AND password='" . $password . "'";
 		return  $this->getData($sqlQuery);
 	}
 	public function checkLogin()

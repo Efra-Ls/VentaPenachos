@@ -9,7 +9,7 @@ $inventory->checkLogin();
 
 <script src="js/jquery.dataTables.min.js"></script>
 <script src="js/dataTables.bootstrap.min.js"></script>
-<link rel="stylesheet" href="css/dataTables.bootstrap.min.css" />
+<link rel="stylesheet" href="scss/dataTables.bootstrap.min.css" />
 <script src="js/customer.js"></script>
 <script src="js/common.js"></script>
 <?php include('inc/container.php'); ?>
@@ -23,10 +23,10 @@ $inventory->checkLogin();
 						<div class="col-lg-10 col-md-10 col-sm-8 col-xs-6">
 							<h3 class="card-title">Clientes</h3>
 						</div>
-						<div class="col-lg-2 col-md-2 col-sm-4 col-xs-6" align="right" color="white">
-							<button type="button" name="add" id="addCustomer" data-bs-toggle="modal" data-bs-target="#userModal" class="btn btn-info bg-gradient btn-sm rounded-0"><i class="far fa-plus-square"></i>
+						<div class="col-lg-2 col-md-2 col-sm-4 col-xs-6" alaign="right" color="white">
+							<button type="button" name="add" id="addCustomer" data-bs-toggle="modal" data-bs-target="#userModal" class="btn btn-info bg-Info btn-sm rounded-0"><i class="far fa-plus-square"></i>
 								Agregar Cliente
-							</button>
+							</button> 	
 						</div>
 					</div>
 					<div class="clear:both"></div>

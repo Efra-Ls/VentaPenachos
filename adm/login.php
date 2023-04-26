@@ -6,14 +6,15 @@ $loginError = '';
 if (!empty($_POST['email']) && !empty($_POST['pwd'])) {
 	include 'Inventory.php';
 	$inventory = new Inventory();
-	$login = $inventory->login($_POST['email'], $_POST['pwd']);	
+	$login = $inventory->login($_POST['email'], $_POST['pwd']);
 	if (!empty($login)) {
 		$_SESSION['userid'] = $login[0]['userid'];
 		$_SESSION['name'] = $login[0]['name'];
-		if($login[0]['type']=="member"){
-			header("Location:/Gestion%20de%20proyectos/Proyecto%20Web/");
-		}else{header("Location:index.php");}
-		
+		echo $login[0]['type'];
+		if($login[0]['type']=="member"){			
+			header("Location:../index.php");
+		}else{header("Location:index.php");
+		}
 	} else {
 		$loginError = "Invalid email or password!";
 	}
@@ -37,10 +38,34 @@ if (!empty($_POST['email']) && !empty($_POST['pwd'])) {
 	#title {
 		text-shadow: 2px 2px 5px #000;
 	}
+	.button {
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+  }
+  
+  .button1 {
+    background-color: #6d011a; 
+    color: white; 
+    border: 2px solid #6d011a;
+  }
+  
+  .button1:hover {
+    background-color: #6d011a5c;
+    color: white;
+  }
+  
 </style>
 <?php include('inc/container.php'); ?>
 
-<h1 class="text-center my-4 py-3 text-light" id="title">Bienvenido a Arte plumario</h1>
+
 <div class="col-lg-4 col-md-5 col-sm-10 col-xs-12">
 	<div class="card rounded-0 shadow">
 		<div class="card-header">
@@ -63,11 +88,11 @@ if (!empty($_POST['email']) && !empty($_POST['pwd'])) {
 						<input type="password" class="form-control rounded-0" id="password" name="pwd" placeholder="Contraseña" required>
 					</div>
 					<div class="d-grid">
-						<button type="submit" name="login" class="btn btn-primary rounded-0">Acceder</button>
+					<button type="submit" name="login" class="button button1">Acceder</button>
 					</div>
 				</form>
 			</div>
 		</div>
-	</div>
+	</div>	
 </div>
 <?php include('inc/footer.php'); ?>

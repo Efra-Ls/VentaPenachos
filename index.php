@@ -18,7 +18,7 @@
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/ve2ndor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
@@ -26,7 +26,14 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-
+<!-- Incluye los archivos CSS de Bootstrap -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+<!-- Agrega una clase personalizada al elemento img para hacerlo opaco -->
+<style>
+  .carousel-item img {
+    opacity: 0.5;
+  }
+</style>
   <!-- =======================================================
   * Template Name: Reveal - v4.9.1
   * Template URL: https://bootstrapmade.com/reveal-bootstrap-corporate-template/
@@ -57,7 +64,7 @@
     <div class="container d-flex justify-content-between">
 
       <div id="logo">
-        <h1><a href="index.html">Arte<span>Plumario</span> </a></h1>
+        <h1><a href="index.php">Arte<span>Plumario</span> </a></h1>
         <!-- Uncomment below if you prefer to use an image logo -->
         <!-- <a href="index.html"><img src="assets/img/logo.png" alt=""></a>-->
       </div>
@@ -90,14 +97,45 @@
       </div>
     </div>
 
-    <div class="hero-slider swiper">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide" style="background-image: url('assets/img/hero-carousel/img1.jpeg');"></div>
-        <div class="swiper-slide" style="background-image: url('assets/img/hero-carousel/img2.jpeg');"></div>
-        <div class="swiper-slide" style="background-image: url('assets/img/hero-carousel/img3.jpeg');"></div>
-      </div>
-    </div>
+        <!-- Crea la estructura HTML para el carousel -->
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+  <!-- Indicadores de los slides -->
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+  </ol>
 
+  <!-- Slides del carousel -->
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="assets/img/hero-carousel/img1.jpeg" class="d-block w-100" alt="Slide 1">
+    </div>
+    <div class="carousel-item">
+      <img src="assets/img/hero-carousel/img2.jpeg" class="d-block w-100" alt="Slide 2">
+    </div>
+    <div class="carousel-item">
+      <img src="assets/img/hero-carousel/img3.jpeg" class="d-block w-100" alt="Slide 3">
+    </div>
+  </div>
+
+  <!-- Controles del carousel -->
+  <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Anterior</span>
+  </a>
+  <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Siguiente</span>
+  </a>
+</div>
+
+<!-- Incluye los archivos JS de Bootstrap y jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+
+    
   </section><!-- End Hero Section -->
 
   <main id="main">
