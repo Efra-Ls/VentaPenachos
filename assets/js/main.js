@@ -164,7 +164,7 @@
   new Swiper('.hero-slider', {
     speed: 1000,
     loop: true,
-    effect: 'flip',
+    effect: 'slide',
     autoplay: {
       delay: 1000,
       disableOnInteraction: false

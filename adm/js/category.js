@@ -17,13 +17,13 @@ $(document).ready(function() {
             dataType: "json"
         },
         "columnDefs": [{
-            "targets": [0, 3],
+            "targets": [0, 2],
             "orderable": false,
         }, ],
         "pageLength": 25,
         'rowCallback': function(row, data, index) {
             $(row).find('td').addClass('align-middle')
-            $(row).find('td:eq(0), td:eq(3)').addClass('text-center')
+            $(row).find('td:eq(0), td:eq(1)').addClass('text-center')
         }
     });
     $(document).on('submit', '#categoryForm', function(event) {

@@ -12,7 +12,7 @@ $(document).ready(function() {
             dataType: "json"
         },
         "columnDefs": [{
-            "targets": [0, 6],
+            "targets": [0, 8],
             "orderable": false,
         }, ],
         "pageLength": 10,

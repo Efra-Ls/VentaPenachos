@@ -7,7 +7,7 @@ class Inventory
 	private $database  = 'bdgpsvp';
 	private $userTable = 'usuario';
 	private $customerTable = 'cliente';
-	private $categoryTable = 'ims_category';
+	private $categoryTable = 'categoria';
 	private $brandTable = 'ims_brand';
 	private $productTable = 'producto';
 	private $supplierTable = 'ims_supplier';
@@ -157,13 +157,12 @@ class Inventory
 	{
 		$sqlQuery = "SELECT * FROM " . $this->categoryTable . " ";
 		if (!empty($_POST["search"]["value"])) {
-			$sqlQuery .= 'WHERE (name LIKE "%' . $_POST["search"]["value"] . '%" ';
-			$sqlQuery .= 'OR status LIKE "%' . $_POST["search"]["value"] . '%") ';
+			$sqlQuery .= 'WHERE nombre LIKE "%' . $_POST["search"]["value"] . '%" ';
 		}
 		if (!empty($_POST["order"])) {
 			$sqlQuery .= 'ORDER BY ' . $_POST['order']['0']['column'] . ' ' . $_POST['order']['0']['dir'] . ' ';
 		} else {
-			$sqlQuery .= 'ORDER BY categoryid DESC ';
+			$sqlQuery .= 'ORDER BY id_categoria DESC ';
 		}
 		if ($_POST["length"] != -1) {
 			$sqlQuery .= 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
@@ -173,16 +172,9 @@ class Inventory
 		$categoryData = array();
 		while ($category = mysqli_fetch_assoc($result)) {
 			$categoryRows = array();
-			$status = '';
-			if ($category['status'] == 'active') {
-				$status = '<span class="label label-success">Active</span>';
-			} else {
-				$status = '<span class="label label-danger">Inactive</span>';
-			}
-			$categoryRows[] = $category['categoryid'];
-			$categoryRows[] = $category['name'];
-			$categoryRows[] = $status;
-			$categoryRows[] = '<button type="button" name="update" id="' . $category["categoryid"] . '" class="btn btn-primary btn-sm rounded-0 update" title="Update"><i class="fa fa-edit"></i></button><button type="button" name="delete" id="' . $category["categoryid"] . '" class="btn btn-danger btn-sm rounded-0 delete"  title="Delete"><i class="fa fa-trash"></i></button>';
+			$categoryRows[] = $category['id_categoria'];
+			$categoryRows[] = $category['nombre'];
+			$categoryRows[] = '<button type="button" name="update" id="' . $category["id_categoria"] . '" class="btn btn-primary btn-sm rounded-0 update" title="Update"><i class="fa fa-edit"></i></button><button type="button" name="delete" id="' . $category["id_categoria"] . '" class="btn btn-danger btn-sm rounded-0 delete"  title="Delete"><i class="fa fa-trash"></i></button>';
 			$categoryData[] = $categoryRows;
 		}
 		$output = array(
@@ -275,12 +267,11 @@ class Inventory
 	public function categoryDropdownList()
 	{
 		$sqlQuery = "SELECT * FROM " . $this->categoryTable . " 
-			WHERE status = 'active' 
-			ORDER BY name ASC";
+			ORDER BY nombre ASC";
 		$result = mysqli_query($this->dbConnect, $sqlQuery);
 		$categoryHTML = '';
 		while ($category = mysqli_fetch_assoc($result)) {
-			$categoryHTML .= '<option value="' . $category["categoryid"] . '">' . $category["name"] . '</option>';
+			$categoryHTML .= '<option value="' . $category["id_categoria"] . '">' . $category["nombre"] . '</option>';
 		}
 		return $categoryHTML;
 	}
@@ -319,18 +310,21 @@ class Inventory
 	// Product management 
 	public function getProductList()
 	{
-		$sqlQuery = "SELECT * FROM " . $this->productTable . " ";
+		$sqlQuery = "SELECT p.id_producto,p.nombre,p.descripcion,c.nombre as categoria,p.precio,p.existencia,p.unidad,p.foto  FROM " . $this->productTable . " as p
+					INNER JOIN " . $this->categoryTable . " as c ON c.id_categoria = p.id_categoria ";
 		if (isset($_POST["search"]["value"])) {
-			$sqlQuery .= 'WHERE id_producto LIKE "%' . $_POST["search"]["value"] . '%" ';
-			$sqlQuery .= 'OR nombre LIKE "%' . $_POST["search"]["value"] . '%" ';
-			$sqlQuery .= 'OR descripcion LIKE "%' . $_POST["search"]["value"] . '%" ';
-			$sqlQuery .= 'OR precio LIKE "%' . $_POST["search"]["value"] . '%" ';
-			$sqlQuery .= 'OR existencia LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$sqlQuery .= 'WHERE p.id_producto LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$sqlQuery .= 'OR p.nombre LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$sqlQuery .= 'OR p.descripcion LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$sqlQuery .= 'OR c.nombre LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$sqlQuery .= 'OR p.precio LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$sqlQuery .= 'OR p.existencia LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$sqlQuery .= 'OR p.unidad LIKE "%' . $_POST["search"]["value"] . '%" ';
 		}
 		if (isset($_POST['order'])) {
 			$sqlQuery .= 'ORDER BY ' . $_POST['order']['0']['column'] . ' ' . $_POST['order']['0']['dir'] . ' ';
 		} else {
-			$sqlQuery .= 'ORDER BY id_producto DESC ';
+			$sqlQuery .= 'ORDER BY p.id_producto DESC ';
 		}
 		if ($_POST['length'] != -1) {
 			$sqlQuery .= 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
@@ -343,8 +337,10 @@ class Inventory
 			$productRow[] = $product['id_producto'];
 			$productRow[] = $product['nombre'];
 			$productRow[] = $product['descripcion'];
+			$productRow[] = $product['categoria'];
 			$productRow[] = $product['precio'];
 			$productRow[] = $product['existencia'];
+			$productRow[] = $product['unidad'];
 			$productRow[] = $product["foto"];
 			$productRow[] = '<div class="btn-group btn-group-sm"><button type="button" name="view" id_producto="' . $product["id_producto"] . '" class="btn btn-light bg-gradient border text-dark btn-sm rounded-0  view" title="View"><i class="fa fa-eye"></i></button><button type="button" name="update" id_producto="' . $product["id_producto"] . '" class="btn btn-primary btn-sm rounded-0  update" title="Update"><i class="fa fa-edit"></i></button><button type="button" name="delete" id_producto="' . $product["id_producto"] . '" class="btn btn-danger btn-sm rounded-0  delete" title="Delete"><i class="fa fa-trash"></i></button></div>';
 			//$customerRows[] = '';
@@ -383,8 +379,8 @@ class Inventory
 	public function addProduct()
 	{
 		$sqlInsert = "
-			INSERT INTO " . $this->productTable . "(categoryid, brandid, pname, model, description, quantity, unit, base_price, tax, minimum_order, supplier) 
-			VALUES ('" . $_POST["categoryid"] . "', '" . $_POST['brandid'] . "', '" . $_POST['pname'] . "', '" . $_POST['pmodel'] . "', '" . $_POST['description'] . "', '" . $_POST['quantity'] . "', '" . $_POST['unit'] . "', '" . $_POST['base_price'] . "', '" . $_POST['tax'] . "', 1, '" . $_POST['supplierid'] . "')";
+			INSERT INTO " . $this->productTable . "(nombre, descripcion, id_categoria, precio, existencia, unidad, foto) 
+			VALUES ('" . $_POST["nombre"] . "', '" . $_POST['descripcion'] . "', '" . $_POST['id_categoria'] . "', '" . $_POST['precio'] . "', '" . $_POST['existencia'] . "', '" . $_POST['unidad'] . "', '" . $_POST['foto'] . "')";
 		mysqli_query($this->dbConnect, $sqlInsert);
 		echo 'New Product Added';
 	}

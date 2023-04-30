@@ -38,7 +38,6 @@ $inventory->checkLogin();
 									<tr>
 										<th>ID</th>
 										<th>Nombre Categoría</th>
-										<th>Estado</th>
 										<th>Acción</th>
 									</tr>
 								</thead>

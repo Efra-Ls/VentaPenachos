@@ -39,8 +39,10 @@ $inventory->checkLogin();
                                         <th>ID</th>
                                         <th>Nombre</th>
                                         <th>Descripción</th>
+                                        <th>Categoría</th>
                                         <th>Precio</th>
                                         <th>Existencia</th>
+                                        <th>Unidad</th>
                                         <th>Foto</th>
                                         <th>Acción</th>                                        
                                     </tr>
@@ -64,31 +66,26 @@ $inventory->checkLogin();
                     <form method="post" id="productForm">
                         <input type="hidden" name="pid" id="pid" />
                         <input type="hidden" name="btn_action" id="btn_action" />
-                        <div class="form-group">
-                            <label>Seleccionar Categoría</label>
-                            <select name="categoryid" id="categoryid" class="form-select rounded-0" required>
-                                <option value="">Seleccionar Categoría</option>
-                                <?php echo $inventory->categoryDropdownList(); ?>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Selecciona Marca</label>
-                            <select name="brandid" id="brandid" class="form-select rounded-0" required>
-                                <option value="">Selecciona Marca</option>
-                            </select>
-                        </div>
+
                         <div class="form-group">
                             <label>Nombre de Producto</label>
-                            <input type="text" name="pname" id="pname" class="form-control rounded-0" required />
-                        </div>
-                        <div class="form-group">
-                            <label>Modelo de Producto</label>
-                            <input type="text" name="pmodel" id="pmodel" class="form-control rounded-0" required />
+                            <input type="text" name="nombre" id="nombre" class="form-control rounded-0" required />
                         </div>
                         <div class="form-group">
                             <label>Descripción de Producto</label>
-                            <textarea name="description" id="description" class="form-control rounded-0" rows="5" required></textarea>
+                            <textarea name="descripcion" id="descripcion" class="form-control rounded-0" rows="5" required></textarea>
                         </div>
+                        <div class="form-group">
+                            <label>Seleccionar Categoría</label>
+                            <select name="id_categoria" id="id_categoria" class="form-select rounded-0" required>
+                                <option value="">Seleccionar Categoría</option>
+                                <?php echo $inventory->categoryDropdownList(); ?>
+                            </select>
+                        </div>      
+                        <div class="form-group">
+                            <label>Precio base del producto</label>
+                            <input type="text" name="base_price" id="base_price" class="form-control rounded-0" required pattern="[+-]?([0-9]*[.])?[0-9]+" />
+                        </div>                  
                         <div class="form-group">
                             <label>Cantidad de Producto</label>
                             <div class="input-group">
@@ -113,20 +110,9 @@ $inventory->checkLogin();
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Precio base del producto</label>
-                            <input type="text" name="base_price" id="base_price" class="form-control rounded-0" required pattern="[+-]?([0-9]*[.])?[0-9]+" />
-                        </div>
-                        <div class="form-group">
-                            <label>Impuesto sobre productos (%)</label>
-                            <input type="text" name="tax" id="tax" class="form-control rounded-0" required pattern="[+-]?([0-9]*[.])?[0-9]+" />
-                        </div>
-                        <div class="form-group">
-                            <label>Proveedor</label>
-                            <select name="supplierid" id="supplierid" class="form-select rounded-0" required>
-                                <option value="">Selecciona Proveedor</option>
-                                <?php echo $inventory->supplierDropdownList(); ?>
-                            </select>
-                        </div>
+                            <label>Foto</label>
+                            <input type="text" name="base_price" id="base_price" class="form-control rounded-0" required />
+                        </div>                                               
                     </form>
                 </div>
                 <div class="modal-footer">
