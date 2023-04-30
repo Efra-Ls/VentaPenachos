@@ -162,7 +162,7 @@ class Inventory
 		if (!empty($_POST["order"])) {
 			$sqlQuery .= 'ORDER BY ' . $_POST['order']['0']['column'] . ' ' . $_POST['order']['0']['dir'] . ' ';
 		} else {
-			$sqlQuery .= 'ORDER BY id_categoria DESC ';
+			$sqlQuery .= 'ORDER BY nombre ASC ';
 		}
 		if ($_POST["length"] != -1) {
 			$sqlQuery .= 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
@@ -174,7 +174,8 @@ class Inventory
 			$categoryRows = array();
 			$categoryRows[] = $category['id_categoria'];
 			$categoryRows[] = $category['nombre'];
-			$categoryRows[] = '<button type="button" name="update" id="' . $category["id_categoria"] . '" class="btn btn-primary btn-sm rounded-0 update" title="Update"><i class="fa fa-edit"></i></button><button type="button" name="delete" id="' . $category["id_categoria"] . '" class="btn btn-danger btn-sm rounded-0 delete"  title="Delete"><i class="fa fa-trash"></i></button>';
+			$categoryRows[] = '<button type="button" name="update" id_categoria="' . $category["id_categoria"] . '" class="btn btn-primary btn-sm rounded-0 update" title="Update"><i class="fa fa-edit"></i></button><button type="button" name="delete" id_categoria="' . $category["id_categoria"] . '" class="btn btn-danger btn-sm rounded-0 delete"  title="Delete"><i class="fa fa-trash"></i></button>';
+			//$categoryRows[] = "";
 			$categoryData[] = $categoryRows;
 		}
 		$output = array(
@@ -188,8 +189,8 @@ class Inventory
 	public function saveCategory()
 	{
 		$sqlInsert = "
-			INSERT INTO " . $this->categoryTable . "(name) 
-			VALUES ('" . $_POST['category'] . "')";
+			INSERT INTO " . $this->categoryTable . "(nombre) 
+			VALUES ('" . $_POST['categoria'] . "')";
 		mysqli_query($this->dbConnect, $sqlInsert);
 		echo 'New Category Added';
 	}
@@ -197,27 +198,26 @@ class Inventory
 	{
 		$sqlQuery = "
 			SELECT * FROM " . $this->categoryTable . " 
-			WHERE categoryid = '" . $_POST["categoryId"] . "'";
+			WHERE id_categoria = '" . $_POST["id_categoria"] . "'";
 		$result = mysqli_query($this->dbConnect, $sqlQuery);
 		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		echo json_encode($row);
 	}
 	public function updateCategory()
 	{
-		if ($_POST['category']) {
+		if ($_POST['categoria']) {
 			$sqlInsert = "
 				UPDATE " . $this->categoryTable . " 
-				SET name = '" . $_POST['category'] . "'
-				WHERE categoryid = '" . $_POST["categoryId"] . "'";
+				SET nombre = '" . $_POST['categoria'] . "'
+				WHERE id_categoria = '" . $_POST["id_categoria"] . "'";
 			mysqli_query($this->dbConnect, $sqlInsert);
 			echo 'Category Update';
 		}
 	}
 	public function deleteCategory()
 	{
-		$sqlQuery = "
-			DELETE FROM " . $this->categoryTable . " 
-			WHERE categoryid = '" . $_POST["categoryId"] . "'";
+		$sqlQuery = "DELETE FROM " . $this->categoryTable . " 
+			WHERE id_categoria = '" . $_POST["id_categoria"] . "'";
 		mysqli_query($this->dbConnect, $sqlQuery);
 	}
 	// Brand management 
@@ -380,37 +380,33 @@ class Inventory
 	{
 		$sqlInsert = "
 			INSERT INTO " . $this->productTable . "(nombre, descripcion, id_categoria, precio, existencia, unidad, foto) 
-			VALUES ('" . $_POST["nombre"] . "', '" . $_POST['descripcion'] . "', '" . $_POST['id_categoria'] . "', '" . $_POST['precio'] . "', '" . $_POST['existencia'] . "', '" . $_POST['unidad'] . "', '" . $_POST['foto'] . "')";
+			VALUES ('" . $_POST["nombre"] . "', '" . $_POST['descripcion'] . "', '" . $_POST['categoria'] . "', '" . $_POST['precio'] . "', '" . $_POST['existencia'] . "', '" . $_POST['unidad'] . "', '" . $_POST['foto'] . "')";
 		mysqli_query($this->dbConnect, $sqlInsert);
 		echo 'New Product Added';
 	}
 	public function getProductDetails()
 	{
-		$sqlQuery = "
-			SELECT * FROM " . $this->productTable . " 
-			WHERE pid = '" . $_POST["pid"] . "'";
+		$sqlQuery = "SELECT p.id_producto,p.nombre,p.descripcion,c.nombre as categoria,p.precio,p.existencia,p.unidad,p.foto  FROM " . $this->productTable . " as p
+		INNER JOIN " . $this->categoryTable . " as c ON c.id_categoria = p.id_categoria  
+			WHERE p.id_producto = '" . $_POST["id_producto"] . "'";
 		$result = mysqli_query($this->dbConnect, $sqlQuery);
 		while ($product = mysqli_fetch_assoc($result)) {
-			$output['pid'] = $product['pid'];
-			$output['categoryid'] = $product['categoryid'];
-			$output['brandid'] = $product['brandid'];
-			$output["brand_select_box"] = $this->getCategoryBrand($product['categoryid']);
-			$output['pname'] = $product['pname'];
-			$output['model'] = $product['model'];
-			$output['description'] = $product['description'];
-			$output['quantity'] = $product['quantity'];
-			$output['unit'] = $product['unit'];
-			$output['base_price'] = $product['base_price'];
-			$output['tax'] = $product['tax'];
-			$output['supplier'] = $product['supplier'];
+			$output['id_producto'] = $product['id_producto'];
+			$output['nombre'] = $product['nombre'];
+			$output['descripcion'] = $product['descripcion'];
+			$output['categoria'] = $product['categoria'];
+			$output['precio'] = $product['precio'];
+			$output['existencia'] = $product['existencia'];
+			$output['unidad'] = $product['unidad'];
+			$output['foto'] = $product['foto'];
 		}
 		echo json_encode($output);
 	}
 	public function updateProduct()
 	{
-		if ($_POST['pid']) {
+		if ($_POST['id_producto']) {
 			$sqlUpdate = "UPDATE " . $this->productTable . " 
-				SET categoryid = '" . $_POST['categoryid'] . "', brandid='" . $_POST['brandid'] . "', pname='" . $_POST['pname'] . "', model='" . $_POST['pmodel'] . "', description='" . $_POST['description'] . "', quantity='" . $_POST['quantity'] . "', unit='" . $_POST['unit'] . "', base_price='" . $_POST['base_price'] . "', tax='" . $_POST['tax'] . "', supplier='" . $_POST['supplierid'] . "' WHERE pid = '" . $_POST["pid"] . "'";
+				SET id_categoria = '" . $_POST['categoria'] . "', nombre='" . $_POST['nombre'] . "', descripcion='" . $_POST['descripcion'] . "', precio='" . $_POST['precio'] . "', existencia='" . $_POST['existencia'] . "', unidad='" . $_POST['unidad'] . "', foto='" . $_POST['foto'] . "'  WHERE id_producto = '" . $_POST["id_producto"] . "'";
 			mysqli_query($this->dbConnect, $sqlUpdate);
 			echo 'Product Update';
 		}
@@ -419,67 +415,43 @@ class Inventory
 	{
 		$sqlQuery = "
 			DELETE FROM " . $this->productTable . " 
-			WHERE pid = '" . $_POST["pid"] . "'";
+			WHERE id_producto = '" . $_POST["id_producto"] . "'";
 		mysqli_query($this->dbConnect, $sqlQuery);
 	}
 	public function viewProductDetails()
 	{
-		$sqlQuery = "SELECT * FROM " . $this->productTable . " as p
-			INNER JOIN " . $this->brandTable . " as b ON b.id = p.brandid
-			INNER JOIN " . $this->categoryTable . " as c ON c.categoryid = p.categoryid 
-			INNER JOIN " . $this->supplierTable . " as s ON s.supplier_id = p.supplier 
-			WHERE p.pid = '" . $_POST["pid"] . "'";
+		$sqlQuery = "SELECT p.id_producto,p.nombre,p.descripcion,c.nombre as categoria,p.precio,p.existencia,p.unidad,p.foto  FROM " . $this->productTable . " as p
+		INNER JOIN " . $this->categoryTable . " as c ON c.id_categoria = p.id_categoria  
+			WHERE p.id_producto = '" . $_POST["id_producto"] . "'";
 		$result = mysqli_query($this->dbConnect, $sqlQuery);
 		$productDetails = '<div class="table-responsive">
 				<table class="table table-boredered">';
 		while ($product = mysqli_fetch_assoc($result)) {
-			$status = '';
-			if ($product['status'] == 'active') {
-				$status = '<span class="label label-success">Active</span>';
-			} else {
-				$status = '<span class="label label-danger">Inactive</span>';
-			}
 			$productDetails .= '
 			<tr>
 				<td>Nombre de Producto</td>
-				<td>' . $product["pname"] . '</td>
-			</tr>
-			<tr>
-				<td>Modelo de Producto</td>
-				<td>' . $product["model"] . '</td>
+				<td>' . $product["nombre"] . '</td>
 			</tr>
 			<tr>
 				<td>Descripción de Producto</td>
-				<td>' . $product["description"] . '</td>
+				<td>' . $product["descripcion"] . '</td>
 			</tr>
 			<tr>
 				<td>Categoría</td>
-				<td>' . $product["name"] . '</td>
+				<td>' . $product["categoria"] . '</td>
 			</tr>
 			<tr>
-				<td>Marca</td>
-				<td>' . $product["bname"] . '</td>
+				<td>Precio</td>
+				<td>' . $product["precio"] . '</td>
 			</tr>			
 			<tr>
 				<td>Cantidad Disponible</td>
-				<td>' . $product["quantity"] . ' ' . $product["unit"] . '</td>
+				<td>' . $product["existencia"] . ' ' . $product["unidad"] . '</td>
 			</tr>
 			<tr>
-				<td>Precio Base</td>
-				<td>' . $product["base_price"] . '</td>
-			</tr>
-			<tr>
-				<td>Impuesto (%)</td>
-				<td>' . $product["tax"] . '</td>
-			</tr>
-			<tr>
-				<td>Proveedor</td>
-				<td>' . $product["supplier_name"] . '</td>
-			</tr>
-			<tr>
-				<td>Status</td>
-				<td>' . $status . '</td>
-			</tr>
+				<td>Foto</td>
+				<td>' . $product["foto"] . '</td>
+			</tr>			
 			';
 		}
 		$productDetails .= '

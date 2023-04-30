@@ -57,14 +57,14 @@ $inventory->checkLogin();
 				</div>
 				<div class="modal-body">
 					<form method="post" id="categoryForm">
-						<input type="hidden" name="categoryId" id="categoryId" />
+						<input type="hidden" name="id_categoria" id="id_categoria" />
 						<input type="hidden" name="btn_action" id="btn_action" />
 						<label>Nombre Categoría</label>
-						<input type="text" name="category" id="category" class="form-control rounded-0" required />
+						<input type="text" name="categoria" id="categoria" class="form-control rounded-0" required />
 					</form>
 				</div>
-				<div class="modal-footer">
-					<input type="submit" name="action" id="action" class="btn btn-primary btn-sm rounded-0" value="Agregar" form="categoryForm" />
+				<div class="modal-footer">					
+					<button type="submit" name="action" id="action" class="btn btn-sm rounded-0 btn-primary" form="categoryForm">Guardar</button>
 					<button type="button" class="btn btn-default btn-sm rounded-0 border" data-bs-dismiss="modal">Cerrar</button>
 				</div>
 			</div>

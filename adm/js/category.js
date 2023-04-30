@@ -44,32 +44,31 @@ $(document).ready(function() {
         })
     });
     $(document).on('click', '.update', function() {
-        var categoryId = $(this).attr("id");
+        var categoryId = $(this).attr("id_categoria");
         var btnAction = 'getCategory';
         $.ajax({
             url: "action.php",
             method: "POST",
-            data: { categoryId: categoryId, btn_action: btnAction },
+            data: { id_categoria: categoryId, btn_action: btnAction },
             dataType: "json",
             success: function(data) {
                 $('#categoryModal').modal('show');
-                $('#category').val(data.name);
+                $('#categoria').val(data.nombre);
                 $('.modal-title').html("<i class='fa fa-edit'></i> Editar Categoría");
-                $('#categoryId').val(categoryId);
+                $('#id_categoria').val(categoryId);
                 $('#action').val('Editar');
                 $('#btn_action').val("updateCategory");
             }
         })
     });
     $(document).on('click', '.delete', function() {
-        var categoryId = $(this).attr('id');
-        var status = $(this).data("status");
+        var categoryId = $(this).attr('id_categoria');
         var btn_action = 'deleteCategory';
         if (confirm("¿Está seguro de que desea eliminar esta categoría?")) {
             $.ajax({
-                url: "action.php",
+                url: "action.php", 
                 method: "POST",
-                data: { categoryId: categoryId, status: status, btn_action: btn_action },
+                data: { id_categoria: categoryId,btn_action: btn_action },
                 success: function(data) {
                     $('#alert_action').fadeIn().html('<div class="alert alert-info">' + data + '</div>');
                     categoryData.ajax.reload();

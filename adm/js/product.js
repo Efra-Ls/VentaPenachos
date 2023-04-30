@@ -61,12 +61,12 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '.view', function() {
-        var pid = $(this).attr("id");
+        var pid = $(this).attr("id_producto");
         var btn_action = 'viewProduct';
         $.ajax({
             url: "action.php",
             method: "POST",
-            data: { pid: pid, btn_action: btn_action },
+            data: { id_producto: pid, btn_action: btn_action },
             success: function(data) {
                 $('#productViewModal').modal('show');
                 $('#productDetails').html(data);
@@ -75,28 +75,25 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '.update', function() {
-        var pid = $(this).attr("id");
+        var id_producto = $(this).attr("id_producto");
         var btn_action = 'getProductDetails';
         $.ajax({
             url: "action.php",
             method: "POST",
-            data: { pid: pid, btn_action: btn_action },
+            data: { id_producto: id_producto, btn_action: btn_action },
             dataType: "json",
             success: function(data) {
                 $('#productModal').modal('show');
-                $('#categoryid').val(data.categoryid);
-                $('#brandid').html(data.brand_select_box);
-                $('#brandid').val(data.brandid);
-                $('#pname').val(data.pname);
-                $('#pmodel').val(data.model);
-                $('#description').val(data.description);
-                $('#quantity').val(data.quantity);
-                $('#unit').val(data.unit);
-                $('#base_price').val(data.base_price);
-                $('#tax').val(data.tax);
-                $('#supplierid').val(data.supplier);
+                $('#id_producto').val(data.id_producto);
+                $('#nombre').val(data.nombre);
+                $('#descripcion').val(data.descripcion);
+                $('#categoria').val(data.categoria);
+                $('#precio').val(data.precio);
+                $('#existencia').val(data.existencia);
+                $('#unidad').val(data.unidad);
+                $('#foto').val(data.foto);
                 $('.modal-title').html("<i class='fa fa-edit'></i> Editar Producto");
-                $('#pid').val(pid);
+                $('#id_producto').val(id_producto);
                 $('#action').val("Editar");
                 $('#btn_action').val("updateProduct");
             }
@@ -104,14 +101,13 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '.delete', function() {
-        var pid = $(this).attr("id");
-        var status = $(this).data("status");
+        var id_producto = $(this).attr("id_producto");
         var btn_action = 'deleteProduct';
         if (confirm("¿Está seguro de que desea eliminar este producto?")) {
             $.ajax({
                 url: "action.php",
                 method: "POST",
-                data: { pid: pid, status: status, btn_action: btn_action },
+                data: { id_producto: id_producto, btn_action: btn_action },
                 success: function(data) {
                     $('#alert_action').fadeIn().html('<div class="alert alert-info">' + data + '</div>');
                     productData.ajax.reload();

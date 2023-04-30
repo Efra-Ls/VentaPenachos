@@ -64,7 +64,7 @@ $inventory->checkLogin();
                 </div>
                 <div class="modal-body">
                     <form method="post" id="productForm">
-                        <input type="hidden" name="pid" id="pid" />
+                        <input type="hidden" name="id_producto" id="id_producto" />
                         <input type="hidden" name="btn_action" id="btn_action" />
 
                         <div class="form-group">
@@ -77,41 +77,41 @@ $inventory->checkLogin();
                         </div>
                         <div class="form-group">
                             <label>Seleccionar Categoría</label>
-                            <select name="id_categoria" id="id_categoria" class="form-select rounded-0" required>
+                            <select name="categoria" id="categoria" class="form-select rounded-0" required>
                                 <option value="">Seleccionar Categoría</option>
                                 <?php echo $inventory->categoryDropdownList(); ?>
                             </select>
                         </div>      
                         <div class="form-group">
                             <label>Precio base del producto</label>
-                            <input type="text" name="base_price" id="base_price" class="form-control rounded-0" required pattern="[+-]?([0-9]*[.])?[0-9]+" />
+                            <input type="text" name="precio" id="precio" class="form-control rounded-0" required pattern="[+-]?([0-9]*[.])?[0-9]+" />
                         </div>                  
                         <div class="form-group">
                             <label>Cantidad de Producto</label>
                             <div class="input-group">
-                                <input type="text" name="quantity" id="quantity" class="form-control rounded-0" required pattern="[+-]?([0-9]*[.])?[0-9]+" />
-                                <select name="unit" class="form-select rounded-0" id="unit" required>
+                                <input type="text" name="existencia" id="existencia" class="form-control rounded-0" required pattern="[+-]?([0-9]*[.])?[0-9]+" />
+                                <select name="unidad" class="form-select rounded-0" id="unidad" required>
                                     <option value="">Selecciona Unidad</option>
-                                    <option value="Bags">Bolsos</option>
-                                    <option value="Bottles">Botellas</option>
-                                    <option value="Box">Cajas</option>
-                                    <option value="Dozens">Docenas</option>
-                                    <option value="Feet">Pies</option>
-                                    <option value="Gallon">Galones</option>
-                                    <option value="Grams">Gramos</option>
-                                    <option value="Inch">Pulgadas</option>
-                                    <option value="Kg">Kilos</option>
-                                    <option value="Liters">Litros</option>
-                                    <option value="Meter">Metros</option>
-                                    <option value="Nos">Números</option>
-                                    <option value="Packet">Paquete</option>
-                                    <option value="Rolls">Rollos</option>
+                                    <option value="Bolsos">Bolsos</option>
+                                    <option value="Botellas">Botellas</option>
+                                    <option value="Cajas">Cajas</option>
+                                    <option value="Docenas">Docenas</option>
+                                    <option value="Pies">Pies</option>
+                                    <option value="Galones">Galones</option>
+                                    <option value="Gramos">Gramos</option>
+                                    <option value="Pulgadas">Pulgadas</option>
+                                    <option value="Kilos">Kilos</option>
+                                    <option value="Litros">Litros</option>
+                                    <option value="Metros">Metros</option>
+                                    <option value="Números">Números</option>
+                                    <option value="Paquete">Paquete</option>
+                                    <option value="Rollos">Rollos</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Foto</label>
-                            <input type="text" name="base_price" id="base_price" class="form-control rounded-0" required />
+                            <input type="text" name="foto" id="foto" class="form-control rounded-0" required />
                         </div>                                               
                     </form>
                 </div>
