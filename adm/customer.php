@@ -6,13 +6,12 @@ include 'Inventory.php';
 $inventory = new Inventory();
 $inventory->checkLogin();
 ?>
-
 <script src="js/jquery.dataTables.min.js"></script>
 <script src="js/dataTables.bootstrap.min.js"></script>
 <link rel="stylesheet" href="scss/dataTables.bootstrap.min.css" />
 <script src="js/customer.js"></script>
 <script src="js/common.js"></script>
-<?php include('inc/container.php'); ?>
+<?php include('inc/container.php');?>
 <div class="container">
 	<?php include("menus.php"); ?>
 	<div class="row">
@@ -31,7 +30,7 @@ $inventory->checkLogin();
 					</div>
 					<div class="clear:both"></div>
 				</div>
-				<div class="card-body">
+				<div class="card-body">				
 					<div class="row">
 						<div class="col-sm-12 table-responsive">
 							<table id="customerList" class="table table-bordered table-striped">
@@ -39,10 +38,10 @@ $inventory->checkLogin();
 									<tr>
 										<th>ID</th>
 										<th>Nombre</th>
-										<th>Dirección</th>
-										<th>Móvil</th>
-										<th>Balance</th>
-										<th>Acción</th>
+										<th>Domicilio</th>
+										<th>Telefono</th>
+										<th>Correo</th>
+										<th>Acción</th>																			
 									</tr>
 								</thead>
 							</table>
@@ -65,19 +64,19 @@ $inventory->checkLogin();
 								<input type="hidden" name="btn_action" id="btn_action" value="customerAdd" />
 								<div class="mb-3">
 									<label class="control-label">Nombre</label>
-									<input type="text" name="cname" id="cname" class="form-control rounded-0" required />
+									<input type="text" name="cnombre" id="cnombre" class="form-control rounded-0" required />
 								</div>
 								<div class="mb-3">
-									<label class="control-label"># Móvil</label>
-									<input type="number" name="mobile" id="mobile" class="form-control rounded-0" required />
+									<label class="control-label"># Domicilio</label>
+									<input type="text" name="domicilio" id="domicilio" class="form-control rounded-0" required />
 								</div>
 								<div class="mb-3">
-									<label class="control-label">Balance</label>
-									<input type="number" name="balance" id="balance" class="form-control rounded-0" required />
+									<label class="control-label">Telefono</label>
+									<input type="text" name="telefono" id="telefono" class="form-control rounded-0" required />
 								</div>
 								<div class="mb-3">
-									<label class="control-label">Dirección</label>
-									<textarea name="address" id="address" class="form-control rounded-0" rows="5" required></textarea>
+									<label class="control-label">Correo</label>
+									<input type="text" name="correo" id="correo" class="form-control rounded-0" rows="5" required></input>
 								</div>
 							</form>
 						</div>

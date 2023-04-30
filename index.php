@@ -2,6 +2,13 @@
 <html lang="en">
 
 <head>
+</head>
+<?php
+  ob_start();
+  session_start();
+  include 'adm/Inventory.php';
+  $inventory = new Inventory();
+  ?>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
@@ -29,18 +36,13 @@
 <!-- Incluye los archivos CSS de Bootstrap -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
 <!-- Agrega una clase personalizada al elemento img para hacerlo opaco -->
-<style>
-  .carousel-item img {
-    opacity: 0.5;
-  }
-</style>
+
   <!-- =======================================================
   * Template Name: Reveal - v4.9.1
   * Template URL: https://bootstrapmade.com/reveal-bootstrap-corporate-template/
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
-</head>
 
 <body>
 
@@ -49,7 +51,8 @@
     <div class="container d-flex justify-content-center justify-content-md-between">
       <div class="contact-info d-flex align-items-center">
         <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:lugas2@hotmail.com">lugas2@hotmail.com</a></i>
-        <i class="bi bi-phone d-flex align-items-center ms-4"><span>+52 1 951 309 4891</span></i>  <!-- span ordena todo en linea---->
+        <i class="bi bi-phone d-flex align-items-center ms-4"><span>+52 1 951 309 4891</span></i>
+        <i class="bi bi-phone d-flex align-items-center ms-4"><span>   Bienvenido : <?php if (!empty($_SESSION['name'])) { echo $_SESSION['name']; }?></span></i>  <!-- span ordena todo en linea---->
       </div>
       <div class="social-links d-none d-md-flex align-items-center">  <!--  Alinear iconos sociales de la derecha  -->
         <a href="https://www.facebook.com/pablo.senashernandez" target="_blank" class="facebook"><i class="bi bi-facebook"></i></a>
@@ -78,7 +81,20 @@
           <li><a class="nav-link scrollto" href="#testimonials">Testimonios&nbsp;</a></li>          
           <li><a class="nav-link scrollto " href="inner-page.html">Productos</a></li>   
           <li><a class="nav-link scrollto" href="#contact">Contactanos</a></li>
+        <?php
+          if (!empty($_SESSION['name'])) {
+        ?>
+            <li><a class="nav-link scrollto" href="adm/login.php">Salir</a></li>
+          <?php
+             }else{              
+          ?>
           <li><a class="nav-link scrollto" href="adm/login.php">Ingresar</a></li>
+          <?php
+             }
+          ?>
+         
+
+
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -97,44 +113,23 @@
       </div>
     </div>
 
-        <!-- Crea la estructura HTML para el carousel -->
-<div id="myCarousel" class="carousel slide" data-ride="carousel">
-  <!-- Indicadores de los slides -->
-  <ol class="carousel-indicators">
-    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-    <li data-target="#myCarousel" data-slide-to="1"></li>
-    <li data-target="#myCarousel" data-slide-to="2"></li>
-  </ol>
-
-  <!-- Slides del carousel -->
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="assets/img/hero-carousel/img1.jpeg" class="d-block w-100" alt="Slide 1">
+       <!-- ======= hero Section ======= -->
+  <section id="hero">
+    <div class="hero-content" data-aos="fade-up">
+      <h2>Elaboracion de <span>Penachos</span><br>para Danza de la Pluma</h2>
+      <div>
+        <a href="#about" class="btn-get-started scrollto">Acerca de</a>
+        <a href="#portfolio" class="btn-projects scrollto">Echar un vistazo</a>
+      </div>
     </div>
-    <div class="carousel-item">
-      <img src="assets/img/hero-carousel/img2.jpeg" class="d-block w-100" alt="Slide 2">
+    <div class="hero-slider swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide" style="background-image: url('assets/img/hero-carousel/img1.jpeg');"></div>
+        <div class="swiper-slide" style="background-image: url('assets/img/hero-carousel/img2.jpeg');"></div>
+        <div class="swiper-slide" style="background-image: url('assets/img/hero-carousel/img3.jpeg');"></div>
+      </div>
     </div>
-    <div class="carousel-item">
-      <img src="assets/img/hero-carousel/img3.jpeg" class="d-block w-100" alt="Slide 3">
-    </div>
-  </div>
-
-  <!-- Controles del carousel -->
-  <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Anterior</span>
-  </a>
-  <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Siguiente</span>
-  </a>
-</div>
-
-<!-- Incluye los archivos JS de Bootstrap y jQuery -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
-
+  </section><!-- End Hero Section -->
     
   </section><!-- End Hero Section -->
 

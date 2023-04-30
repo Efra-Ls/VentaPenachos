@@ -2,16 +2,17 @@
 ob_start();
 session_start();
 include('inc/header.php');
+$_SESSION['name']="";
 $loginError = '';
 if (!empty($_POST['email']) && !empty($_POST['pwd'])) {
 	include 'Inventory.php';
 	$inventory = new Inventory();
 	$login = $inventory->login($_POST['email'], $_POST['pwd']);
 	if (!empty($login)) {
-		$_SESSION['userid'] = $login[0]['userid'];
-		$_SESSION['name'] = $login[0]['name'];
-		echo $login[0]['type'];
-		if($login[0]['type']=="member"){			
+		$_SESSION['userid'] = $login[0]['correo'];
+		$_SESSION['name'] = $login[0]['correo'];
+		echo $login[0]['tipo'];
+		if($login[0]['tipo']=="cliente"){			
 			header("Location:../index.php");
 		}else{header("Location:index.php");
 		}

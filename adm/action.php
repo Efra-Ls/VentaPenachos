@@ -2,6 +2,7 @@
 session_start();
 include 'Inventory.php';
 $inventory = new Inventory();
+
 if(!empty($_GET['action']) && $_GET['action'] == 'logout') {
 	session_unset();
 	session_destroy();
@@ -11,7 +12,7 @@ if(!empty($_POST['action']) && $_POST['action'] == 'getInventoryDetails') {
 	$inventory->getInventoryDetails();
 }
 // Customer management
-if(!empty($_POST['action']) && $_POST['action'] == 'customerList') {
+if(!empty($_POST['action']) && $_POST['action'] == 'customerList') {	
 	$inventory->getCustomerList();
 }
 if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'customerAdd'){

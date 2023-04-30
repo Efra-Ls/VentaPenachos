@@ -12,13 +12,13 @@ $(document).ready(function() {
             dataType: "json"
         },
         "columnDefs": [{
-            "targets": [0, 8],
+            "targets": [0, 6],
             "orderable": false,
         }, ],
         "pageLength": 10,
         'rowCallback': function(row, data, index) {
             $(row).find('td').addClass('align-middle')
-            $(row).find('td:eq(0), td:eq(8)').addClass('text-center')
+            $(row).find('td:eq(0), td:eq(3)').addClass('text-center')
         },
     });
 

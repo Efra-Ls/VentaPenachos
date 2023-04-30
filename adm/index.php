@@ -19,22 +19,22 @@ $inventory->checkLogin();
 				<div class="card-header">
 					<div class="row">
 						<div class="col-lg-10 col-md-10 col-sm-8 col-xs-6">
-							<h3 class="card-title">Lista de Inventario</h3>
+							<h3 class="card-title">Lista de pedidos</h3>
 						</div>
 					</div>
 				</div>
 				<div class="card-body">
 					<div class="row">
 						<div class="col-sm-12 table-responsive">
-							<table id="inventoryDetails" class="table table-bordered table-striped">
+							<table id="inventoryDetailsX" class="table table-bordered table-striped">
 								<thead>
 									<tr>
 										<th>#</th>
 										<th>Producto/Código</th>
-										<th>Inventario Inicial</th>
-										<th>Inventario Recibido</th>
-										<th>Productos Vendidos</th>
-										<th>Inventario Disponible</th>
+										<th>Cliente</th>
+										<th>Fecha</th>
+										<th>Hora</th>
+										<th>Domicilio</th>
 									</tr>
 								</thead>
 							</table>
