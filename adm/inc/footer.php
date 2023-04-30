@@ -1,5 +1,30 @@
-<footer>
-    <h3 class="text-center my-4 py-3 text-light" id="title">Derechos recervados 2023 - Arte plumario</h3>
+<Style>
+#footer {
+  background: #49557;
+  padding: 0 0 30px 0;
+  font-size: 14px;
+}
 
-    
-</footer>
+#footer .copyright {
+  text-align: center;
+  padding-top: 30px;
+}
+
+#footer .credits {
+  text-align: center;
+  font-size: 13px;
+  color: #555;
+}
+
+#footer .credits a {
+  color: #fe8b03;
+}
+</Style>
+<footer id="footer">
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong>Arte Plumario</strong>. All Rights Reserved
+      </div>
+      
+    </div>
+  </footer><!-- End Footer -->

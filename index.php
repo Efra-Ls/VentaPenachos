@@ -2,6 +2,13 @@
 <html lang="en">
 
 <head>
+</head>
+<?php
+  ob_start();
+  session_start();
+  include 'adm/Inventory.php';
+  $inventory = new Inventory();
+  ?>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
@@ -18,7 +25,7 @@
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/ve2ndor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
@@ -26,6 +33,9 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
+<!-- Incluye los archivos CSS de Bootstrap -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+<!-- Agrega una clase personalizada al elemento img para hacerlo opaco -->
 
   <!-- =======================================================
   * Template Name: Reveal - v4.9.1
@@ -33,7 +43,6 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
-</head>
 
 <body>
 
@@ -42,7 +51,8 @@
     <div class="container d-flex justify-content-center justify-content-md-between">
       <div class="contact-info d-flex align-items-center">
         <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:lugas2@hotmail.com">lugas2@hotmail.com</a></i>
-        <i class="bi bi-phone d-flex align-items-center ms-4"><span>+52 1 951 309 4891</span></i>  <!-- span ordena todo en linea---->
+        <i class="bi bi-phone d-flex align-items-center ms-4"><span>+52 1 951 309 4891</span></i>
+        <i class="bi bi-phone d-flex align-items-center ms-4"><span>   Bienvenido : <?php if (!empty($_SESSION['name'])) { echo $_SESSION['name']; }?></span></i>  <!-- span ordena todo en linea---->
       </div>
       <div class="social-links d-none d-md-flex align-items-center">  <!--  Alinear iconos sociales de la derecha  -->
         <a href="https://www.facebook.com/pablo.senashernandez" target="_blank" class="facebook"><i class="bi bi-facebook"></i></a>
@@ -57,7 +67,7 @@
     <div class="container d-flex justify-content-between">
 
       <div id="logo">
-        <h1><a href="index.html">Arte<span>Plumario</span> </a></h1>
+        <h1><a href="index.php">Arte<span>Plumario</span> </a></h1>
         <!-- Uncomment below if you prefer to use an image logo -->
         <!-- <a href="index.html"><img src="assets/img/logo.png" alt=""></a>-->
       </div>
@@ -71,7 +81,20 @@
           <li><a class="nav-link scrollto" href="#testimonials">Testimonios&nbsp;</a></li>          
           <li><a class="nav-link scrollto " href="inner-page.html">Productos</a></li>   
           <li><a class="nav-link scrollto" href="#contact">Contactanos</a></li>
+        <?php
+          if (!empty($_SESSION['name'])) {
+        ?>
+            <li><a class="nav-link scrollto" href="adm/login.php">Salir</a></li>
+          <?php
+             }else{              
+          ?>
           <li><a class="nav-link scrollto" href="adm/login.php">Ingresar</a></li>
+          <?php
+             }
+          ?>
+         
+
+
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -90,6 +113,15 @@
       </div>
     </div>
 
+       <!-- ======= hero Section ======= -->
+  <section id="hero">
+    <div class="hero-content" data-aos="fade-up">
+      <h2>Elaboracion de <span>Penachos</span><br>para Danza de la Pluma</h2>
+      <div>
+        <a href="#about" class="btn-get-started scrollto">Acerca de</a>
+        <a href="#portfolio" class="btn-projects scrollto">Echar un vistazo</a>
+      </div>
+    </div>
     <div class="hero-slider swiper">
       <div class="swiper-wrapper">
         <div class="swiper-slide" style="background-image: url('assets/img/hero-carousel/img1.jpeg');"></div>
@@ -97,7 +129,8 @@
         <div class="swiper-slide" style="background-image: url('assets/img/hero-carousel/img3.jpeg');"></div>
       </div>
     </div>
-
+  </section><!-- End Hero Section -->
+    
   </section><!-- End Hero Section -->
 
   <main id="main">

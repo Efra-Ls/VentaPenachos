@@ -29,7 +29,7 @@ $(document).ready(function() {
 
     $(document).on('submit', '#customerForm', function(event) {
         event.preventDefault();
-        console.log('test')
+        console.log('testt')
         $('#action').attr('disabled', 'disabled');
         var formData = $(this).serialize();
         $.ajax({
@@ -47,7 +47,7 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '.update', function() {
-        var userid = $(this).attr("id");
+        var userid = $(this).attr("id_cliente");
         var btn_action = 'getCustomer';
         $.ajax({
             url: "action.php",
@@ -56,10 +56,10 @@ $(document).ready(function() {
             dataType: "json",
             success: function(data) {
                 $('#customerModal').modal('show');
-                $('#cname').val(data.name);
-                $('#mobile').val(data.mobile);
-                $('#balance').val(data.balance);
-                $('#address').val(data.address);
+                $('#cnombre').val(data.nombre);
+                $('#domicilio').val(data.domicilio);
+                $('#telefono').val(data.telefono);
+                $('#correo').val(data.correo);
                 $('.modal-title').html("<i class='fa fa-edit'></i> Editar Cliente");
                 $('#userid').val(userid);
                 $('#btn_action').val('customerUpdate');
@@ -68,13 +68,13 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '.delete', function() {
-        var userid = $(this).attr("id");
+        var correo = $(this).attr("correo");
         var btn_action = "customerDelete";
         if (confirm("¿Está seguro de que desea eliminar este cliente?")) {
             $.ajax({
                 url: "action.php",
                 method: "POST",
-                data: { userid: userid, btn_action: btn_action },
+                data: { correo: correo, btn_action: btn_action },
                 success: function(data) {
                     $('#alert_action').fadeIn().html('<div class="alert alert-info">' + data + '</div>');
                     userdataTable.ajax.reload();

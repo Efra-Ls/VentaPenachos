@@ -9,7 +9,7 @@ $inventory->checkLogin();
 
 <script src="js/jquery.dataTables.min.js"></script>
 <script src="js/dataTables.bootstrap.min.js"></script>
-<link rel="stylesheet" href="css/dataTables.bootstrap.min.css" />
+<link rel="stylesheet" href="scss/dataTables.bootstrap.min.css" />
 <script src="js/product.js"></script>
 <script src="js/common.js"></script>
 <?php include('inc/container.php'); ?>
@@ -37,14 +37,12 @@ $inventory->checkLogin();
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Categoría</th>
-                                        <th>Nombre de Marca</th>
-                                        <th>Nombre de Producto</th>
-                                        <th>Modeo de Producto</th>
-                                        <th>Cantidad</th>
-                                        <th>Nombre de Proveedor</th>
-                                        <th>Estado</th>
-                                        <th>Acción</th>
+                                        <th>Nombre</th>
+                                        <th>Descripción</th>
+                                        <th>Precio</th>
+                                        <th>Existencia</th>
+                                        <th>Foto</th>
+                                        <th>Acción</th>                                        
                                     </tr>
                                 </thead>
                             </table>

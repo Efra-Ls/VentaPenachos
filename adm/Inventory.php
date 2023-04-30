@@ -4,12 +4,12 @@ class Inventory
 	private $host  = 'localhost';
 	private $user  = 'root';
 	private $password   = '1234';
-	private $database  = 'inventario-basico';
-	private $userTable = 'ims_user';
-	private $customerTable = 'ims_customer';
+	private $database  = 'bdgpsvp';
+	private $userTable = 'usuario';
+	private $customerTable = 'cliente';
 	private $categoryTable = 'ims_category';
 	private $brandTable = 'ims_brand';
-	private $productTable = 'ims_product';
+	private $productTable = 'producto';
 	private $supplierTable = 'ims_supplier';
 	private $purchaseTable = 'ims_purchase';
 	private $orderTable = 'ims_order';
@@ -48,11 +48,11 @@ class Inventory
 	}
 	public function login($email, $password)
 	{
-		#$password = md5($password);		
+		//$password = md5($password);
 		$sqlQuery = "
-			SELECT userid, email, password, name, type, status
-			FROM ".$this->userTable." 
-			WHERE email='".$email."' AND password='".$password."'";
+			SELECT correo,contrasenia,tipo
+			FROM " . $this->userTable . " 
+			WHERE correo='" . $email . "' AND contrasenia='" . $password . "'";
 		return  $this->getData($sqlQuery);
 	}
 	public function checkLogin()
@@ -65,7 +65,7 @@ class Inventory
 	{
 		$sqlQuery = "
 			SELECT * FROM " . $this->customerTable . " 
-			WHERE id = '" . $_POST["userid"] . "'";
+			WHERE id_cliente = '" . $_POST["userid"] . "'";
 		$result = mysqli_query($this->dbConnect, $sqlQuery);
 		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		echo json_encode($row);
@@ -75,31 +75,36 @@ class Inventory
 	{
 		$sqlQuery = "SELECT * FROM " . $this->customerTable . " ";
 		if (!empty($_POST["search"]["value"])) {
-			$sqlQuery .= '(id LIKE "%' . $_POST["search"]["value"] . '%" ';
-			$sqlQuery .= '(name LIKE "%' . $_POST["search"]["value"] . '%" ';
-			$sqlQuery .= 'OR address LIKE "%' . $_POST["search"]["value"] . '%" ';
-			$sqlQuery .= 'OR mobile LIKE "%' . $_POST["search"]["value"] . '%") ';
-			$sqlQuery .= 'OR balance LIKE "%' . $_POST["search"]["value"] . '%") ';
+			$sqlQuery .= 'where id_cliente LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$sqlQuery .= 'OR nombre LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$sqlQuery .= 'OR domicilio LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$sqlQuery .= 'OR telefono LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$sqlQuery .= 'OR correo LIKE "%' . $_POST["search"]["value"] . '%" ';
 		}
+		
 		if (!empty($_POST["order"])) {
-			$sqlQuery .= 'ORDER BY ' . $_POST['order']['0']['column'] . ' ' . $_POST['order']['0']['dir'] . ' ';
-		} else {
-			$sqlQuery .= 'ORDER BY id DESC ';
+			$sqlQuery .= ' ORDER BY ' . $_POST['order']['0']['column'] . ' ' . $_POST['order']['0']['dir'] . ' ';
+		} 
+		else {
+			$sqlQuery .= ' ORDER BY id_cliente ASC ';
 		}
+
+
 		if ($_POST["length"] != -1) {
 			$sqlQuery .= 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
 		}
 		$result = mysqli_query($this->dbConnect, $sqlQuery);
 		$numRows = mysqli_num_rows($result);
 		$customerData = array();
-		while ($customer = mysqli_fetch_assoc($result)) {
+		while ($customer = mysqli_fetch_assoc($result)) {			
 			$customerRows = array();
-			$customerRows[] = $customer['id'];
-			$customerRows[] = $customer['name'];
-			$customerRows[] = $customer['address'];
-			$customerRows[] = $customer['mobile'];
-			$customerRows[] = number_format($customer['balance'], 2);
-			$customerRows[] = '<button type="button" name="update" id="' . $customer["id"] . '" class="btn btn-primary btn-sm rounded-0 update" title="update"><i class="fa fa-edit"></i></button><button type="button" name="delete" id="' . $customer["id"] . '" class="btn btn-danger btn-sm rounded-0 delete" ><i class="fa fa-trash"></button>';
+			$customerRows[] = $customer['id_cliente'];
+			$customerRows[] = $customer['nombre'];
+			$customerRows[] = $customer['domicilio'];
+			$customerRows[] = $customer['telefono'];
+			$customerRows[] = $customer['correo'];
+			$customerRows[] = '<button type="button" name="update"  id_cliente="' . $customer["id_cliente"] . '" class="btn btn-primary btn-sm rounded-0 update" title="update"><i class="fa fa-edit"></i></button><button type="button" name="delete" 
+			 correo = "' . $customer["correo"] . ' " class="btn btn-danger btn-sm rounded-0 delete" ><i class="fa fa-trash"></button>';
 			$customerRows[] = '';
 			$customerData[] = $customerRows;
 		}
@@ -108,16 +113,22 @@ class Inventory
 			"recordsTotal"  	=>  $numRows,
 			"recordsFiltered" 	=> 	$numRows,
 			"data"    			=> 	$customerData
-		);
+		);															
 		echo json_encode($output);
 	}
 
 	public function saveCustomer()
 	{
 		$sqlInsert = "
-			INSERT INTO " . $this->customerTable . "(name, address, mobile, balance) 
-			VALUES ('" . $_POST['cname'] . "', '" . $_POST['address'] . "', '" . $_POST['mobile'] . "', '" . $_POST['balance'] . "')";
+			INSERT INTO " . $this->userTable . "(correo, contrasenia, tipo) 
+			VALUES ('" . $_POST['correo'] . "', '1234', 'cliente')";
+		mysqli_query($this->dbConnect, $sqlInsert);		
+
+		$sqlInsert = "			
+			INSERT INTO " . $this->customerTable . "(nombre, domicilio, telefono, correo) 
+			VALUES ('" . $_POST['cnombre'] . "', '" . $_POST['domicilio'] . "', '" . $_POST['telefono'] . "', '" . $_POST['correo'] . "')";
 		mysqli_query($this->dbConnect, $sqlInsert);
+
 		echo 'New Customer Added';
 	}
 	public function updateCustomer()
@@ -125,18 +136,21 @@ class Inventory
 		if ($_POST['userid']) {
 			$sqlInsert = "
 				UPDATE " . $this->customerTable . " 
-				SET name = '" . $_POST['cname'] . "', address= '" . $_POST['address'] . "', mobile = '" . $_POST['mobile'] . "', balance = '" . $_POST['balance'] . "' 
-				WHERE id = '" . $_POST['userid'] . "'";
+				SET nombre = '" . $_POST['cnombre'] . "', domicilio= '" . $_POST['domicilio'] . "', telefono = '" . $_POST['telefono'] . "', correo = '" . $_POST['correo'] . "' 
+				WHERE id_cliente = '" . $_POST['userid'] . "'";
 			mysqli_query($this->dbConnect, $sqlInsert);
 			echo 'Customer Edited';
 		}
 	}
 	public function deleteCustomer()
 	{
-		$sqlQuery = "
-			DELETE FROM " . $this->customerTable . " 
-			WHERE id = '" . $_POST['userid'] . "'";
-		mysqli_query($this->dbConnect, $sqlQuery);
+		$sqlQuery = "DELETE FROM " . $this->customerTable . " 
+		WHERE correo = '" . $_POST['correo'] . "'";
+		mysqli_query($this->dbConnect, $sqlQuery);	
+		$sqlQuery = "DELETE FROM " . $this->userTable . " 
+		WHERE correo = '" . $_POST['correo'] . "'";
+		mysqli_query($this->dbConnect, $sqlQuery);			
+		//echo 'Customer Deleted';
 	}
 	// Category functions
 	public function getCategoryList()
@@ -305,22 +319,18 @@ class Inventory
 	// Product management 
 	public function getProductList()
 	{
-		$sqlQuery = "SELECT * FROM " . $this->productTable . " as p
-			INNER JOIN " . $this->brandTable . " as b ON b.id = p.brandid
-			INNER JOIN " . $this->categoryTable . " as c ON c.categoryid = p.categoryid 
-			INNER JOIN " . $this->supplierTable . " as s ON s.supplier_id = p.supplier ";
+		$sqlQuery = "SELECT * FROM " . $this->productTable . " ";
 		if (isset($_POST["search"]["value"])) {
-			$sqlQuery .= 'WHERE b.bname LIKE "%' . $_POST["search"]["value"] . '%" ';
-			$sqlQuery .= 'OR c.name LIKE "%' . $_POST["search"]["value"] . '%" ';
-			$sqlQuery .= 'OR p.pname LIKE "%' . $_POST["search"]["value"] . '%" ';
-			$sqlQuery .= 'OR p.quantity LIKE "%' . $_POST["search"]["value"] . '%" ';
-			$sqlQuery .= 'OR s.supplier_name LIKE "%' . $_POST["search"]["value"] . '%" ';
-			$sqlQuery .= 'OR p.pid LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$sqlQuery .= 'WHERE id_producto LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$sqlQuery .= 'OR nombre LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$sqlQuery .= 'OR descripcion LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$sqlQuery .= 'OR precio LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$sqlQuery .= 'OR existencia LIKE "%' . $_POST["search"]["value"] . '%" ';
 		}
 		if (isset($_POST['order'])) {
 			$sqlQuery .= 'ORDER BY ' . $_POST['order']['0']['column'] . ' ' . $_POST['order']['0']['dir'] . ' ';
 		} else {
-			$sqlQuery .= 'ORDER BY p.pid DESC ';
+			$sqlQuery .= 'ORDER BY id_producto DESC ';
 		}
 		if ($_POST['length'] != -1) {
 			$sqlQuery .= 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
@@ -329,22 +339,15 @@ class Inventory
 		$numRows = mysqli_num_rows($result);
 		$productData = array();
 		while ($product = mysqli_fetch_assoc($result)) {
-			$status = '';
-			if ($product['status'] == 'active') {
-				$status = '<span class="label label-success">Active</span>';
-			} else {
-				$status = '<span class="label label-danger">Inactive</span>';
-			}
 			$productRow = array();
-			$productRow[] = $product['pid'];
-			$productRow[] = $product['name'];
-			$productRow[] = $product['bname'];
-			$productRow[] = $product['pname'];
-			$productRow[] = $product['model'];
-			$productRow[] = $product["quantity"];
-			$productRow[] = $product['supplier_name'];
-			$productRow[] = $status;
-			$productRow[] = '<div class="btn-group btn-group-sm"><button type="button" name="view" id="' . $product["pid"] . '" class="btn btn-light bg-gradient border text-dark btn-sm rounded-0  view" title="View"><i class="fa fa-eye"></i></button><button type="button" name="update" id="' . $product["pid"] . '" class="btn btn-primary btn-sm rounded-0  update" title="Update"><i class="fa fa-edit"></i></button><button type="button" name="delete" id="' . $product["pid"] . '" class="btn btn-danger btn-sm rounded-0  delete" data-status="' . $product["status"] . '" title="Delete"><i class="fa fa-trash"></i></button></div>';
+			$productRow[] = $product['id_producto'];
+			$productRow[] = $product['nombre'];
+			$productRow[] = $product['descripcion'];
+			$productRow[] = $product['precio'];
+			$productRow[] = $product['existencia'];
+			$productRow[] = $product["foto"];
+			$productRow[] = '<div class="btn-group btn-group-sm"><button type="button" name="view" id_producto="' . $product["id_producto"] . '" class="btn btn-light bg-gradient border text-dark btn-sm rounded-0  view" title="View"><i class="fa fa-eye"></i></button><button type="button" name="update" id_producto="' . $product["id_producto"] . '" class="btn btn-primary btn-sm rounded-0  update" title="Update"><i class="fa fa-edit"></i></button><button type="button" name="delete" id_producto="' . $product["id_producto"] . '" class="btn btn-danger btn-sm rounded-0  delete" title="Delete"><i class="fa fa-trash"></i></button></div>';
+			//$customerRows[] = '';
 			$productData[] = $productRow;
 		}
 		$outputData = array(
