@@ -63,25 +63,26 @@ $inventory->checkLogin();
 								<input type="hidden" name="userid" id="userid" />
 								<input type="hidden" name="btn_action" id="btn_action" value="customerAdd" />
 								<div class="mb-3">
-									<label class="control-label">Nombre</label>
-									<input type="text" name="cnombre" id="cnombre" class="form-control rounded-0" required />
+									<label class="control-label">Nombre*</label>
+									<input type="text" name="cnombre" id="cnombre" class="form-control rounded-0" required pattern="[A-Za-z]+" title="Este campo no acepta numeros." />
 								</div>
 								<div class="mb-3">
-									<label class="control-label"># Domicilio</label>
+									<label class="control-label">Domicilio*</label>
 									<input type="text" name="domicilio" id="domicilio" class="form-control rounded-0" required />
 								</div>
 								<div class="mb-3">
-									<label class="control-label">Telefono</label>
-									<input type="text" name="telefono" id="telefono" class="form-control rounded-0" required />
+									<label class="control-label">Telefono*</label>
+									<input type="text" name="telefono" id="telefono" class="form-control rounded-0" required pattern="[0-9]+" maxlength="10" title="Este campo no acepta letras."/>
 								</div>
 								<div class="mb-3">
-									<label class="control-label">Correo</label>
-									<input type="text" name="correo" id="correo" class="form-control rounded-0" rows="5" required></input>
-								</div>
+									<label class="control-label">Correo*</label>
+									<input type="email" name="correo" id="correo" class="form-control rounded-0" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Por favor ingrese una dirección de correo válida." ></input>
+								</div>								
 							</form>
 						</div>
 					</div>
 					<div class="modal-footer">
+						<label>* Campos obligatorios</label>					
 						<button type="submit" name="action" id="action" class="btn btn-sm rounded-0 btn-primary" form="customerForm">Guardar</button>
 						<button type="button" class="btn btn-sm rounded-0 btn-default border" data-bs-dismiss="modal">Cerrar</button>
 					</div>

@@ -10,10 +10,13 @@ if (!empty($_POST['email']) && !empty($_POST['pwd'])) {
 	$login = $inventory->login($_POST['email'], $_POST['pwd']);
 	if (!empty($login)) {
 		$_SESSION['userid'] = $login[0]['correo'];
-		$_SESSION['name'] = $login[0]['correo'];
-		echo $login[0]['tipo'];
-		if($login[0]['tipo']=="cliente"){			
-			header("Location:../index.php");
+		$_SESSION['name'] = $login[0]['correo'];		
+		if($login[0]['tipo']=="cliente" ){	
+			$datosCliente = $inventory->getCustomerwhitUser($login[0]['correo']);
+			if (!empty($datosCliente)) {	
+				$_SESSION['cname'] = $datosCliente[0]['nombre'];	
+				header("Location:../index.php");
+			}
 		}else{header("Location:index.php");
 		}
 	} else {

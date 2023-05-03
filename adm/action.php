@@ -59,6 +59,16 @@ if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'updateBrand'){
 if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'deleteBrand'){
 	$inventory->deleteBrand();
 }
+// Pedido management
+if(!empty($_POST['action']) && $_POST['action'] == 'listPedido') {
+	$inventory->getPedidoList();
+}
+if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'viewPedido'){
+	$inventory->viewPedidoDetails();
+}
+if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'getPedidoDetails') {
+	$inventory->getPedidoDetails();
+}
 // Product management
 if(!empty($_POST['action']) && $_POST['action'] == 'listProduct') {
 	$inventory->getProductList();

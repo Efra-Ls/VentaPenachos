@@ -117,4 +117,21 @@ $(document).ready(function() {
             return false;
         }
     });
+    $(document).on('input', '#existencia', function(event) {
+        const existenciaInput =  event.target;
+            
+            if (/^\d+$/.test(existenciaInput.value)) {
+                // Si se ingresó solo números, cambia el color del texto a rojo
+                existenciaInput.style.color = 'black';
+            } else {
+                // Si se ingresó texto, cambia el color del texto a negro
+                existenciaInput.style.color = 'red';
+            }
+    });     
+    $(document).on('input', '#precio', function(event) {
+        const precioInput = event.target;
+          const valor = precioInput.value.replace(/[^\d.]/g, '');
+          const valorConComas = Number(valor).toLocaleString();
+          precioInput.value = valorConComas;
+      });
 });

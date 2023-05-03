@@ -8,6 +8,8 @@ class Inventory
 	private $userTable = 'usuario';
 	private $customerTable = 'cliente';
 	private $categoryTable = 'categoria';
+	private $pedidoTable = 'pedido';
+	private $detallepedidoTable = 'detalle_pedido';
 	private $brandTable = 'ims_brand';
 	private $productTable = 'producto';
 	private $supplierTable = 'ims_supplier';
@@ -69,6 +71,13 @@ class Inventory
 		$result = mysqli_query($this->dbConnect, $sqlQuery);
 		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		echo json_encode($row);
+	}
+	public function getCustomerwhitUser($email)
+	{
+		$sqlQuery = "
+			SELECT * FROM " . $this->customerTable . " 
+			WHERE correo = '" . $email . "'";
+		return  $this->getData($sqlQuery);
 	}
 
 	public function getCustomerList()
@@ -306,6 +315,129 @@ class Inventory
 			DELETE FROM " . $this->brandTable . " 
 			WHERE id = '" . $_POST["id"] . "'";
 		mysqli_query($this->dbConnect, $sqlQuery);
+	}
+	// Pedido management 
+	public function getPedidoList()
+	{
+		$sqlQuery = "SELECT p.id_pedido,c.nombre as nombrec,p.fecha,p.hora,p.direccion,p.estado FROM " . $this->pedidoTable . " as p   INNER JOIN "  . $this->customerTable .  " as c ON p.id_cliente = c.id_cliente ";
+				
+		if (isset($_POST["search"]["value"])) {
+			$sqlQuery .= 'WHERE p.id_pedido LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$sqlQuery .= 'OR c.nombre LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$sqlQuery .= 'OR p.fecha LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$sqlQuery .= 'OR p.direccion LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$sqlQuery .= 'OR p.estado LIKE "%' . $_POST["search"]["value"] . '%" ';
+		}
+		if (isset($_POST['order'])) {
+			$sqlQuery .= 'ORDER BY ' . $_POST['order']['0']['column'] . ' ' . $_POST['order']['0']['dir'] . ' ';
+		} else {
+			$sqlQuery .= 'ORDER BY p.id_pedido DESC ';
+		}
+		if ($_POST['length'] != -1) {
+			$sqlQuery .= 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
+		}
+		$result = mysqli_query($this->dbConnect, $sqlQuery);
+		$numRows = mysqli_num_rows($result);
+		$pedidoData = array();
+		while ($pedido = mysqli_fetch_assoc($result)) {
+			$pedidoRow = array();
+			$pedidoRow[] = $pedido['id_pedido'];
+			$pedidoRow[] = $pedido['nombrec'];
+			$pedidoRow[] = $pedido['fecha'];
+			$pedidoRow[] = $pedido['hora'];
+			$pedidoRow[] = $pedido['direccion'];
+			$pedidoRow[] = $pedido['estado'];
+			$pedidoRow[] = '<div class="btn-group btn-group-sm"><button type="button" name="view" id_pedido="' . $pedido["id_pedido"] . '" class="btn btn-light bg-gradient border text-dark btn-sm rounded-0  view" title="View"><i class="fa fa-eye"></i></button><button type="button" name="update" id_pedido="' . $pedido["id_pedido"] . '" class="btn btn-primary btn-sm rounded-0  update" title="Update"><i class="fa fa-edit"></i></button><button type="button" name="delete" id_pedido="' . $pedido["id_pedido"] . '" class="btn btn-danger btn-sm rounded-0  delete" title="Delete"><i class="fa fa-trash"></i></button></div>';
+			//$customerRows[] = '';
+			$pedidoData[] = $pedidoRow;
+		}
+		$outputData = array(
+			"draw"    			=> 	intval($_POST["draw"]),
+			"recordsTotal"  	=>  $numRows,
+			"recordsFiltered" 	=> 	$numRows,
+			"data"    			=> 	$pedidoData
+		);
+		echo json_encode($outputData);
+	}
+	public function getPedidoDetails()
+	{
+		$sqlQuery = "SELECT p.id_pedido,c.nombre as nombrec,p.fecha,p.hora,p.direccion,p.estado FROM " . $this->pedidoTable . " as p   INNER JOIN "  . $this->customerTable .  " as c ON p.id_cliente = c.id_cliente 
+			WHERE p.id_pedido = '" . $_POST["id_pedido"] . "'";
+		$result = mysqli_query($this->dbConnect, $sqlQuery);
+		while ($pedido = mysqli_fetch_assoc($result)) {
+			$output['id_pedido'] = $pedido['id_pedido'];
+			$output['nombrec'] = $pedido['nombrec'];
+			$output['fecha'] = $pedido['fecha'];
+			$output['hora'] = $pedido['hora'];
+			$output['direccion'] = $pedido['direccion'];
+			$output['estado'] = $pedido['estado'];
+		}
+		echo json_encode($output);
+	}
+	public function viewPedidoDetails()
+	{
+		$sqlQuery = "SELECT p.id_pedido,c.nombre as nombrec,p.fecha,p.hora,p.direccion,p.estado FROM " . $this->pedidoTable . " as p   INNER JOIN "  . $this->customerTable .  " as c ON p.id_cliente = c.id_cliente 
+			WHERE p.id_pedido = '" . $_POST["id_pedido"] . "'";
+		$result = mysqli_query($this->dbConnect, $sqlQuery);
+		$pedidoDetails = '<div class="table-responsive">
+				<table class="table table-boredered">';
+		while ($pedido = mysqli_fetch_assoc($result)) {
+			$pedidoDetails .= '
+			<tr>
+				<td>Nombre del Cliente</td>
+				<td>' . $pedido["nombrec"] . '</td>
+			</tr>
+			<tr>
+				<td>Fecha</td>
+				<td>' . $pedido["fecha"] . '</td>
+			</tr>
+			<tr>
+				<td>Hora</td>
+				<td>' . $pedido["hora"] . '</td>
+			</tr>
+			<tr>
+				<td>Direccion</td>
+				<td>' . $pedido["direccion"] . '</td>
+			</tr>	
+			<tr>
+					<td>Estado</td>
+					<td>' . $pedido["estado"] . '</td>
+			</tr>											
+			';
+		}
+		$sqlQuery = "SELECT p.nombre as nombreP,p.precio,dp.cantidad,(p.precio*dp.cantidad) as total FROM ". $this->detallepedidoTable . " AS dp INNER JOIN " . $this->productTable . " AS p ON dp.id_producto=p.id_producto WHERE dp.id_pedido = '". $_POST["id_pedido"] . "'";				
+		$result = mysqli_query($this->dbConnect, $sqlQuery);
+		$totalpago=0;
+		$pedidoDetails .= '<tr>
+							<div>
+								<table style="border-collapse: separate; border-spacing: 15px;">
+									<tr>
+										<th style="width: 150px;">Producto</th>
+										<th style="width: 65px;">Precio</th>
+										<th style="width: 50px;">Cantidad</th>
+										<th style="width: 50px;">Total</th>
+									</tr>';
+				while ($detallpedido = mysqli_fetch_assoc($result)) {
+					$totalpago +=$detallpedido["total"] ;
+					$pedidoDetails .= '
+									<tr>						
+										<td style="text-align: left; width: 150px;">' . $detallpedido["nombreP"] . '</td>
+										<td style="text-align: left; width: 65px;">' . $detallpedido["precio"] . '</td>
+										<td style="text-align: center; width: 50px;">' . $detallpedido["cantidad"] . '</td>
+										<td style="text-align: center; width: 50px;">' . $detallpedido["total"] . '</td>
+									</tr>																															
+					';
+				}
+		$pedidoDetails .= '		</table>
+							</div>
+						</tr>	
+				<div>
+					<h3>Total: ' . $totalpago .'</h3>
+				</div>
+			</table>
+		</div>
+		';
+		echo $pedidoDetails;
 	}
 	// Product management 
 	public function getProductList()

@@ -55,7 +55,7 @@ $inventory->checkLogin();
 					<h4 class="modal-title"><i class="fa fa-plus"></i> Agregar Categoría</h4>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>
-				<div class="modal-body">
+				<div class="modal-body">					
 					<form method="post" id="categoryForm">
 						<input type="hidden" name="id_categoria" id="id_categoria" />
 						<input type="hidden" name="btn_action" id="btn_action" />
@@ -64,7 +64,7 @@ $inventory->checkLogin();
 					</form>
 				</div>
 				<div class="modal-footer">					
-					<button type="submit" name="action" id="action" class="btn btn-sm rounded-0 btn-primary" form="categoryForm">Guardar</button>
+					<button type="submit" name="action" id="action" class="btn btn-sm rounded-0 btn-primary" form="categoryForm" data-bs-dismiss="modal">Guardar</button>
 					<button type="button" class="btn btn-default btn-sm rounded-0 border" data-bs-dismiss="modal">Cerrar</button>
 				</div>
 			</div>

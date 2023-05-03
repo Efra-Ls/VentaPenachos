@@ -84,12 +84,12 @@ $inventory->checkLogin();
                         </div>      
                         <div class="form-group">
                             <label>Precio base del producto</label>
-                            <input type="text" name="precio" id="precio" class="form-control rounded-0" required pattern="[+-]?([0-9]*[.])?[0-9]+" />
+                            <input type="text" name="precio" id="precio" class="form-control rounded-0" required pattern="[0-9]+\.[0-9]+" />
                         </div>                  
                         <div class="form-group">
                             <label>Cantidad de Producto</label>
                             <div class="input-group">
-                                <input type="text" name="existencia" id="existencia" class="form-control rounded-0" required pattern="[+-]?([0-9]*[.])?[0-9]+" />
+                                <input type="text" name="existencia" id="existencia" class="form-control rounded-0" required pattern="[0-9]+" />
                                 <select name="unidad" class="form-select rounded-0" id="unidad" required>
                                     <option value="">Selecciona Unidad</option>
                                     <option value="Bolsos">Bolsos</option>

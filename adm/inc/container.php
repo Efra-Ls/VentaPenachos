@@ -17,7 +17,7 @@
   }
 
   #header #logo h1 a {
-    color: #fe8b03;
+    color: #0b3bb5;
   }
 
   #header #logo h1 a span {

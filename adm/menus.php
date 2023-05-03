@@ -8,9 +8,8 @@
 				<li class="nav-item"><a class="nav-link mun" href="index.php" id="index_menu">Inicio</a></li>
 				<li class="nav-item"><a class="nav-link mun" href="customer.php" id="customer_menu">Clientes</a></li>			
 				<li class="nav-item"><a class="nav-link mun" href="product.php" id="product_menu" >Productos</a></li>
-				<li class="nav-item"><a class="nav-link" href="category.php" id="category_menu">Categorías</a></li>
-				<li class="nav-item"><a class="nav-link mun" href="purchase.php" id="purchase_menu">Compras</a></li>
-				<li class="nav-item"><a class="nav-link mun" href="order.php" id="order_menu">Órdenes</a></li>
+				<li class="nav-item"><a class="nav-link mun" href="category.php" id="category_menu">Categorías</a></li>
+				<li class="nav-item"><a class="nav-link mun" href="pedido.php" id="pedido_menu">Pedidos</a></li>
 			</ul>
 		</div>
 		<ul class="nav navbar-nav">

@@ -1,58 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-</head>
 <?php
-  ob_start();
-  session_start();
-  include 'adm/Inventory.php';
-  $inventory = new Inventory();
-  ?>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title>Arte Plumario</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
-
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800|Montserrat:300,400,700" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/ve2ndor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
-<!-- Incluye los archivos CSS de Bootstrap -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
-<!-- Agrega una clase personalizada al elemento img para hacerlo opaco -->
-
-  <!-- =======================================================
-  * Template Name: Reveal - v4.9.1
-  * Template URL: https://bootstrapmade.com/reveal-bootstrap-corporate-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+include('encabezado.php');
+?>
 
 <body>
 
-  <!-- ======= Top Bar ======= -->
- <section id="topbar" class="d-flex align-items-center"> <!-- Ordenar todo en fila---->
+  
+<!-- ======= Top Bar ======= -->
+<section id="topbar" class="d-flex align-items-center"> <!-- Ordenar todo en fila---->
     <div class="container d-flex justify-content-center justify-content-md-between">
       <div class="contact-info d-flex align-items-center">
         <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:lugas2@hotmail.com">lugas2@hotmail.com</a></i>
         <i class="bi bi-phone d-flex align-items-center ms-4"><span>+52 1 951 309 4891</span></i>
-        <i class="bi bi-phone d-flex align-items-center ms-4"><span>   Bienvenido : <?php if (!empty($_SESSION['name'])) { echo $_SESSION['name']; }?></span></i>  <!-- span ordena todo en linea---->
+        <i class="bi bi-phone d-flex align-items-center ms-4"><span>   Bienvenido : <?php if (!empty($_SESSION['cname'])) { echo $_SESSION['cname']; }?></span></i>  <!-- span ordena todo en linea---->
       </div>
       <div class="social-links d-none d-md-flex align-items-center">  <!--  Alinear iconos sociales de la derecha  -->
         <a href="https://www.facebook.com/pablo.senashernandez" target="_blank" class="facebook"><i class="bi bi-facebook"></i></a>
@@ -61,78 +20,44 @@
       </div>
     </div>
   </section><!-- End Top Bar-->
-
-  <!-- ======= Header ======= -->
-  <header id="header" class="d-flex align-items-center">
-    <div class="container d-flex justify-content-between">
-
-      <div id="logo">
-        <h1><a href="index.php">Arte<span>Plumario</span> </a></h1>
-        <!-- Uncomment below if you prefer to use an image logo -->
-        <!-- <a href="index.html"><img src="assets/img/logo.png" alt=""></a>-->
-      </div>
-
-      <nav id="navbar" class="navbar">
-        <ul>
-			
-          <li><a class="nav-link scrollto active" href="#hero">Principal</a></li>
-          <li><a class="nav-link scrollto" href="#about">Quienes Somos</a></li>          
-          <li><a class="nav-link scrollto" href="#team">Equipo</a></li>
-          <li><a class="nav-link scrollto" href="#testimonials">Testimonios&nbsp;</a></li>          
-          <li><a class="nav-link scrollto " href="inner-page.html">Productos</a></li>   
-          <li><a class="nav-link scrollto" href="#contact">Contactanos</a></li>
-        <?php
-          if (!empty($_SESSION['name'])) {
-        ?>
-            <li><a class="nav-link scrollto" href="adm/login.php">Salir</a></li>
-          <?php
-             }else{              
-          ?>
-          <li><a class="nav-link scrollto" href="adm/login.php">Ingresar</a></li>
-          <?php
-             }
-          ?>
-         
-
-
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
-
-    </div>
-  </header><!-- End Header -->
+  
+    
 
   <!-- ======= hero Section ======= -->
-  <section id="hero">
-
-    <div class="hero-content" data-aos="fade-up">
-      <h2>Elaboracion de <span>Penachos</span><br>para Danza de la Pluma</h2>
-      <div>
-        <a href="#about" class="btn-get-started scrollto">Acerca de</a>
-        <a href="#portfolio" class="btn-projects scrollto">Echar un vistazo</a>
-      </div>
-    </div>
-
        <!-- ======= hero Section ======= -->
   <section id="hero">
-    <div class="hero-content" data-aos="fade-up">
-      <h2>Elaboracion de <span>Penachos</span><br>para Danza de la Pluma</h2>
-      <div>
-        <a href="#about" class="btn-get-started scrollto">Acerca de</a>
-        <a href="#portfolio" class="btn-projects scrollto">Echar un vistazo</a>
-      </div>
-    </div>
+          
     <div class="hero-slider swiper">
       <div class="swiper-wrapper">
-        <div class="swiper-slide" style="background-image: url('assets/img/hero-carousel/img1.jpeg');"></div>
-        <div class="swiper-slide" style="background-image: url('assets/img/hero-carousel/img2.jpeg');"></div>
-        <div class="swiper-slide" style="background-image: url('assets/img/hero-carousel/img3.jpeg');"></div>
+      <div class="swiper-slide" style="background-image: url('assets/img/hero-carousel/img2.jpeg');"></div>
+        <div class="swiper-slide" style="background-image: url('assets/img/hero-carousel/img11.jpeg');"></div>              
+        <div class="swiper-slide" style="background-image: url('assets/img/hero-carousel/img4.jpeg');"></div>    
+        <div class="swiper-slide" style="background-image: url('assets/img/hero-carousel/img5.jpeg');"></div>  
+        <div class="swiper-slide" style="background-image: url('assets/img/hero-carousel/img6.jpeg');"></div> 
+        <div class="swiper-slide" style="background-image: url('assets/img/hero-carousel/img7.jpeg');"></div> 
+        <div class="swiper-slide" style="background-image: url('assets/img/hero-carousel/img8.jpeg');"></div> 
+        <div class="swiper-slide" style="background-image: url('assets/img/hero-carousel/img9.jpeg');"></div>  
+        <div class="swiper-slide" style="background-image: url('assets/img/hero-carousel/img10.jpeg');"></div>    
       </div>
     </div>
   </section><!-- End Hero Section -->
-    
-  </section><!-- End Hero Section -->
+  
 
+
+  <?php
+    include('menu.php');
+    ?>
+    <section id="portfolio" class="portfolio" style="padding: 1px; margin: 1px;">
+      <div class="container" data-aos="fade-up" style="padding: 1px; ">
+        <div class="section-header" style="padding: 1px; margin: 1px;">
+          <div id="hero" style="padding: 1px;">
+            <blockquote   class="hero-content" id="hero-content" style="padding: 1px; margin: 1px;">    
+              <h2 >Elaboracion de <span >Penachos</span> para Danza de la Pluma</h2>
+            </blockquote>
+          </div>
+         </div>
+      </div>
+    </section>
   <main id="main">
 
     <!-- ======= About Section ======= -->    <!-- End About Section -->
@@ -150,6 +75,9 @@
     <section id="portfolio" class="portfolio">
       <div class="container" data-aos="fade-up">
         <div class="section-header">
+
+      <div>
+  
           <blockquote>
             <h2>lo más vendido&nbsp; &nbsp;</h2>
           </blockquote>

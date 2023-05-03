@@ -84,5 +84,25 @@ $(document).ready(function() {
             return false;
         }
     });
-
+    $(document).on('input', '#cnombre', function(event) {
+        const cnombreInput =  event.target;
+        const valor=cnombreInput.value.replace(/[0-9]/g, '');
+        cnombreInput.value=valor;
+    });
+    $(document).on('input', '#telefono', function(event) {
+        const telefonoInput =  event.target;
+        const valor=telefonoInput.value.replace(/[^\d]/g, '');
+        telefonoInput.value=valor;
+    });
+    $(document).on('input', '#correo', function(event) {
+        const correoInput =  event.target;
+            
+            if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(correoInput.value)) {
+                // Si se ingresó solo números, cambia el color del texto a rojo
+                correoInput.style.color = 'black';
+            } else {
+                // Si se ingresó texto, cambia el color del texto a negro
+                correoInput.style.color = 'red';
+            }
+    });
 });
