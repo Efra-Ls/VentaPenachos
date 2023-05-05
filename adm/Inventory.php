@@ -651,7 +651,7 @@ class Inventory
 		}else{
 			$tipofiltro = "web";
 		}
-
+		
 			$productDetails .= '
 			<div class="col-lg-4 col-md-6 portfolio-item filter-' . $tipofiltro . '"> <img src="' . $imageSrc . '" class="img-fluid" alt="">
             <div class="portfolio-info">
