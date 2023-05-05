@@ -649,7 +649,7 @@ class Inventory
 		}else if($product["categoria"]==="Accesorios"){
 			$tipofiltro = "card";
 		}else{
-			$tipofiltro = "web";
+			$tipofiltro = "web"; 
 		}
 		
 			$productDetails .= '
