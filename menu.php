@@ -15,7 +15,7 @@
           <li><a class="nav-link scrollto" href="#about">Quienes Somos</a></li>          
           <li><a class="nav-link scrollto" href="#team">Equipo</a></li>
           <li><a class="nav-link scrollto" href="#testimonials">Testimonios&nbsp;</a></li>          
-          <li><a class="nav-link scrollto " href="inner-page.html">Productos</a></li>   
+          <li><a class="nav-link scrollto " href="inner-page.php">Productos</a></li>   
           <li><a class="nav-link scrollto" href="#contact">Contactanos</a></li>
         <?php
           if (!empty($_SESSION['name'])) {

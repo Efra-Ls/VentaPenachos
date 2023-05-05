@@ -82,7 +82,7 @@ if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'addProduct') {
 if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'getProductDetails') {
 	$inventory->getProductDetails();
 }
-if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'updateProduct'){
+if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'updateProduct'){	
 	$inventory->updateProduct();
 }
 if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'deleteProduct'){
@@ -90,6 +90,9 @@ if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'deleteProduct'){
 }
 if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'viewProduct'){
 	$inventory->viewProductDetails();
+}
+if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'cargarProductos'){
+	$inventory->viewProductList();
 }
 // manage supplier
 if(!empty($_POST['action']) && $_POST['action'] == 'supplierList') {

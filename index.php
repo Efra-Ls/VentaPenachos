@@ -105,7 +105,7 @@ include('encabezado.php');
         </div>
 </div>
 		  
-		  <a href="inner-page.html"  class="button button1">VER TODOS LOS PRODUCTOS</a>
+		  <a href="inner-page.php"  class="button button1">VER TODOS LOS PRODUCTOS</a>
       </div>
     </section>
     <section id="call-to-action"> 	

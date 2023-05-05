@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<?php
+ob_start();
+session_start();
+?>
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Portfolio Details - Reveal Bootstrap Template</title>
+  <title>Inner Page - Reveal Bootstrap Template</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -26,7 +29,8 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="assets/js/cargarproductos.js"></script>
   <!-- =======================================================
   * Template Name: Reveal - v4.9.1
   * Template URL: https://bootstrapmade.com/reveal-bootstrap-corporate-template/
@@ -38,10 +42,10 @@
 <body>
 
   <!-- ======= Top Bar ======= -->
-<section id="topbar" class="d-flex align-items-center"> <!-- Ordenar todo en fila---->
+  <section id="topbar" class="d-flex align-items-center"> <!-- Ordenar todo en fila---->
     <div class="container d-flex justify-content-center justify-content-md-between">
       <div class="contact-info d-flex align-items-center">
-        <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:lugas2@hotmail.com">lugas2@hotmail.com</a></i>
+        <i class="bi bi-envelope d-flex align-items-center"> <a href="mailto:lugas2@hotmail.com"> lugas2@hotmail.com</a></i>
         <i class="bi bi-phone d-flex align-items-center ms-4"><span>+52 1 951 309 4891</span></i>  <!-- span ordena todo en linea---->
       </div>
       <div class="social-links d-none d-md-flex align-items-center">  <!--  Alinear iconos sociales de la derecha  -->
@@ -53,6 +57,7 @@
   </section><!-- End Top Bar-->
 
   <!-- ======= Header ======= -->
+	
 <header id="header" class="d-flex align-items-center">
     <div class="container d-flex justify-content-between">
 
@@ -64,11 +69,14 @@
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="nav-link scrollto" href="index.php">Principal</a></li>	
+          <li><a class="nav-link scrollto" href="index.php">Principal</a></li>
           <li><a class="nav-link scrollto" href="index.php#about">Quienes Somos</a></li>
-          <li><a class="nav-link scrollto" href="inner-page.php">Productos</a></li>          
+          <li><a class="nav-link scrollto " href="index.php#portfolio">Productos</a></li>
+          
           <li><a class="nav-link scrollto" href="index.php#team">Equipo</a></li>
           <li><a class="nav-link scrollto" href="index.php#testimonials">Testimonios&nbsp;</a></li>
+          
+          
           <li><a class="nav-link scrollto" href="index.php#contact">Contactanos</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
@@ -85,66 +93,41 @@
       <div class="container">
 
         <div class="d-flex justify-content-between align-items-center">
-          <h2>Detalles del Producto</h2>
+          <h2>Productos&nbsp;</h2>
           <ol>
             <li><a href="index.php">Pagina Principal</a></li>
-            <li><a href="portfolio.php">Productos</a></li>
-            <li>Detalles de Productos</li>
+            <li>Productos</li>
           </ol>
         </div>
 
       </div>
-    </section><!-- Breadcrumbs Section -->
+    </section><!-- End Breadcrumbs Section -->
 
-    <!-- ======= Portfolio Details Section ======= -->
-    <section id="portfolio-details" class="portfolio-details">
-      <div class="container">
-
-        <div class="row gy-6">
-
-          <div class="col-lg-8">
-            <div class="portfolio-details-slider swiper">
-              <div class="swiper-wrapper align-items-center">
-
-                <div class="swiper-slide">
-                  <img src="assets/img/portfolio/producto1.jpeg" alt="">
-                </div>
-
-                <div class="swiper-slide">
-                  <img src="assets/img/portfolio/producto2.jpeg" alt="">
-                </div>
-
-                <div class="swiper-slide">
-                  <img src="assets/img/portfolio/producto3.jpeg" alt="">
-                </div>
-
-              </div>
-              <div class="swiper-pagination"></div>
-            </div>
-          </div>
-
-          <div class="col-lg-4">
-            <div class="portfolio-info">
-              <h3>Informacion del Producto</h3>
-              <ul>
-                <li><strong>Categoria</strong>: Penachos</li>
-                <li><strong>Cliente</strong>: ASU Company</li>
-                <li><strong>Fecha de Entrega</strong>: 15 de Noviembre, 2022</li>
-                <li><strong>Project URL</strong>: <a href="#">www.example.com</a></li>
-              </ul>
-            </div>
-            <div class="portfolio-description">
-              <h2>Acerca de la elaboracion de nuestros Penachos</h2>
-              <p>
-                Todos nuestros penachos son elaborados de forma 100% artesanal.
-              </p>
-            </div>
-          </div>
-
+    
+    <!-- ======= Team Section ======= -->
+	  <section id="portfolio" class="portfolio">
+      <div class="container" data-aos="fade-up">
+        <div class="section-header">
+          <h2>Nuestra Colección</h2>
+          <p>Productos elaborados a mano 100% de manera artesanal.</p>
         </div>
-
+        <div class="row" data-aos="fade-up" data-aos-delay="100">
+          <div class="col-lg-12 d-flex justify-content-center">
+            <ul id="portfolio-flters">
+              <li data-filter="*" class="filter-active">Todos</li>
+              <li data-filter=".filter-app">Penachos</li>
+              <li data-filter=".filter-card">Accesorios</li>
+              <li data-filter=".filter-web">Decoracion</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
+              <Div id="viewproductList"></Div>
+        </div>
+        
       </div>
-    </section><!-- End Portfolio Details Section -->
+    </section>
 
   </main><!-- End #main -->
 

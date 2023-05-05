@@ -473,7 +473,6 @@ class Inventory
 			$productRow[] = $product['precio'];
 			$productRow[] = $product['existencia'];
 			$productRow[] = $product['unidad'];
-			$productRow[] = $product["foto"];
 			$productRow[] = '<div class="btn-group btn-group-sm"><button type="button" name="view" id_producto="' . $product["id_producto"] . '" class="btn btn-light bg-gradient border text-dark btn-sm rounded-0  view" title="View"><i class="fa fa-eye"></i></button><button type="button" name="update" id_producto="' . $product["id_producto"] . '" class="btn btn-primary btn-sm rounded-0  update" title="Update"><i class="fa fa-edit"></i></button><button type="button" name="delete" id_producto="' . $product["id_producto"] . '" class="btn btn-danger btn-sm rounded-0  delete" title="Delete"><i class="fa fa-trash"></i></button></div>';
 			//$customerRows[] = '';
 			$productData[] = $productRow;
@@ -509,10 +508,23 @@ class Inventory
 		return $dropdownHTML;
 	}
 	public function addProduct()
-	{
+	{				
+
 		$sqlInsert = "
 			INSERT INTO " . $this->productTable . "(nombre, descripcion, id_categoria, precio, existencia, unidad, foto) 
-			VALUES ('" . $_POST["nombre"] . "', '" . $_POST['descripcion'] . "', '" . $_POST['categoria'] . "', '" . $_POST['precio'] . "', '" . $_POST['existencia'] . "', '" . $_POST['unidad'] . "', '" . $_POST['foto'] . "')";
+			VALUES ('" . $_POST["nombre"] . "', '" . $_POST['descripcion'] . "', '" . $_POST['categoria'] . "', '" . $_POST['precio'] . "', '" . $_POST['existencia'] . "', '" . $_POST['unidad'] . "'";
+
+		if(isset($_FILES["foto"])){
+			$revisar = getimagesize($_FILES["foto"]["tmp_name"]);
+			if($revisar !== false){
+				$image = $_FILES['foto']['tmp_name'];
+				$imgContenido = addslashes(file_get_contents($image));	
+				$sqlInsert .= ", '" . $imgContenido.  "')";
+				mysqli_query($this->dbConnect, $sqlInsert);
+				return;
+			}
+		}
+		$sqlInsert .= ", '')";			
 		mysqli_query($this->dbConnect, $sqlInsert);
 		echo 'New Product Added';
 	}
@@ -530,19 +542,32 @@ class Inventory
 			$output['precio'] = $product['precio'];
 			$output['existencia'] = $product['existencia'];
 			$output['unidad'] = $product['unidad'];
-			$output['foto'] = $product['foto'];
+			//$output['foto'] = $product['foto'];
 		}
 		echo json_encode($output);
 	}
 	public function updateProduct()
-	{
-		if ($_POST['id_producto']) {
-			$sqlUpdate = "UPDATE " . $this->productTable . " 
-				SET id_categoria = '" . $_POST['categoria'] . "', nombre='" . $_POST['nombre'] . "', descripcion='" . $_POST['descripcion'] . "', precio='" . $_POST['precio'] . "', existencia='" . $_POST['existencia'] . "', unidad='" . $_POST['unidad'] . "', foto='" . $_POST['foto'] . "'  WHERE id_producto = '" . $_POST["id_producto"] . "'";
-			mysqli_query($this->dbConnect, $sqlUpdate);
+	{		
+		$sqlUpdate = "UPDATE " . $this->productTable . " 
+						SET id_categoria = '" . $_POST['categoria'] . "', nombre='" . $_POST['nombre'] . "', descripcion='" . $_POST['descripcion'] . "', precio='" . $_POST['precio'] . "', existencia='" . $_POST['existencia'] . "', unidad='" . $_POST['unidad'] . "'";
+
+		if(isset($_FILES["foto"])){
+			$revisar = getimagesize($_FILES["foto"]["tmp_name"]);
+			if($revisar !== false){
+				$image = $_FILES['foto']['tmp_name'];
+				$imgContenido = addslashes(file_get_contents($image));	
+				$sqlUpdate .= ", foto= '" . $imgContenido . "'  WHERE id_producto = '" . $_POST["id_producto"] . "'";
+				mysqli_query($this->dbConnect, $sqlUpdate);
+				return;
+			}
+		}		
+		$sqlUpdate .= "  WHERE id_producto = '" . $_POST["id_producto"] . "'";
+		mysqli_query($this->dbConnect, $sqlUpdate);
 			echo 'Product Update';
-		}
 	}
+
+
+
 	public function deleteProduct()
 	{
 		$sqlQuery = "
@@ -558,7 +583,16 @@ class Inventory
 		$result = mysqli_query($this->dbConnect, $sqlQuery);
 		$productDetails = '<div class="table-responsive">
 				<table class="table table-boredered">';
+
 		while ($product = mysqli_fetch_assoc($result)) {
+			
+		// Obtén los datos de la imagen de la base de datos
+		$imageData = $product["foto"];
+		// Convierte los datos de la imagen en una cadena base64
+		$imageBase64 = base64_encode($imageData);
+		// Crea una URL de datos que puede ser utilizada en la etiqueta <img>
+		$imageSrc = 'data:image/jpeg;base64,' . $imageBase64;
+
 			$productDetails .= '
 			<tr>
 				<td>Nombre de Producto</td>
@@ -582,7 +616,7 @@ class Inventory
 			</tr>
 			<tr>
 				<td>Foto</td>
-				<td>' . $product["foto"] . '</td>
+				<td><img src="' . $imageSrc . '" class="product-image"></td>
 			</tr>			
 			';
 		}
@@ -590,6 +624,44 @@ class Inventory
 			</table>
 		</div>
 		';
+		echo $productDetails;
+	}
+	public function viewProductList()
+	{
+		$sqlQuery = "SELECT p.id_producto,p.nombre,p.descripcion,c.nombre as categoria,p.precio,p.existencia,p.unidad,p.foto  FROM " . $this->productTable . " as p
+		INNER JOIN " . $this->categoryTable . " as c ON c.id_categoria = p.id_categoria";
+		$result = mysqli_query($this->dbConnect, $sqlQuery);
+		$productDetails = '';
+
+		while ($product = mysqli_fetch_assoc($result)) {
+			
+		// Obtén los datos de la imagen de la base de datos
+		$imageData = $product["foto"];
+		// Convierte los datos de la imagen en una cadena base64
+		$imageBase64 = base64_encode($imageData);
+		// Crea una URL de datos que puede ser utilizada en la etiqueta <img>
+		$imageSrc = 'data:image/jpeg;base64,' . $imageBase64;
+
+		$tipofiltro = "";
+
+		if($product["categoria"]==="Penachos"){
+			$tipofiltro = "app";
+		}else if($product["categoria"]==="Accesorios"){
+			$tipofiltro = "card";
+		}else{
+			$tipofiltro = "web";
+		}
+
+			$productDetails .= '
+			<div class="col-lg-4 col-md-6 portfolio-item filter-' . $tipofiltro . '"> <img src="' . $imageSrc . '" class="img-fluid" alt="">
+            <div class="portfolio-info">
+              <h4>' . $product["nombre"] . '</h4>
+              <p>$' . $product["precio"] . '</p>
+              <a href="' . $imageSrc . '" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="' . $product["nombre"] . '"><i class="bx bx-plus"></i></a> <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
+            </div>
+          </div>			
+			';
+		}
 		echo $productDetails;
 	}
 	// supplier 

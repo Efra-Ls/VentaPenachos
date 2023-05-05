@@ -43,7 +43,6 @@ $inventory->checkLogin();
                                         <th>Precio</th>
                                         <th>Existencia</th>
                                         <th>Unidad</th>
-                                        <th>Foto</th>
                                         <th>Acción</th>                                        
                                     </tr>
                                 </thead>
@@ -63,31 +62,31 @@ $inventory->checkLogin();
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" id="productForm">
+                    <form method="post" enctype="multipart/form-data" id="productForm" >
                         <input type="hidden" name="id_producto" id="id_producto" />
                         <input type="hidden" name="btn_action" id="btn_action" />
 
                         <div class="form-group">
-                            <label>Nombre de Producto</label>
+                            <label>Nombre de Producto*</label>
                             <input type="text" name="nombre" id="nombre" class="form-control rounded-0" required />
                         </div>
                         <div class="form-group">
-                            <label>Descripción de Producto</label>
+                            <label>Descripción de Producto*</label>
                             <textarea name="descripcion" id="descripcion" class="form-control rounded-0" rows="5" required></textarea>
                         </div>
                         <div class="form-group">
-                            <label>Seleccionar Categoría</label>
+                            <label>Seleccionar Categoría*</label>
                             <select name="categoria" id="categoria" class="form-select rounded-0" required>
                                 <option value="">Seleccionar Categoría</option>
                                 <?php echo $inventory->categoryDropdownList(); ?>
                             </select>
                         </div>      
                         <div class="form-group">
-                            <label>Precio base del producto</label>
-                            <input type="text" name="precio" id="precio" class="form-control rounded-0" required pattern="[0-9]+\.[0-9]+" />
+                            <label>Precio base del producto*</label>
+                            <input type="text" name="precio" id="precio" class="form-control rounded-0" required pattern="[0-9]+" />
                         </div>                  
                         <div class="form-group">
-                            <label>Cantidad de Producto</label>
+                            <label>Cantidad de Producto*</label>
                             <div class="input-group">
                                 <input type="text" name="existencia" id="existencia" class="form-control rounded-0" required pattern="[0-9]+" />
                                 <select name="unidad" class="form-select rounded-0" id="unidad" required>
@@ -110,12 +109,13 @@ $inventory->checkLogin();
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Foto</label>
-                            <input type="text" name="foto" id="foto" class="form-control rounded-0" required />
-                        </div>                                               
+                            <label for="foto">Foto*</label>
+                            <input type="file" name="foto" id="foto" class="form-control rounded-0" multiple />                            
+                        </div>                                          
                     </form>
                 </div>
                 <div class="modal-footer">
+                    <label>* Campos obligatorios</label>	    
                     <input type="submit" name="action" id="action" class="btn btn-primary rounded-0 btn-sm" value="Agregar" form="productForm" />
                     <button type="button" class="btn btn-default border rounded-0 btn-sm" data-bs-dismiss="modal">Cerrar</button>
                 </div>

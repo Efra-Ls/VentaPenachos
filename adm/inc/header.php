@@ -24,8 +24,9 @@
 <!-- Favicons -->
 <link href="../assets/img/favicon.png" rel="icon">
   <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-<style>
-  .nav-link.mun {
-  font-size: 18px; /* Cambiar tamaño de letra a 20px */
-}
+  <style>
+    .product-image {
+      max-width: 300px; /* Cambia este valor al ancho máximo que desees */
+      max-height: 300px; /* Cambia este valor a la altura máxima que desees */
+    }
 </style>

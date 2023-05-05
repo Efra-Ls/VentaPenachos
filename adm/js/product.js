@@ -12,7 +12,7 @@ $(document).ready(function() {
             dataType: "json"
         },
         "columnDefs": [{
-            "targets": [0, 8],
+            "targets": [0, 7],
             "orderable": false,
         }, ],
         "pageLength": 10,
@@ -46,11 +46,15 @@ $(document).ready(function() {
     $(document).on('submit', '#productForm', function(event) {
         event.preventDefault();
         $('#action').attr('disabled', 'disabled');
-        var formData = $(this).serialize();
+        //var formData = $(this).serialize();
+        var formData = new FormData($('#productForm')[0]);
+        formData.append('foto', $('#foto')[0].files[0]);
         $.ajax({
             url: "action.php",
             method: "POST",
             data: formData,
+            processData: false,//<----
+            contentType: false,//<----
             success: function(data) {
                 $('#productForm')[0].reset();
                 $('#productModal').modal('hide');
@@ -70,9 +74,11 @@ $(document).ready(function() {
             success: function(data) {
                 $('#productViewModal').modal('show');
                 $('#productDetails').html(data);
+                $('.modal-title').html("<i class='fa fa-th-list'></i> Información Producto");
             }
         })
     });
+
 
     $(document).on('click', '.update', function() {
         var id_producto = $(this).attr("id_producto");
@@ -91,7 +97,7 @@ $(document).ready(function() {
                 $('#precio').val(data.precio);
                 $('#existencia').val(data.existencia);
                 $('#unidad').val(data.unidad);
-                $('#foto').val(data.foto);
+                //$('#foto').val(data.foto);
                 $('.modal-title').html("<i class='fa fa-edit'></i> Editar Producto");
                 $('#id_producto').val(id_producto);
                 $('#action').val("Editar");
@@ -129,9 +135,9 @@ $(document).ready(function() {
             }
     });     
     $(document).on('input', '#precio', function(event) {
-        const precioInput = event.target;
-          const valor = precioInput.value.replace(/[^\d.]/g, '');
-          const valorConComas = Number(valor).toLocaleString();
-          precioInput.value = valorConComas;
+        //const precioInput = event.target;
+          //const valor = precioInput.value.replace(/[A-Z][a-z]/g, '');
+          //const valorConComas = Number(valor).toLocaleString();
+          //precioInput.value = valorConComas;
       });
 });
