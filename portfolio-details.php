@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+<?php
+  ob_start();
+  session_start();
+  include 'adm/Inventory.php';
+  $inventory = new Inventory();
+  ?>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
@@ -33,6 +38,8 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  
 </head>
 
 <body>
@@ -70,6 +77,17 @@
           <li><a class="nav-link scrollto" href="index.php#team">Equipo</a></li>
           <li><a class="nav-link scrollto" href="index.php#testimonials">Testimonios&nbsp;</a></li>
           <li><a class="nav-link scrollto" href="index.php#contact">Contactanos</a></li>
+          <?php
+          if (!empty($_SESSION['name'])) {
+        ?>
+            <li><a class="nav-link scrollto" href="adm/login.php">Salir</a></li>
+          <?php
+             }else{              
+          ?>
+          <li><a class="nav-link scrollto" href="adm/login.php">Ingresar</a></li>
+          <?php
+             }
+          ?>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -104,24 +122,12 @@
 
           <div class="col-lg-8">
             <div class="portfolio-details-slider swiper">
-              <div class="swiper-wrapper align-items-center">
-
-                <div class="swiper-slide">
-                  <img src="assets/img/portfolio/producto1.jpeg" alt="">
+                <div  class="swiper-wrapper align-items-center" id="verMasImagenes">                               
                 </div>
-
-                <div class="swiper-slide">
-                  <img src="assets/img/portfolio/producto2.jpeg" alt="">
-                </div>
-
-                <div class="swiper-slide">
-                  <img src="assets/img/portfolio/producto3.jpeg" alt="">
-                </div>
-
-              </div>
-              <div class="swiper-pagination"></div>
+                <div class="swiper-pagination"></div>
             </div>
           </div>
+          
 
           <div class="col-lg-4">
             <div class="portfolio-info">
@@ -175,7 +181,7 @@
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
-
+  <script src="assets/js/verMasDetallesProducto.js"></script>
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 

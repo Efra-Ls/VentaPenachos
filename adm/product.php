@@ -67,26 +67,26 @@ $inventory->checkLogin();
                         <input type="hidden" name="btn_action" id="btn_action" />
 
                         <div class="form-group">
-                            <label>Nombre de Producto*</label>
+                            <label for="nombre">Nombre de Producto*</label>
                             <input type="text" name="nombre" id="nombre" class="form-control rounded-0" required />
                         </div>
                         <div class="form-group">
-                            <label>Descripción de Producto*</label>
-                            <textarea name="descripcion" id="descripcion" class="form-control rounded-0" rows="5" required></textarea>
+                            <label for="descripcion">Descripción de Producto</label>
+                            <textarea name="descripcion" id="descripcion" class="form-control rounded-0" rows="5" ></textarea>
                         </div>
                         <div class="form-group">
-                            <label>Seleccionar Categoría*</label>
+                            <label for="categoria">Seleccionar Categoría*</label>
                             <select name="categoria" id="categoria" class="form-select rounded-0" required>
                                 <option value="">Seleccionar Categoría</option>
                                 <?php echo $inventory->categoryDropdownList(); ?>
                             </select>
                         </div>      
                         <div class="form-group">
-                            <label>Precio base del producto*</label>
-                            <input type="text" name="precio" id="precio" class="form-control rounded-0" required pattern="[0-9]+" />
+                            <label for="precio">Precio base del producto*</label>
+                            <input type="text" name="precio" id="precio" class="form-control rounded-0" required  />
                         </div>                  
                         <div class="form-group">
-                            <label>Cantidad de Producto*</label>
+                            <label for="existencia">Cantidad de Producto*</label>
                             <div class="input-group">
                                 <input type="text" name="existencia" id="existencia" class="form-control rounded-0" required pattern="[0-9]+" />
                                 <select name="unidad" class="form-select rounded-0" id="unidad" required>
@@ -102,16 +102,36 @@ $inventory->checkLogin();
                                     <option value="Kilos">Kilos</option>
                                     <option value="Litros">Litros</option>
                                     <option value="Metros">Metros</option>
-                                    <option value="Números">Números</option>
+                                    <option value="Unidades">Unidades</option>
                                     <option value="Paquete">Paquete</option>
                                     <option value="Rollos">Rollos</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="foto">Foto*</label>
-                            <input type="file" name="foto" id="foto" class="form-control rounded-0" multiple />                            
-                        </div>                                          
+                            <label for="fotoprincipal">Foto pricipal*</label>
+                            <input type="file" name="fotoprincipal" id="fotoprincipal" class="form-control rounded-0" multiple />                            
+                        </div>    
+                        <div class="form-group">
+                            <label for="foto1">Foto 1*</label>
+                            <input type="file" name="foto1" id="foto1" class="form-control rounded-0" multiple />                            
+                        </div> 
+                        <div class="form-group">
+                            <label for="foto2">Foto 2*</label>
+                            <input type="file" name="foto2" id="foto2" class="form-control rounded-0" multiple />                            
+                        </div> 
+                        <div class="form-group">
+                            <label for="foto3">Foto 3*</label>
+                            <input type="file" name="foto3" id="foto3" class="form-control rounded-0" multiple />                            
+                        </div> 
+                        <div class="form-group">
+                            <label for="foto4">Foto 4*</label>
+                            <input type="file" name="foto4" id="foto4" class="form-control rounded-0" multiple />                            
+                        </div> 
+                        <div class="form-group">
+                            <label for="foto1">Foto 5*</label>
+                            <input type="file" name="foto5" id="foto5" class="form-control rounded-0" multiple />                            
+                        </div>                                     
                     </form>
                 </div>
                 <div class="modal-footer">

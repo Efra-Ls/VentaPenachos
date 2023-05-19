@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 include 'Inventory.php';
 $inventory = new Inventory();
@@ -93,6 +94,9 @@ if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'viewProduct'){
 }
 if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'cargarProductos'){
 	$inventory->viewProductList();
+}
+if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'verMasImagenesProductos'){
+	$inventory->verMasImagenesProductos();
 }
 // manage supplier
 if(!empty($_POST['action']) && $_POST['action'] == 'supplierList') {

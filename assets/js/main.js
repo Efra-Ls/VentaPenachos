@@ -250,9 +250,9 @@
    */
   new Swiper('.portfolio-details-slider', {
     speed: 400,
-    loop: true,
+    loop: false,
     autoplay: {
-      delay: 1000,
+      delay: 2000,
       disableOnInteraction: false
     },
     pagination: {

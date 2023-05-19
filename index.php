@@ -3,8 +3,6 @@ include('encabezado.php');
 ?>
 
 <body>
-
-  
 <!-- ======= Top Bar ======= -->
 <section id="topbar" class="d-flex align-items-center"> <!-- Ordenar todo en fila---->
     <div class="container d-flex justify-content-center justify-content-md-between">
@@ -174,7 +172,7 @@ include('encabezado.php');
           </div>
 </div>
   
-    <!-- ======= Contact Section ======= -->
+    <!-- =======  Section ======= -->
     <section id="testimonials">
       <div class="container" data-aos="fade-up">
         <div class="section-header">

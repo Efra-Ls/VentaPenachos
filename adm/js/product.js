@@ -15,7 +15,7 @@ $(document).ready(function() {
             "targets": [0, 7],
             "orderable": false,
         }, ],
-        "pageLength": 10,
+        "pageLength": 20,
         'rowCallback': function(row, data, index) {
             $(row).find('td').addClass('align-middle')
             $(row).find('td:eq(0), td:eq(3)').addClass('text-center')
@@ -30,25 +30,18 @@ $(document).ready(function() {
         $('#btn_action').val("addProduct");
     });
 
-    $(document).on('change', '#categoryid', function() {
-        var categoryid = $('#categoryid').val();
-        var btn_action = 'getCategoryBrand';
-        $.ajax({
-            url: "action.php",
-            method: "POST",
-            data: { categoryid: categoryid, btn_action: btn_action },
-            success: function(data) {
-                $('#brandid').html(data);
-            }
-        });
-    });
 
     $(document).on('submit', '#productForm', function(event) {
         event.preventDefault();
         $('#action').attr('disabled', 'disabled');
         //var formData = $(this).serialize();
         var formData = new FormData($('#productForm')[0]);
-        formData.append('foto', $('#foto')[0].files[0]);
+        formData.append('fotoprincipal', $('#fotoprincipal')[0].files[0]);
+        formData.append('foto1', $('#foto1')[0].files[0]);
+        formData.append('foto2', $('#foto2')[0].files[0]);
+        formData.append('foto3', $('#foto3')[0].files[0]);
+        formData.append('foto4', $('#foto4')[0].files[0]);
+        formData.append('foto5', $('#foto5')[0].files[0]);
         $.ajax({
             url: "action.php",
             method: "POST",
@@ -125,7 +118,8 @@ $(document).ready(function() {
     });
     $(document).on('input', '#existencia', function(event) {
         const existenciaInput =  event.target;
-            
+        const valor = precioInput.value.replace(/[^0-9]/g, '');
+        existenciaInput.value = valor;
             if (/^\d+$/.test(existenciaInput.value)) {
                 // Si se ingresó solo números, cambia el color del texto a rojo
                 existenciaInput.style.color = 'black';
@@ -135,9 +129,22 @@ $(document).ready(function() {
             }
     });     
     $(document).on('input', '#precio', function(event) {
-        //const precioInput = event.target;
-          //const valor = precioInput.value.replace(/[A-Z][a-z]/g, '');
-          //const valorConComas = Number(valor).toLocaleString();
-          //precioInput.value = valorConComas;
-      });
+        const precioInput = event.target;
+        const cursorInicio = precioInput.selectionStart; // Guarda la posición del cursor al principio
+    
+        // Elimina cualquier caracter que no sea un dígito o un punto decimal
+        const valor = precioInput.value.replace(/[^0-9]/g, '');
+    
+        // Convierte el valor a número y formatea con el signo de pesos y comas
+        const valorFormateado = '$' + Number(valor).toLocaleString();
+        // Calcula la nueva posición del cursor
+        const nuevaPosicionCursor = cursorInicio + 1;
+    
+        // Actualiza el valor del campo de texto
+        precioInput.value = valorFormateado;
+    
+        // Restaura la posición del cursor
+        precioInput.setSelectionRange(nuevaPosicionCursor, nuevaPosicionCursor);
+    });
+    
 });

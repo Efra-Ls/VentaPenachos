@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
 <?php
 ob_start();
 session_start();
+include 'adm/Inventory.php';
+$inventory = new Inventory();
 ?>
-<head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
@@ -30,13 +32,23 @@ session_start();
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="assets/js/cargarproductos.js"></script>
+
+  
+  
   <!-- =======================================================
   * Template Name: Reveal - v4.9.1
   * Template URL: https://bootstrapmade.com/reveal-bootstrap-corporate-template/
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+  <style>
+    .product-image {
+      max-width: 300px; /* Cambia este valor al ancho máximo que desees */
+      max-height: 300px; /* Cambia este valor a la altura máxima que desees */
+      object-fit: cover;
+      object-position: center;
+    }
+</style>
 </head>
 
 <body>
@@ -78,6 +90,18 @@ session_start();
           
           
           <li><a class="nav-link scrollto" href="index.php#contact">Contactanos</a></li>
+          <?php
+          if (!empty($_SESSION['name'])) {
+        ?>
+            <li><a class="nav-link scrollto" href="adm/login.php">Salir</a></li>
+          <?php
+             }else{              
+          ?>
+          <li><a class="nav-link scrollto" href="adm/login.php">Ingresar</a></li>
+          <?php
+             }
+          ?>
+         
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -116,19 +140,16 @@ session_start();
             <ul id="portfolio-flters">
               <li data-filter="*" class="filter-active">Todos</li>
               <li data-filter=".filter-app">Penachos</li>
-              <li data-filter=".filter-card">Accesorios</li>
-              <li data-filter=".filter-web">Decoracion</li>
+              <li data-filter=".filter-card">Accesorio</li>
+              <li data-filter=".filter-web">Decoración</li>
             </ul>
           </div>
-        </div>
-        
-        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
-              <Div id="viewproductList"></Div>
-        </div>
-        
-      </div>
-    </section>
+        </div>        
+        <div id="viewproductList" class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
 
+        </div>        
+      </div>    
+    </section>
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
@@ -158,9 +179,12 @@ session_start();
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
+  
+
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/cargarproductos.js"></script>
 
 </body>
 
