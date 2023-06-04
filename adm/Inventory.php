@@ -12,10 +12,12 @@ class Inventory
 	private $detallepedidoTable = 'detalle_pedido';
 	private $brandTable = 'ims_brand';
 	private $productTable = 'producto';
+	private $promocionTable = 'promocion';
 	private $supplierTable = 'ims_supplier';
 	private $purchaseTable = 'ims_purchase';
 	private $orderTable = 'ims_order';
 	private $dbConnect = false;
+	
 	public function __construct()
 	{
 		if (!$this->dbConnect) {
@@ -66,8 +68,8 @@ class Inventory
 	public function getCustomer()
 	{
 		$sqlQuery = "
-			SELECT * FROM " . $this->customerTable . " 
-			WHERE id_cliente = '" . $_POST["userid"] . "'";
+			SELECT * FROM " . $this->customerTable . " AS c
+			INNER JOIN ".$this->userTable." AS u ON c.correo=u.correo WHERE id_cliente = '" . $_POST["userid"] . "'";
 		$result = mysqli_query($this->dbConnect, $sqlQuery);
 		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		echo json_encode($row);
@@ -130,7 +132,7 @@ class Inventory
 	{
 		$sqlInsert = "
 			INSERT INTO " . $this->userTable . "(correo, contrasenia, tipo) 
-			VALUES ('" . $_POST['correo'] . "', '1234', 'cliente')";
+			VALUES ('" . $_POST['correo'] . "', '" . $_POST['passwordR'] . "', 'cliente')";
 		mysqli_query($this->dbConnect, $sqlInsert);		
 
 		$sqlInsert = "			
@@ -148,6 +150,12 @@ class Inventory
 				SET nombre = '" . $_POST['cnombre'] . "', domicilio= '" . $_POST['domicilio'] . "', telefono = '" . $_POST['telefono'] . "', correo = '" . $_POST['correo'] . "' 
 				WHERE id_cliente = '" . $_POST['userid'] . "'";
 			mysqli_query($this->dbConnect, $sqlInsert);
+
+			$sqlInsertuser = "
+				UPDATE " . $this->userTable . " 
+				SET contrasenia = '" .$_POST['passwordR'] . "' 
+				 WHERE correo = '" . $_POST['correo'] . "'";
+			mysqli_query($this->dbConnect, $sqlInsertuser);
 			echo 'Customer Edited';
 		}
 	}
@@ -284,6 +292,18 @@ class Inventory
 		}
 		return $categoryHTML;
 	}
+	public function promocionDropdownList()
+	{
+		$sqlQuery = "SELECT * FROM " . $this->promocionTable . " 
+			ORDER BY nombre ASC";
+		$result = mysqli_query($this->dbConnect, $sqlQuery);
+		$promocionHTML = '';
+		while ($promocion = mysqli_fetch_assoc($result)) {
+			$promocionHTML .= '<option value="' . $promocion["id_promocion"] . '">' . $promocion["nombre"] . '</option>';
+		}
+		return $promocionHTML;
+	}
+
 	public function saveBrand()
 	{
 		$sqlInsert = "
@@ -442,8 +462,7 @@ class Inventory
 	// Product management 
 	public function getProductList()
 	{
-		$sqlQuery = "SELECT p.id_producto,p.nombre,p.descripcion,c.nombre as categoria,p.precio,p.existencia,p.unidad,p.fotoprincipal  FROM " . $this->productTable . " as p
-					INNER JOIN " . $this->categoryTable . " as c ON c.id_categoria = p.id_categoria ";
+		$sqlQuery = "SELECT p.id_producto,p.nombre,p.descripcion,c.nombre as categoria,p.precio,p.existencia,p.unidad,p.fotoprincipal,pr.nombre as promocion  FROM " . $this->productTable . " as p INNER JOIN " . $this->categoryTable . " as c ON c.id_categoria = p.id_categoria INNER JOIN " . $this->promocionTable . " as pr ON pr.id_promocion = p.id_promocion ";
 		if (isset($_POST["search"]["value"])) {
 			$sqlQuery .= 'WHERE p.id_producto LIKE "%' . $_POST["search"]["value"] . '%" ';
 			$sqlQuery .= 'OR p.nombre LIKE "%' . $_POST["search"]["value"] . '%" ';
@@ -470,6 +489,7 @@ class Inventory
 			$productRow[] = $product['nombre'];
 			$productRow[] = $product['descripcion'];
 			$productRow[] = $product['categoria'];
+			$productRow[] = $product['promocion'];
 			$productRow[] = "$" . number_format($product['precio'], 2, '.', ',');
 			$productRow[] = $product['existencia'];
 			$productRow[] = $product['unidad'];
@@ -485,6 +505,181 @@ class Inventory
 		);
 		echo json_encode($outputData);
 	}
+
+	//prociones lista
+	public function getPromocionList()
+	{
+		$sqlQuery = "SELECT * FROM  ". $this->promocionTable ."  as p  ";
+		if (isset($_POST["search"]["value"])) {
+			$sqlQuery .= ' WHERE p.id_promocion LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$sqlQuery .= ' OR p.nombre LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$sqlQuery .= ' OR p.descripcion LIKE "%' . $_POST["search"]["value"] . '%" ';
+			$sqlQuery .= ' OR p.tipo LIKE "%' . $_POST["search"]["value"] . '%" ';
+		}
+		if (isset($_POST['order'])) {
+			$sqlQuery .= ' ORDER BY ' . $_POST['order']['0']['column'] . ' ' . $_POST['order']['0']['dir'] . ' ';
+		} else {
+			$sqlQuery .= ' ORDER BY p.id_promocion DESC ';
+		}
+		if ($_POST['length'] != -1) {
+			$sqlQuery .= ' LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
+		}
+		$result = mysqli_query($this->dbConnect, $sqlQuery);
+		$numRows = mysqli_num_rows($result);
+		$productData = array();
+		while ($product = mysqli_fetch_assoc($result)) {
+			$productRow = array();
+			$productRow[] = $product['id_promocion'];
+			$productRow[] = $product['nombre'];
+			$productRow[] = $product['descripcion'];
+			$productRow[] = $product['tipo'];
+			$productRow[] = '<div class="btn-group btn-group-sm"><button type="button" name="view" id_promocion="' . $product["id_promocion"] . '" class="btn btn-light bg-gradient border text-dark btn-sm rounded-0  view" title="View"><i class="fa fa-eye"></i></button><button type="button" name="update" id_promocion="' . $product["id_promocion"] . '" class="btn btn-primary btn-sm rounded-0  update" title="Update"><i class="fa fa-edit"></i></button><button type="button" name="delete" id_promocion="' . $product["id_promocion"] . '" class="btn btn-danger btn-sm rounded-0  delete" title="Delete"><i class="fa fa-trash"></i></button></div>';
+			
+			$productRow[] = $product['umbral_cantidad_descuento'];
+			$productRow[] = $product['porcentaje_descuento'];
+			$productRow[] = $product['cantidad_compra_regalo'];
+			$productRow[] = $product['cantidad_regalo'];
+			$productRow[] = $product['fecha_inicio_limitado'];
+			$productRow[] = $product['fecha_fin_limitado'];
+			$productRow[] = $product['fecha_fin_limitado'];
+		
+			//$customerRows[] = '';
+			$productData[] = $productRow;
+		}
+		$outputData = array(
+			"draw"    			=> 	intval($_POST["draw"]),
+			"recordsTotal"  	=>  $numRows,
+			"recordsFiltered" 	=> 	$numRows,
+			"data"    			=> 	$productData
+		);
+		echo json_encode($outputData);
+	}
+	//promcion agregar
+	//promcion
+	public function viewPromocionDetails()
+	{
+		$sqlQuery = "SELECT *  FROM " . $this->promocionTable . " as p		 
+			WHERE p.id_promocion = '" . $_POST["id_promocion"] . "'";
+		$result = mysqli_query($this->dbConnect, $sqlQuery);
+		$productDetails = '<div class="table-responsive">
+				<table class="table table-boredered">';
+
+		while ($product = mysqli_fetch_assoc($result)) {
+			
+		// Obtén los datos de la imagen de la base de datos		
+			$productDetails .= '
+			<tr>
+				<td>Nombre </td>
+				<td>' . $product["nombre"] . '</td>
+			</tr>
+			<tr>
+				<td>Descripción </td>
+				<td>' . $product["descripcion"] . '</td>
+			</tr>
+			<tr>
+				<td>Tipo </td>
+				<td>' . $product["tipo"] . '</td>
+			</tr>';
+
+			if($product["tipo"]=== 'Descuento por cantidad'){
+				$productDetails .= '
+				<tr>
+					<td>Cantidad mínima de productos para aplicar la promoción </td>
+					<td>' . $product["umbral_cantidad_descuento"] . '</td>
+				</tr>
+				<tr>
+					<td>Porcentaje de descuento </td>
+					<td> ' . $product["porcentaje_descuento"]*100 . '%</td>
+				</tr>';
+			}
+			if($product["tipo"]=== 'Regalo con compra'){
+				$productDetails .= '
+				<tr>
+					<td>Cantidad mínima de productos para aplicar la promoción</td>
+					<td>' . $product["cantidad_compra_regalo"] . '</td>
+				</tr>
+				<tr>
+					<td>Cantidad de productos regalados</td>
+					<td>' . $product["cantidad_regalo"] . '</td>
+				</tr>';
+			}
+			if($product["tipo"]=== 'Descuento por tiempo limitado'){
+				$productDetails .= '
+				<tr>
+					<td>Fecha de inicio de la promoción</td>
+					<td>' . $product["fecha_inicio_limitado"] . '</td>
+				</tr>
+				<tr>
+					<td>Fecha de finalización de la promoción</td>
+					<td>' . $product["fecha_fin_limitado"] . '</td>
+				</tr>
+				<tr>
+					<td>Porcentaje de descuento</td>
+					<td>' . $product["porcentaje_descuento_limitado"] . '</td>
+				</tr>
+				';
+			}
+		}
+		$productDetails .= '
+			</table>
+		</div>
+		';
+		echo $productDetails;
+	}
+	public function addPromocion()
+{						
+    // Definir todos los campos y su orden correcto
+    $campos = array(
+        'nombre',
+        'descripcion',
+        'tipo',
+        'umbral_cantidad_descuento',
+        'porcentaje_descuento',
+        'cantidad_compra_regalo',
+        'cantidad_regalo',
+        'fecha_inicio_limitado',
+        'fecha_fin_limitado',
+        'porcentaje_descuento_limitado'
+    );
+    
+    // Preparar la consulta SQL con los campos y valores correspondientes
+    $sqlInsert = "
+    INSERT INTO " . $this->promocionTable . "
+    (nombre, descripcion, tipo, umbral_cantidad_descuento, porcentaje_descuento, cantidad_compra_regalo, cantidad_regalo, fecha_inicio_limitado, fecha_fin_limitado, porcentaje_descuento_limitado) 
+    VALUES (";
+
+    foreach ($campos as $campo) {
+        $valor = isset($_POST[$campo]) ? $_POST[$campo] : 'NULL';
+        
+        if ($campo === 'porcentaje_descuento' || $campo === 'porcentaje_descuento_limitado') {
+            $valor = str_replace('%', '', $valor);
+            $valor = $valor / 100;
+        }
+
+        if ($campo === 'porcentaje_descuento_limitado') {
+            if ($valor === 'NULL') {
+                $sqlInsert .= "NULL";
+            } else {
+                $sqlInsert .= "'" . $valor . "'";
+            }
+        } else {
+            if ($valor === 'NULL') {
+                $sqlInsert .= "NULL,";
+            } else {
+                $sqlInsert .= "'" . $valor . "',";
+            }
+        }
+    }
+
+    $sqlInsert .= ")";
+
+    echo $sqlInsert;
+
+    // Ejecutar la consulta SQL
+    mysqli_query($this->dbConnect, $sqlInsert);
+}
+
+
 	public function getCategoryBrand($categoryid)
 	{
 		$sqlQuery = "SELECT * FROM " . $this->brandTable . " 
@@ -516,17 +711,26 @@ class Inventory
 			VALUES ('" . $_POST["nombre"] . "', '" . $_POST['descripcion'] . "', '" . $_POST['categoria'] . "', '" . $precio . "', '" . $_POST['existencia'] . "', '" . $_POST['unidad'] . "','')";			
 			mysqli_query($this->dbConnect, $sqlInsert);
 
-			if(isset($_FILES["fotoprincipal"]["tmp_name"])){
-				$revisar = getimagesize($_FILES["fotoprincipal"]["tmp_name"]);
-				if($revisar !== false){
-					$image = $_FILES['fotoprincipal']['tmp_name'];
-					$imgContenido = addslashes(file_get_contents($image));	
-					$sqlUpdate = "UPDATE " . $this->productTable . " 
-							SET fotoprincipal= '" . $imgContenido . "'  WHERE nombre = '" . $_POST["nombre"] . "' and descripcion='" . $_POST["descripcion"] . "'  and id_categoria='" . $_POST['categoria'] . "'  and precio='" . $_POST['precio'] . "' and existencia='" . $_POST['existencia'] . "' and unidad='" . $_POST['unidad'] . "'";
-					mysqli_query($this->dbConnect, $sqlUpdate);
+			$fotos = array("fotoprincipal","foto1", "foto2", "foto3", "foto4", "foto5");
+			foreach ($fotos as $foto) {
+				if (isset($_FILES[$foto]["tmp_name"])) {				
+					try {
+						if (getimagesize($_FILES[$foto]["tmp_name"]) !== false) {
+							$image = $_FILES[$foto]['tmp_name'];
+							$imgContenido = addslashes(file_get_contents($image));	
+							$sqlUpdateFoto = "UPDATE " . $this->productTable . " 
+									SET " . $foto . " = '" . $imgContenido . "'  WHERE nombre = '" . $_POST["nombre"] . "' and descripcion='" . $_POST["descripcion"] . "'  and id_categoria='" . $_POST['categoria'] . "'  and precio='" . $_POST['precio'] . "' and existencia='" . $_POST['existencia'] . "' and unidad='" . $_POST['unidad'] . "'";
+							mysqli_query($this->dbConnect, $sqlUpdateFoto);					
+						}
+					} catch (Exception $e) {
+						// Manejo del error: mostrar un mensaje de error o realizar alguna acción de manejo de errores
+						echo "<script>console.log('Error: " . $e->getMessage() . "');</script>";
+
+					}	
 				}
 			}	
 	}
+	
 	public function getProductDetails()
 	{
 		$sqlQuery = "SELECT p.id_producto,p.nombre,p.descripcion,c.id_categoria as categoria,p.precio,p.existencia,p.unidad,p.fotoprincipal  FROM " . $this->productTable . " as p
@@ -635,6 +839,7 @@ class Inventory
 		';
 		echo $productDetails;
 	}
+	
 	public function viewProductList()
 	{
 		$sqlQuery = "SELECT p.id_producto,p.nombre,p.descripcion,c.nombre as categoria,p.precio,p.existencia,p.unidad,p.fotoprincipal  FROM " . $this->productTable . " as p

@@ -40,6 +40,7 @@ $inventory->checkLogin();
                                         <th>Nombre</th>
                                         <th>Descripción</th>
                                         <th>Categoría</th>
+                                        <th>Promocion</th>
                                         <th>Precio</th>
                                         <th>Existencia</th>
                                         <th>Unidad</th>
@@ -54,6 +55,30 @@ $inventory->checkLogin();
         </div>
     </div>
 
+    <div id="successMessage" class="modal">
+		
+			<div class="modal-dialog modal-dialog-centered  rounded-0">
+					<div class="modal-content rounded-0">
+						<div class="modal-header">
+							<button type="button" class="btn-close text-xs" data-bs-dismiss="modal"></button>
+						</div>
+
+						<div class="modal-body">
+						<div class="container-fluid">
+							<div class="mb-3">
+									<label class="control-label"><h3>Registrado correctamente</h3></label>
+									
+								</div>
+							
+						</div>
+						</div>
+
+						<div class="modal-footer">							
+						</div>					
+					</div>
+			</div>
+
+		</div>
     <div id="productModal" class="modal fade">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -67,28 +92,33 @@ $inventory->checkLogin();
                         <input type="hidden" name="btn_action" id="btn_action" />
 
                         <div class="form-group">
-                            <label for="nombre">Nombre de Producto*</label>
+                            <label for="nombre">Nombre de Producto<label class="camposRojos">*</label></label>
                             <input type="text" name="nombre" id="nombre" class="form-control rounded-0" required />
+                            <div id="nombreError" class="error-message" style="display: none;"> <label class="camposRojos">Complete este campo.</label></div>
                         </div>
                         <div class="form-group">
-                            <label for="descripcion">Descripción de Producto</label>
+                            <label for="descripcion">Descripción de Producto<label class="camposRojos">*</label></label>
                             <textarea name="descripcion" id="descripcion" class="form-control rounded-0" rows="5" ></textarea>
+                            <div id="descripcionError" class="error-message" style="display: none;"> <label class="camposRojos">Complete este campo.</label></div>
                         </div>
                         <div class="form-group">
-                            <label for="categoria">Seleccionar Categoría*</label>
+                            <label for="categoria">Seleccionar Categoría<label class="camposRojos">*</label></label>
                             <select name="categoria" id="categoria" class="form-select rounded-0" required>
                                 <option value="">Seleccionar Categoría</option>
                                 <?php echo $inventory->categoryDropdownList(); ?>
                             </select>
+                            <div id="categoriaError" class="error-message" style="display: none;"> <label class="camposRojos">Seleccione una categoria.</label></div>
                         </div>      
                         <div class="form-group">
-                            <label for="precio">Precio base del producto*</label>
+                            <label for="precio">Precio base del producto<label class="camposRojos">*</label></label>
                             <input type="text" name="precio" id="precio" class="form-control rounded-0" required  />
+                            <div id="precioError" class="error-message" style="display: none;"> <label class="camposRojos">Complete este campo.</label></div>
                         </div>                  
                         <div class="form-group">
-                            <label for="existencia">Cantidad de Producto*</label>
+                            <label for="existencia">Cantidad de Producto<label class="camposRojos">*</label></label>
                             <div class="input-group">
                                 <input type="text" name="existencia" id="existencia" class="form-control rounded-0" required pattern="[0-9]+" />
+                                <div id="existenciaError" class="error-message" style="display: none;"> <label class="camposRojos"></label></div>
                                 <select name="unidad" class="form-select rounded-0" id="unidad" required>
                                     <option value="">Selecciona Unidad</option>
                                     <option value="Bolsos">Bolsos</option>
@@ -106,39 +136,60 @@ $inventory->checkLogin();
                                     <option value="Paquete">Paquete</option>
                                     <option value="Rollos">Rollos</option>
                                 </select>
+                                <div id="unidadError" class="error-message" style="display: none;"> <label class="camposRojos">Seleccione la unidad de conteo.</label></div>
                             </div>
                         </div>
+
                         <div class="form-group">
-                            <label for="fotoprincipal">Foto pricipal*</label>
-                            <input type="file" name="fotoprincipal" id="fotoprincipal" class="form-control rounded-0" multiple />                            
+                            <label for="promocion">Seleccionar promocion<label class="camposRojos">*</label></label>
+                            <select name="promocion" id="promocion" class="form-select rounded-0" required>
+                                <option value="">Seleccionar promocion</option>
+                                <?php echo $inventory->promocionDropdownList(); ?>
+                            </select>
+                            <div id="promocionError" class="error-message" style="display: none;"> <label class="camposRojos">Seleccione una promocion.</label></div>
+                        </div> 
+                        <div class="form-group">
+                            <label for="fotoprincipal">Foto pricipal<label class="camposRojos">*</label></label>
+                            <input type="file" name="fotoprincipal" id="fotoprincipal" class="form-control rounded-0" multiple />            
+                            <div id="fotoPError" class="error-message" style="display: none;"> <label class="camposRojos">Debe proporcionar la imagen que sera mostrada en el catalogo.</label></div>                
                         </div>    
                         <div class="form-group">
-                            <label for="foto1">Foto 1*</label>
-                            <input type="file" name="foto1" id="foto1" class="form-control rounded-0" multiple />                            
+                            <label for="foto1">Foto 1<label class="camposRojos">*</label></label>
+                            <input type="file" name="foto1" id="foto1" class="form-control rounded-0" multiple />          
+                            <div id="foto1Error" class="error-message" style="display: none;"> <label class="camposRojos">Debe proporcionar imagenes para mostrar en la descripcion del producto</label></div>                  
                         </div> 
                         <div class="form-group">
-                            <label for="foto2">Foto 2*</label>
-                            <input type="file" name="foto2" id="foto2" class="form-control rounded-0" multiple />                            
+                            <label for="foto2">Foto 2<label class="camposRojos">*</label></label>
+                            <input type="file" name="foto2" id="foto2" class="form-control rounded-0" multiple />
+                            <div id="foto2Error" class="error-message" style="display: none;"> <label class="camposRojos">Debe proporcionar imagenes para mostrar en la descripcion del producto</label></div>                             
                         </div> 
                         <div class="form-group">
-                            <label for="foto3">Foto 3*</label>
-                            <input type="file" name="foto3" id="foto3" class="form-control rounded-0" multiple />                            
+                            <label for="foto3">Foto 3<label class="camposRojos">*</label></label>
+                            <input type="file" name="foto3" id="foto3" class="form-control rounded-0" multiple /> 
+                            <div id="foto3Error" class="error-message" style="display: none;"> <label class="camposRojos">Debe proporcionar imagenes para mostrar en la descripcion del producto</label></div>                            
                         </div> 
                         <div class="form-group">
-                            <label for="foto4">Foto 4*</label>
-                            <input type="file" name="foto4" id="foto4" class="form-control rounded-0" multiple />                            
+                            <label for="foto4">Foto 4<label class="camposRojos">*</label></label>
+                            <input type="file" name="foto4" id="foto4" class="form-control rounded-0" multiple />     
+                            <div id="foto4Error" class="error-message" style="display: none;"> <label class="camposRojos">Debe proporcionar imagenes para mostrar en la descripcion del producto</label></div>                        
                         </div> 
                         <div class="form-group">
-                            <label for="foto1">Foto 5*</label>
-                            <input type="file" name="foto5" id="foto5" class="form-control rounded-0" multiple />                            
-                        </div>                                     
+                            <label for="foto5">Foto 5<label class="camposRojos">*</label></label>
+                            <input type="file" name="foto5" id="foto5" class="form-control rounded-0" multiple />   
+                            <div id="foto5Error" class="error-message" style="display: none;"> <label class="camposRojos">Debe proporcionar imagenes para mostrar en la descripcion del producto</label></div>                          
+                        </div>                                                         
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <label>* Campos obligatorios</label>	    
+                    <label><label class="camposRojos">* Campos obligatorios</label></label>	    
                     <input type="submit" name="action" id="action" class="btn btn-primary rounded-0 btn-sm" value="Agregar" form="productForm" />
                     <button type="button" class="btn btn-default border rounded-0 btn-sm" data-bs-dismiss="modal">Cerrar</button>
                 </div>
+                <style>
+                .camposRojos{
+                    color: #fb0101;                
+                }
+                </style>
             </div>
         </div>
     </div>

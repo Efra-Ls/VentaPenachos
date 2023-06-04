@@ -185,8 +185,7 @@ include('encabezado.php');
               <div class="testimonial-item">
                 <p> <img src="assets/img/quote-sign-left.png" class="quote-sign-left" alt=""> Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper. <img src="assets/img/quote-sign-right.png" class="quote-sign-right" alt=""> </p>
                 <img src="assets/img/testimonial-1.jpg" class="testimonial-img" alt="">
-                <h3>Saul Goodman</h3>
-                <h4>Ceo &amp; Founder</h4>
+                +
               </div>
             </div>
             <!-- End testimonial item -->

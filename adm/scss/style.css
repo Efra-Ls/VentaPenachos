@@ -83,6 +83,9 @@ body {
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+.hidden2 {
+  display: none;
+}
 
 hr {
   margin: 1rem 0;
@@ -5301,6 +5304,7 @@ textarea.form-control-lg {
 .modal-footer > * {
   margin: 0.25rem;
 }
+
 
 @media (min-width: 576px) {
   .modal-dialog {

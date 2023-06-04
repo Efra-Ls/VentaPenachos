@@ -74,11 +74,19 @@ if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'getPedidoDetails') {
 if(!empty($_POST['action']) && $_POST['action'] == 'listProduct') {
 	$inventory->getProductList();
 }
+//promociones
+if(!empty($_POST['action']) && $_POST['action'] == 'listPromocion') {
+	$inventory->getPromocionList();
+}
 if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'getCategoryBrand') {
 	echo $inventory->getCategoryBrand($_POST['categoryid']);
 }
 if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'addProduct') {
 	$inventory->addProduct();
+}
+//promocion 
+if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'addPromocion') {
+	$inventory->addPromocion();
 }
 if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'getProductDetails') {
 	$inventory->getProductDetails();
@@ -91,6 +99,10 @@ if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'deleteProduct'){
 }
 if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'viewProduct'){
 	$inventory->viewProductDetails();
+}
+//promocion
+if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'viewPromocion'){
+	$inventory->viewPromocionDetails();
 }
 if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'cargarProductos'){
 	$inventory->viewProductList();
