@@ -9,7 +9,9 @@ $inventory->checkLogin();
 <script src="js/jquery.dataTables.min.js"></script>
 <script src="js/dataTables.bootstrap.min.js"></script>
 <link rel="stylesheet" href="scss/dataTables.bootstrap.min.css" />
+<script src="js/inicioadm.js"></script>
 <script src="js/common.js"></script>
+
 <?php include('inc/container.php'); ?>
 <div class="container">
 	<?php include("menus.php"); ?>
@@ -19,22 +21,21 @@ $inventory->checkLogin();
 				<div class="card-header">
 					<div class="row">
 						<div class="col-lg-10 col-md-10 col-sm-8 col-xs-6">
-							<h3 class="card-title">Lista de pedidos</h3>
+							<h3 class="card-title">Lista de pedidos pagados, pendientes por enviar</h3>
 						</div>
 					</div>
 				</div>
 				<div class="card-body">
 					<div class="row">
 						<div class="col-sm-12 table-responsive">
-							<table id="inventoryDetailsX" class="table table-bordered table-striped">
+							<table id="pedidoListNoenviados" class="table table-bordered table-striped">
 								<thead>
-									<tr>
-										<th>#</th>
-										<th>Producto/Código</th>
+									<tr>							
+										<th>ID</th>
 										<th>Cliente</th>
 										<th>Fecha</th>
 										<th>Hora</th>
-										<th>Domicilio</th>
+										<th>Domicilio</th>										
 									</tr>
 								</thead>
 							</table>

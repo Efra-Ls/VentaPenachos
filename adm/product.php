@@ -178,7 +178,7 @@ $inventory->checkLogin();
                             <input type="file" name="foto5" id="foto5" class="form-control rounded-0" multiple />   
                             <div id="foto5Error" class="error-message" style="display: none;"> <label class="camposRojos">Debe proporcionar imagenes para mostrar en la descripcion del producto</label></div>                          
                         </div>                                                         
-                    </form>
+                    </form>                    
                 </div>
                 <div class="modal-footer">
                     <label><label class="camposRojos">* Campos obligatorios</label></label>	    

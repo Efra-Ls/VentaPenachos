@@ -51,6 +51,30 @@ $inventory->checkLogin();
         </div>
     </div>
 
+    <div id="successMessage" class="modal">
+		
+			<div class="modal-dialog modal-dialog-centered  rounded-0">
+					<div class="modal-content rounded-0">
+						<div class="modal-header">
+							<button type="button" class="btn-close text-xs" data-bs-dismiss="modal"></button>
+						</div>
+
+						<div class="modal-body">
+						<div class="container-fluid">
+							<div class="mb-3">
+									<label class="control-label"><h3>Registrado correctamente</h3></label>
+									
+								</div>
+							
+						</div>
+						</div>
+
+						<div class="modal-footer">							
+						</div>					
+					</div>
+			</div>
+
+		</div>
     <div id="promocionModal" class="modal fade">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -62,7 +86,6 @@ $inventory->checkLogin();
                     <form method="post"  id="promocionForm" >
                         <input type="hidden" name="id_promocion" id="id_promocion" />
                         <input type="hidden" name="btn_action" id="btn_action" />
-
                         <div class="form-group">
                         <label for="nombre">Nombre <label class="camposRojos">*</label></label>
                         <input type="text" name="nombre" id="nombre" class="form-control rounded-0" required />
@@ -82,10 +105,7 @@ $inventory->checkLogin();
                             <option value="Descuento por tiempo limitado">Descuento por tiempo limitado</option>
                         </select>
                         <div id="tipoError" class="error-message" style="display: none;"><label class="camposRojos">Seleccione un tipo.</label></div>
-                    </div> 
-                       
-                                 
-                                                
+                    </div>                                                                                                         
                         <!-- Campos específicos para Descuento por cantidad -->
                         <div class="form-group promocion-campos hidden2" id="descuentoCantidadCampos">
                             <label for="umbral_cantidad_descuento">Cantidad mínima de productos para aplicar la promocion<label class="camposRojos" for="umbral_cantidad_descuento">*</label></label>
@@ -168,140 +188,8 @@ $inventory->checkLogin();
                                         input.value = value;
                                         }
                                 </script>
-                                
-                                
-                        </div>
-                        <script>
-                            const nombreInput = document.getElementById('nombre');
-                            const descripcionInput = document.getElementById('descripcion');
-                            const tipoSelect = document.getElementById('tipo');
-                            const umbral_cantidad_descuentoInput = document.getElementById('umbral_cantidad_descuento');
-                            const porcentaje_descuentoInput = document.getElementById('porcentaje_descuento');
-                            const cantidad_compra_regaloInput = document.getElementById('cantidad_compra_regalo');
-                            const cantidad_regaloInput = document.getElementById('cantidad_regalo');
-                            const fecha_inicio_limitadoInput = document.getElementById('fecha_inicio_limitado');
-                            const fecha_fin_limitadoInput = document.getElementById('fecha_fin_limitado');
-                            const porcentaje_descuento_limitadoInput = document.getElementById('porcentaje_descuento_limitado');
-
-                            const nombreError = document.getElementById('nombreError');
-                            const descripcionError = document.getElementById('descripcionError');
-                            const tipoError = document.getElementById('tipoError');
-                            const cantMinError = document.getElementById('cantMinError');
-                            const porcentajeDescError = document.getElementById('porcentajeDescError');
-                            const cantMin2Error = document.getElementById('cantMin2Error');
-                            const cantRegError = document.getElementById('cantRegError');
-                            const fechaIniError = document.getElementById('fechaIniError');
-                            const fechaFinError = document.getElementById('fechaFinError');
-                            const porcentajeLimError = document.getElementById('porcentajeLimError');
-
-                            // Función para verificar y desactivar los inputs según el estado del anterior
-                            function verificarInputs() {
-                                descripcionInput.disabled = nombreInput.value.trim() === '';
-                                tipoSelect.disabled = descripcionInput.value.trim() === '';
-
-                                porcentaje_descuentoInput.disabled = !umbral_cantidad_descuentoInput.value;
-
-                                cantidad_regaloInput.disabled = !cantidad_compra_regaloInput.value;
-
-                                fecha_fin_limitadoInput.disabled = !fecha_inicio_limitadoInput.value;
-                                porcentaje_descuento_limitadoInput.disabled = !fecha_fin_limitadoInput.value;
-
-                                
-
-                                // Mostrar mensaje de error y establecer el foco en el campo anterior
-                                if (nombreInput.value.trim() === '') {
-                                    nombreError.style.display = 'block';
-                                    nombreInput.focus();
-                                } else {
-                                    nombreError.style.display = 'none';
-                                }
-
-                                if (descripcionInput.value.trim() === '') {
-                                    descripcionError.style.display = 'block';
-                                    descripcionInput.focus();
-                                } else {
-                                    descripcionError.style.display = 'none';
-                                }
-
-                                if (tipoSelect.value.trim() === '') {
-                                    tipoError.style.display = 'block';
-                                    tipoSelect.focus();
-                                } else {
-                                    tipoError.style.display = 'none';
-                                }
-                                // Mostrar mensaje de error y establecer el foco en el campo anterior
-                                if (umbral_cantidad_descuentoInput.value.trim() === '') {
-                                    porcentaje_descuentoInput.disabled = true;
-                                    cantMinError.style.display = 'block';
-                                    umbral_cantidad_descuentoInput.focus();
-                                } else {
-                                    porcentaje_descuentoInput.disabled = false;
-                                    cantMinError.style.display = 'none';
-                                }
-
-                                if (porcentaje_descuentoInput.value.trim() === '') {
-                                    porcentajeDescError.style.display = 'block';
-                                    porcentaje_descuentoInput.focus();
-                                } else {
-                                    porcentajeDescError.style.display = 'none';
-                                }
-
-                                if (cantidad_compra_regaloInput.value.trim() === '') {
-                                    cantMin2Error.style.display = 'block';
-                                    cantidad_compra_regaloInput.focus();
-                                } else {
-                                    cantMin2Error.style.display = 'none';
-                                }
-
-                                if (cantidad_regaloInput.value.trim() === '') {
-                                    cantRegError.style.display = 'block';
-                                    cantidad_regaloInput.focus();
-                                } else {
-                                    cantRegError.style.display = 'none';
-                                }
-
-                                if (fecha_inicio_limitadoInput.value.trim() === '') {
-                                    fechaIniError.style.display = 'block';
-                                    fecha_inicio_limitadoInput.focus();
-                                } else {
-                                    fechaIniError.style.display = 'none';
-                                }
-
-                                if (fecha_fin_limitadoInput.value.trim() === '') {
-                                    fechaFinError.style.display = 'block';
-                                    fecha_fin_limitadoInput.focus();
-                                } else {
-                                    fechaFinError.style.display = 'none';
-                                }
-
-                                if (porcentaje_descuento_limitadoInput.value.trim() === '') {
-                                    porcentajeLimError.style.display = 'block';
-                                    porcentaje_descuento_limitadoInput.focus();
-                                } else {
-                                    porcentajeLimError.style.display = 'none';
-                                }
-                                
-
-
-                            }
-
-                            // Evento onchange para el input 'nombre'
-                            nombreInput.addEventListener('change', verificarInputs);
-                            // Evento onchange para el input 'descripcion'
-                            descripcionInput.addEventListener('change', verificarInputs);
-                            // Evento onchange para el select 'tipo'
-                            tipoSelect.addEventListener('change', verificarInputs);
-
-                            umbral_cantidad_descuentoInput.addEventListener('change', verificarInputs);
-                            porcentaje_descuentoInput.addEventListener('change', verificarInputs);
-                            cantidad_compra_regaloInput.addEventListener('change', verificarInputs);
-                            cantidad_regaloInput.addEventListener('change', verificarInputs);
-                            fecha_inicio_limitadoInput.addEventListener('change', verificarInputs);
-                            fecha_fin_limitadoInput.addEventListener('change', verificarInputs);
-                            porcentaje_descuento_limitadoInput.addEventListener('change', verificarInputs);
-
-                        </script>
-                    </form>
+                        </div>                        
+                    </form>                    
                 </div>
                 <div class="modal-footer">
                     <label class="camposRojos">* Campos obligatorios</label>	    

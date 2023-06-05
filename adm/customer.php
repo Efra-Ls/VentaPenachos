@@ -98,8 +98,9 @@ $inventory->checkLogin();
 								</div>
 								<div class="mb-3">
 									<label class="control-label">Telefono<label class="camposRojos">*</label></label>
-									<input type="text" name="telefono" id="telefono" class="form-control rounded-0" required pattern="[0-9]+" maxlength="10" title="Este campo no acepta letras."/>
+									<input type="text" name="telefono" id="telefono" class="form-control rounded-0" required pattern="[0-9]{10}" maxlength="10" title="El telefono requiere de 10 digitos"/>
 									<div id="telefonoError" class="error-message" style="display: none;"> <label class="camposRojos">Complete este campo.</label></div>
+									<div id="telefonoErrorCorto" class="error-message" style="display: none;"><label class="camposRojos">El telefono no es correcto</label></div>
 								</div>
 								<div class="mb-3">
 									<label class="control-label">Correo<label class="camposRojos">*</label></label>

@@ -12,6 +12,7 @@ $inventory->checkLogin();
 <link rel="stylesheet" href="scss/dataTables.bootstrap.min.css" />
 <script src="js/pedidos.js"></script>
 <script src="js/common.js"></script>
+
 <?php include('inc/container.php'); ?>
 <div class="container">
 
@@ -50,11 +51,29 @@ $inventory->checkLogin();
         </div>
     </div>
 
+    <div id="successMessage" class="modal">		
+			<div class="modal-dialog modal-dialog-centered  rounded-0">
+					<div class="modal-content rounded-0">
+						<div class="modal-header">
+							<button type="button" class="btn-close text-xs" data-bs-dismiss="modal"></button>
+						</div>
+						<div class="modal-body">
+						<div class="container-fluid">
+							<div class="mb-3">
+									<label class="control-label"><h3>Registrado correctamente</h3></label>									
+								</div>							
+						</div>
+						</div>
+						<div class="modal-footer">							
+						</div>					
+					</div>
+			</div>
+	</div>
     <div id="pedidoModal" class="modal fade">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title"><i class="fa fa-plus"></i> Agregar Pedido</h4>
+                    <h4 class="modal-title"><i class="fa fa-plus"></i> Actualizar estado del pedido</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
@@ -63,48 +82,39 @@ $inventory->checkLogin();
                         <input type="hidden" name="btn_action" id="btn_action" />
 
                         <div class="form-group">
-                            <label>Nombre de Producto</label>
-                            <input type="text" name="nombre" id="nombre" class="form-control rounded-0" required />
+                            <label>Nombre del cliente</label>
+                            <input type="text" name="nombrec" id="nombrec" class="form-control rounded-0"  disabled=true />
                         </div>
                         <div class="form-group">
-                            <label>Descripción de Producto</label>
-                            <textarea name="descripcion" id="descripcion" class="form-control rounded-0" rows="5" required></textarea>
+                            <label>Fecha</label>
+                            <input type=date name="fecha" id="fecha" class="form-control rounded-0" rows="5"  disabled=true></input>
                         </div>      
                         <div class="form-group">
-                            <label>Precio base del producto</label>
-                            <input type="text" name="precio" id="precio" class="form-control rounded-0" required pattern="[+-]?([0-9]*[.])?[0-9]+" />
-                        </div>                  
+                            <label>Hora</label>
+                            <input type="text" name="hora" id="hora" class="form-control rounded-0" disabled=true/>
+                        </div>    
                         <div class="form-group">
-                            <label>Cantidad de Producto</label>
-                            <div class="input-group">
-                                <input type="text" name="existencia" id="existencia" class="form-control rounded-0" required pattern="[+-]?([0-9]*[.])?[0-9]+" />
-                                <select name="unidad" class="form-select rounded-0" id="unidad" required>
-                                    <option value="">Selecciona Unidad</option>
-                                    <option value="Bolsos">Bolsos</option>
-                                    <option value="Botellas">Botellas</option>
-                                    <option value="Cajas">Cajas</option>
-                                    <option value="Docenas">Docenas</option>
-                                    <option value="Pies">Pies</option>
-                                    <option value="Galones">Galones</option>
-                                    <option value="Gramos">Gramos</option>
-                                    <option value="Pulgadas">Pulgadas</option>
-                                    <option value="Kilos">Kilos</option>
-                                    <option value="Litros">Litros</option>
-                                    <option value="Metros">Metros</option>
-                                    <option value="Números">Números</option>
-                                    <option value="Paquete">Paquete</option>
-                                    <option value="Rollos">Rollos</option>
+                            <label>Direccion</label>
+                            <input type="text" name="direccion" id="direccion" class="form-control rounded-0" disabled=true/>
+                        </div>                 
+                        <div class="form-group">
+                            <label>Estado</label>
+                            <div class="input-group">                                
+                                <select name="estado" class="form-select rounded-0" id="estado" required>
+                                    <option value="">Seleccione el estado</option>
+                                    <option value="Pendiente de pago">Pendiente de pago</option>
+                                    <option value="Pagado">Pagado</option>
+                                    <option value="En proceso">En proceso</option>
+                                    <option value="Enviado">Enviado</option>
+                                    <option value="Entregado">Entregado</option>
+                                    <option value="Cancelado">Cancelado</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Foto</label>
-                            <input type="text" name="foto" id="foto" class="form-control rounded-0" required />
-                        </div>                                               
+                        </div>                                                                       
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" name="action" id="action" class="btn btn-primary rounded-0 btn-sm" value="Agregar" form="productForm" />
+                    <input type="submit" name="action" id="action" class="btn btn-primary rounded-0 btn-sm" value="Agregar" form="pedidoForm" />
                     <button type="button" class="btn btn-default border rounded-0 btn-sm" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>

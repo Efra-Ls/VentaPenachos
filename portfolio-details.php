@@ -105,7 +105,7 @@
         <div class="d-flex justify-content-between align-items-center">
           <h2>Detalles del Producto</h2>
           <ol>
-            <li><a href="index.php">Pagina Principal</a></li>
+            <li><a href="index.php">Página Principal</a></li>
             <li><a href="portfolio.php">Productos</a></li>
             <li>Detalles de Productos</li>
           </ol>

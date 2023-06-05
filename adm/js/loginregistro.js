@@ -209,8 +209,18 @@ $(document).on('input', '#cnombre', function(event) {
 });
 $(document).on('input', '#telefono', function(event) {
     const telefonoInput =  event.target;
-    const valor=telefonoInput.value.replace(/[^\d]/g, '');
-    telefonoInput.value=valor;
+        const valor=telefonoInput.value.replace(/[^\d]/g, '');
+        telefonoInput.value=valor;
+
+        var telefonoError = document.getElementById('telefonoErrorCorto');
+        
+        if (telefonoInput.value.length !== 10) {
+            telefonoError.style.display = 'block';
+            telefonoInput.style.color = 'red';
+        } else {
+            telefonoError.style.display = 'none';
+            telefonoInput.style.color = 'black';
+        }
 });
     $(document).on('input', '#correo', function(event) {
         const correoInput =  event.target;

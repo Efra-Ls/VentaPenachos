@@ -130,8 +130,16 @@ document.getElementById("passwordR").addEventListener("input", function() {
     $('#addCustomer').click(function() {
         $('#customerModal').modal('show');
         $('#customerForm')[0].reset();
-        $('.modal-title').html("<i class='fa fa-plus'></i> Agregar Cliente");        
+        $('.modal-title').html("<i class='fa fa-plus'></i> Agregar Cliente"); 
+        $('#successMessage').find('.mb-3').html('<label class="control-label"><h3>Registrado corectamente</h3></label>');       
+        
+        const contra = document.getElementById('passwordR');
+        contra.setAttribute('required', 'required');
+        const contraConf = document.getElementById('confirmPassword');
+        contraConf.setAttribute('required', 'required');
+        
         verificarInputs();
+
         //$('#passwordContainer').removeClass('hidden2');
           //  $('#passwordContainerConf').removeClass('hidden2');
 
@@ -151,57 +159,98 @@ document.getElementById("passwordR").addEventListener("input", function() {
             "target": [0, 5],
             "orderable": false
         }],
-        "pageLength": 50,
+        "pageLength": 100,
         'rowCallback': function(row, data, index) {
             $(row).find('td').addClass('align-middle')
             $(row).find('td:eq(0), td:eq(5)').addClass('text-center')
             $(row).find('td:eq(4)').addClass('text-end')
         },
     });
+    function validarTelefono() {
+        var telefonoInput = document.getElementById('telefono');
+        var telefono = telefonoInput.value;
+        
+        if (telefono.length !== 10) {
+          alert("El teléfono no es válido");
+          return false;
+        }
+        return true;
+        // Continuar con la acción deseada, como enviar el formulario o realizar alguna otra operación
+      }
 
     $(document).on('submit', '#customerForm', function(event) {
         event.preventDefault();
         var formData = $(this).serialize();
+        if ($('#btn_action').val() === "customerUpdate") {
+            console.log('testt222')
+                    $('#action').attr('disabled', 'disabled');
+                    
+                    $.ajax({
+                        url: "action.php",
+                        method: "POST",
+                        data: formData,
+                        success: function(data) {
+                            $('#customerForm')[0].reset();
+                            $('#customerModal').modal('hide');
+                            $('#alert_action').fadeIn().html('<div class="alert alert-success">' + data + '</div>');
+                            $('#action').attr('disabled', false);
+                            verificarInputs();
+                            userdataTable.ajax.reload();    
+                            // Mostrar mensaje "Registrado correctamente"
+                            //$('#successMessage').fadeIn().html('Registrado correctamente');
+                            setTimeout(function() {                                                
+                                //$('#successMessage').fadeOut('slow');
+                                $('#successMessage').modal('show');
+                                seguridadElement.style.display = "none";
+                            });   
+                        }
+                    });
+        }else{
 
-        if(validarSeguridadContrasena(contraInput.value)==='Fuerte') {
-            if (validatePasswords()) {
-                console.log('testt')
-                $('#action').attr('disabled', 'disabled');
-                
-                $.ajax({
-                    url: "action.php",
-                    method: "POST",
-                    data: formData,
-                    success: function(data) {
-                        $('#customerForm')[0].reset();
-                        $('#customerModal').modal('hide');
-                        $('#alert_action').fadeIn().html('<div class="alert alert-success">' + data + '</div>');
-                        $('#action').attr('disabled', false);
-                        verificarInputs();
-                        userdataTable.ajax.reload();    
-                        // Mostrar mensaje "Registrado correctamente"
-                        //$('#successMessage').fadeIn().html('Registrado correctamente');
-                        setTimeout(function() {                                                
-                            //$('#successMessage').fadeOut('slow');
-                            $('#successMessage').modal('show');
-                            seguridadElement.style.display = "none";
-                        });   
-                    }
-                });
-                
+            if(validarSeguridadContrasena(contraInput.value)==='Fuerte') {
+                if (validatePasswords()) {
+                    console.log('testt')
+                    $('#action').attr('disabled', 'disabled');
+                    
+                    $.ajax({
+                        url: "action.php",
+                        method: "POST",
+                        data: formData,
+                        success: function(data) {
+                            $('#customerForm')[0].reset();
+                            $('#customerModal').modal('hide');
+                            $('#alert_action').fadeIn().html('<div class="alert alert-success">' + data + '</div>');
+                            $('#action').attr('disabled', false);
+                            verificarInputs();
+                            userdataTable.ajax.reload();    
+                            // Mostrar mensaje "Registrado correctamente"
+                            //$('#successMessage').fadeIn().html('Registrado correctamente');
+                            setTimeout(function() {                                                
+                                //$('#successMessage').fadeOut('slow');
+                                $('#successMessage').modal('show');
+                                seguridadElement.style.display = "none";
+                            });   
+                        }
+                    });
+                }
+            }else{
+                alert("La seguridad de la contraseña es debil");
+                $('input[name="passwordR"]').focus(); // Establece el enfoque en el campo de confirmar contraseña
+            //}
+            }
         }
-    }else{
-        alert("La seguridad de la contraseña es debil");
-        $('input[name="passwordR"]').focus(); // Establece el enfoque en el campo de confirmar contraseña
-    }
     });
 
         $(document).on('click', '.update', function() {
             var userid = $(this).attr("id_cliente");
             var btn_action = 'getCustomer';
+            $('#successMessage').find('.mb-3').html('<label class="control-label"><h3>Actualizado correctamente</h3></label>');
             //$('#passwordContainer').addClass('hidden2');
             //$('#passwordContainerConf').addClass('hidden2');
-            
+            const contra = document.getElementById('passwordR');
+            contra.removeAttribute('required');
+            const contraConf = document.getElementById('confirmPassword');
+            contraConf.removeAttribute('required');
             $.ajax({
                 url: "action.php",
                 method: "POST",
@@ -218,6 +267,7 @@ document.getElementById("passwordR").addEventListener("input", function() {
                     $('.modal-title').html("<i class='fa fa-edit'></i> Editar Cliente");
                     $('#userid').val(userid);
                     $('#btn_action').val('customerUpdate');
+
                     verificarInputs();
                     
                 }
@@ -229,13 +279,17 @@ document.getElementById("passwordR").addEventListener("input", function() {
     $(document).on('click', '.delete', function() {
         var correo = $(this).attr("correo");
         var btn_action = "customerDelete";
+        $('#successMessage').find('.mb-3').html('<label class="control-label camposRojos"><h3>Eliminado correctamente</h3></label>');
         if (confirm("¿Está seguro de que desea eliminar este cliente?")) {
             $.ajax({
                 url: "action.php",
                 method: "POST",
                 data: { correo: correo, btn_action: btn_action },
                 success: function(data) {
-                    $('#alert_action').fadeIn().html('<div class="alert alert-info">' + data + '</div>');
+                    setTimeout(function() {                                                
+                        //$('#successMessage').fadeOut('slow');                                        
+                        $('#successMessage').modal('show');                    
+                    });
                     userdataTable.ajax.reload();
                 }
             })
@@ -252,6 +306,16 @@ document.getElementById("passwordR").addEventListener("input", function() {
         const telefonoInput =  event.target;
         const valor=telefonoInput.value.replace(/[^\d]/g, '');
         telefonoInput.value=valor;
+
+        var telefonoError = document.getElementById('telefonoErrorCorto');
+        
+        if (telefonoInput.value.length !== 10) {
+            telefonoError.style.display = 'block';
+            telefonoInput.style.color = 'red';
+        } else {
+            telefonoError.style.display = 'none';
+            telefonoInput.style.color = 'black';
+        }
     }); 
     $(document).on('input', '#correo', function(event) {
         const correoInput =  event.target;

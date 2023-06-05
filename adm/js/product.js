@@ -175,7 +175,7 @@ $(document).ready(function() {
             "targets": [0, 8],
             "orderable": false,
         }, ],
-        "pageLength": 50,
+        "pageLength": 100,
         'rowCallback': function(row, data, index) {
             $(row).find('td').addClass('align-middle')
             $(row).find('td:eq(0), td:eq(3),td:eq(4),td:eq(5),td:eq(6)').addClass('text-center')
@@ -190,6 +190,7 @@ $(document).ready(function() {
         $('.modal-title').html("<i class='fa fa-plus'></i> Agregar Producto");
         $('#action').val("Agregar");
         $('#btn_action').val("addProduct");
+        $('#successMessage').find('.mb-3').html('<label class="control-label"><h3>Registrado corectamente</h3></label>');
         verificarInputs();
     });
 
@@ -247,6 +248,7 @@ $(document).ready(function() {
         
         var id_producto = $(this).attr("id_producto");
         var btn_action = 'getProductDetails';
+        $('#successMessage').find('.mb-3').html('<label class="control-label"><h3>Actualizado correctamente</h3></label>');
         $.ajax({
             url: "action.php",
             method: "POST",
@@ -258,6 +260,7 @@ $(document).ready(function() {
                 $('#nombre').val(data.nombre);
                 $('#descripcion').val(data.descripcion);
                 $('#categoria').val(data.categoria);
+                $('#promocion').val(data.promocion);
                 $('#precio').val(data.precio);
                 $('#existencia').val(data.existencia);
                 $('#unidad').val(data.unidad);
@@ -274,13 +277,17 @@ $(document).ready(function() {
     $(document).on('click', '.delete', function() {
         var id_producto = $(this).attr("id_producto");
         var btn_action = 'deleteProduct';
+        $('#successMessage').find('.mb-3').html('<label class="control-label camposRojos"><h3>Eliminado correctamente</h3></label>');
         if (confirm("¿Está seguro de que desea eliminar este producto?")) {
             $.ajax({
                 url: "action.php",
                 method: "POST",
                 data: { id_producto: id_producto, btn_action: btn_action },
                 success: function(data) {
-                    $('#alert_action').fadeIn().html('<div class="alert alert-info">' + data + '</div>');
+                    setTimeout(function() {                                                
+                        //$('#successMessage').fadeOut('slow');                                        
+                        $('#successMessage').modal('show');                    
+                });
                     productData.ajax.reload();
                 }
             });

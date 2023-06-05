@@ -22,9 +22,27 @@ if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'customerAdd'){
 if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'getCustomer'){
 	$inventory->getCustomer();
 }
+if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'getCustomerInicio'){
+	$inventory->getCustomerInicio();
+}
+if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'getContraInicio'){
+	$inventory->getContraInicio();
+}
+
+if(!empty($_POST['btn_actionC']) && $_POST['btn_actionC'] == 'updateContraPerfil'){
+	$inventory->updateContraPerfil();
+}
+if(!empty($_POST['btn_actionD']) && $_POST['btn_actionD'] == 'updateDireccionPerfil'){
+	$inventory->updateDireccionPerfil();
+}
+
 if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'customerUpdate'){
 	$inventory->updateCustomer();
 }
+if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'updateCustomerPerfil'){
+	$inventory->updateCustomerPerfil();
+}
+
 if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'customerDelete'){
 	$inventory->deleteCustomer();
 }
@@ -64,6 +82,9 @@ if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'deleteBrand'){
 if(!empty($_POST['action']) && $_POST['action'] == 'listPedido') {
 	$inventory->getPedidoList();
 }
+if(!empty($_POST['action']) && $_POST['action'] == 'listPedidoNoenviados') {
+	$inventory->listPedidoNoenviados();
+}
 if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'viewPedido'){
 	$inventory->viewPedidoDetails();
 }
@@ -91,11 +112,23 @@ if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'addPromocion') {
 if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'getProductDetails') {
 	$inventory->getProductDetails();
 }
+if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'getPromocionDetails') {
+	$inventory->getPromocionDetails();
+}
 if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'updateProduct'){	
 	$inventory->updateProduct();
 }
+if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'updatePedido'){	
+	$inventory->updatePedido();
+}
+if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'updatePromocion'){	
+	$inventory->updatePromocion();
+}
 if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'deleteProduct'){
 	$inventory->deleteProduct();
+}
+if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'deletePromocion'){
+	$inventory->deletePromocion();
 }
 if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'viewProduct'){
 	$inventory->viewProductDetails();

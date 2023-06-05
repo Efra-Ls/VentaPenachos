@@ -15,7 +15,7 @@ $(document).ready(function() {
             "targets": [0, 6],
             "orderable": false,
         }, ],
-        "pageLength": 20,
+        "pageLength": 100,
         'rowCallback': function(row, data, index) {
             $(row).find('td').addClass('align-middle')
             $(row).find('td:eq(0), td:eq(3)').addClass('text-center')
@@ -34,6 +34,10 @@ $(document).ready(function() {
                 $('#pedidoForm')[0].reset();
                 $('#pedidoModal').modal('hide');
                 $('#action').attr('disabled', false);
+                setTimeout(function() {                                                
+                    //$('#successMessage').fadeOut('slow');                    
+                    $('#successMessage').modal('show');                    
+            });
                 pedidoData.ajax.reload();
             }
         })
@@ -56,6 +60,7 @@ $(document).ready(function() {
     $(document).on('click', '.update', function() {
         var id_pedido = $(this).attr("id_pedido");
         var btn_action = 'getPedidoDetails';
+        $('#successMessage').find('.mb-3').html('<label class="control-label"><h3>Actualizado correctamente</h3></label>');
         $.ajax({
             url: "action.php",
             method: "POST",
@@ -69,10 +74,10 @@ $(document).ready(function() {
                 $('#hora').val(data.hora);
                 $('#direccion').val(data.direccion);
                 $('#estado').val(data.estado);
-                $('.modal-title').html("<i class='fa fa-edit'></i> Editar Producto");
+                $('.modal-title').html("<i class='fa fa-edit'></i> Actualizar estado del pedido");
                 $('#id_pedido').val(id_pedido);
                 $('#action').val("Editar");
-                $('#btn_action').val("updateProduct");
+                $('#btn_action').val("updatePedido");
             }
         })
     });
@@ -80,13 +85,17 @@ $(document).ready(function() {
     $(document).on('click', '.delete', function() {
         var id_producto = $(this).attr("id_producto");
         var btn_action = 'deleteProduct';
+        $('#successMessage').find('.mb-3').html('<label class="control-label camposRojos"><h3>Eliminado correctamente</h3></label>');
         if (confirm("¿Está seguro de que desea eliminar este producto?")) {
             $.ajax({
                 url: "action.php",
                 method: "POST",
                 data: { id_producto: id_producto, btn_action: btn_action },
                 success: function(data) {
-                    $('#alert_action').fadeIn().html('<div class="alert alert-info">' + data + '</div>');
+                    setTimeout(function() {                                                
+                        //$('#successMessage').fadeOut('slow');                                        
+                        $('#successMessage').modal('show');                    
+                });
                     productData.ajax.reload();
                 }
             });

@@ -25,7 +25,7 @@ $inventory->checkLogin();
 							<h3 class="card-title">Listado de Categorías</h3>
 						</div>
 						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 text-end">
-							<button type="button" name="add" id="categoryAdd" data-bs-toggle="modal" data-bs-target="#categoryModal" class="btn btn-primary btn-sm bg-gradient rounded-0"><i class="far fa-plus-square"></i> Agregar Categoría</button>
+						<button type="button" name="add" id="categoryAdd" class="btn btn-primary bg-gradient rounded-0 btn-sm"><i class="far fa-plus-square"></i> Agregar categoria</button>
 						</div>
 					</div>
 					<div style="clear:both"></div>
@@ -48,6 +48,31 @@ $inventory->checkLogin();
 			</div>
 		</div>
 	</div>
+
+	<div id="successMessage" class="modal">
+		
+			<div class="modal-dialog modal-dialog-centered  rounded-0">
+					<div class="modal-content rounded-0">
+						<div class="modal-header">
+							<button type="button" class="btn-close text-xs" data-bs-dismiss="modal"></button>
+						</div>
+
+						<div class="modal-body">
+						<div class="container-fluid">
+							<div class="mb-3">
+									<label class="control-label"><h3>Registrado correctamente</h3></label>
+									
+								</div>
+							
+						</div>
+						</div>
+
+						<div class="modal-footer">							
+						</div>					
+					</div>
+			</div>
+
+		</div>
 	<div id="categoryModal" class="modal fade">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
@@ -55,18 +80,36 @@ $inventory->checkLogin();
 					<h4 class="modal-title"><i class="fa fa-plus"></i> Agregar Categoría</h4>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				</div>
-				<div class="modal-body">					
-					<form method="post" id="categoryForm">
-						<input type="hidden" name="id_categoria" id="id_categoria" />
-						<input type="hidden" name="btn_action" id="btn_action" />
-						<label>Nombre Categoría</label>
-						<input type="text" name="categoria" id="categoria" class="form-control rounded-0" required />
-					</form>
-				</div>
-				<div class="modal-footer">					
-					<button type="submit" name="action" id="action" class="btn btn-sm rounded-0 btn-primary" form="categoryForm" data-bs-dismiss="modal">Guardar</button>
-					<button type="button" class="btn btn-default btn-sm rounded-0 border" data-bs-dismiss="modal">Cerrar</button>
-				</div>
+			    	<div class="modal-body">					
+						<form method="post" id="categoryForm">
+							<input type="hidden" name="id_categoria" id="id_categoria" />
+							<input type="hidden" name="btn_action" id="btn_action" />
+
+							<div class="form-group">
+								<label>Nombre Categoría<label class="camposRojos">*</label>	</label>
+								<input type="text" name="categoria" id="categoria" class="form-control rounded-0" required />
+
+								<div id="categoriaError" class="error-message" style="display: none;">
+									<label class="camposRojos">Complete este campo.</label>
+								</div>
+
+							</div>
+							
+						 </form>
+
+
+					 </div> 
+
+				<div class="modal-footer">	
+					<label class="camposRojos">* Campos obligatorios</label>										
+						<input type="submit" name="action" id="action" class="btn btn-primary rounded-0 btn-sm" value="Agregar" form="categoryForm" />
+						<button type="button" class="btn btn-default border rounded-0 btn-sm" data-bs-dismiss="modal">Cerrar</button>
+				 </div>
+					<style>
+					.camposRojos{
+						color: #fb0101;                
+					}
+					</style>
 			</div>
 		</div>
 	</div>
