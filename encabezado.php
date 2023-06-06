@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    
+    <link rel="stylesheet" href="assets/css/icons.min.css">
   <?php
   ob_start();
   session_start();
@@ -11,11 +11,10 @@
   ?>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
- 
+
   <title>Arte Plumario</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
-
 
 
   <!-- Font Awesome -->
@@ -48,7 +47,7 @@
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/ve2ndor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
@@ -59,7 +58,7 @@
   <!-- Incluye los archivos CSS de Bootstrap -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
   <!-- Agrega una clase personalizada al elemento img para hacerlo opaco -->
- 
+
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="assets/css/bootstrap.min.css">
   <!-- Icon Font CSS -->
@@ -76,6 +75,5 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
-  
-  
+
 </head>

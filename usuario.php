@@ -275,10 +275,10 @@
                                     </div>
                                 </div>
                                 <script>
-    function abrirMisCompras() {
-        window.location.href = 'misCompras.php';
-    }
-</script>
+                                    function abrirMisCompras() {
+                                        window.location.href = 'misCompras.php';
+                                    }
+                                </script>
                             </div>
                         </div>
                     </div>
@@ -287,11 +287,11 @@
             </div>
         </section>
     </main><!-- End #main -->
-
+    <script src="assets/js/vendor/jquery-1.12.4.min.js"></script>
     <?php
     include('footer.php');
     ?>
-    <script src="assets/js/vendor/jquery-1.12.4.min.js"></script>
+    
     <script src="assets/js/usuarioCliente.js"></script>
     <script src="assets/js/usuarioContras.js"></script>
     <script src="assets/js/usuarioDomicilio.js"></script>
