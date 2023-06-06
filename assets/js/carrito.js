@@ -8,7 +8,7 @@ $(document).ready(function() {
         "ajax": {
             url: "adm/action.php",
             type: "POST",
-            data: { action: 'misComprasList',id_cliente:userid },
+            data: { action: 'miscosasCarrito',id_cliente:userid },
             dataType: "json"
         },
         "columnDefs": [{
