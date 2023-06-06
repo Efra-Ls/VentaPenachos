@@ -36,7 +36,6 @@
     }
     </style>
     <main id="main">
-
         <!-- ======= Breadcrumbs Section ======= -->
         <section class="breadcrumbs">
             <div class="container">

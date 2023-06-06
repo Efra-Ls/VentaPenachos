@@ -20,6 +20,7 @@
 </head>
 
 <body>
+<script src="assets/js/cargarproductos.js"></script>
 
   <!-- ======= Top Bar ======= -->
   
@@ -66,7 +67,7 @@
           </div>
         </div>        
         <div id="viewproductList" class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
-
+ 
         </div>        
       </div>    
     </section>
@@ -74,12 +75,12 @@
 
   <!-- ======= Footer ======= -->
   
-
+  
     <!-- FOOTER -->
     <?php
     include('footer.php');
     ?>
-   <script src="assets/js/cargarproductos.js"></script>
+   
 
 
 </body>

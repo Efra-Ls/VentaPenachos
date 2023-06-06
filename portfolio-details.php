@@ -60,42 +60,16 @@
   </section><!-- End Top Bar-->
 
   <!-- ======= Header ======= -->
-<header id="header" class="d-flex align-items-center">
-    <div class="container d-flex justify-content-between">
+	<?php
+  include('menu.php');
+  ?>
 
-      <div id="logo">
-        <h1><a href="index.php">Arte<span>Plumario</span></a></h1>
-        <!-- Uncomment below if you prefer to use an image logo -->
-        <!-- <a href="index.html"><img src="assets/img/logo.png" alt=""></a>-->
-      </div>
-
-      <nav id="navbar" class="navbar">
-        <ul>
-          <li><a class="nav-link scrollto" href="index.php">Principal</a></li>	
-          <li><a class="nav-link scrollto" href="index.php#about">Quienes Somos</a></li>
-          <li><a class="nav-link scrollto" href="inner-page.php">Productos</a></li>          
-          <li><a class="nav-link scrollto" href="index.php#team">Equipo</a></li>
-          <li><a class="nav-link scrollto" href="index.php#testimonials">Testimonios&nbsp;</a></li>
-          <li><a class="nav-link scrollto" href="index.php#contact">Contactanos</a></li>
-          <?php
-          if (!empty($_SESSION['name'])) {
-        ?>
-            <li><a class="nav-link scrollto" href="adm/login.php">Salir</a></li>
-          <?php
-             }else{              
-          ?>
-          <li><a class="nav-link scrollto" href="adm/login.php">Ingresar</a></li>
-          <?php
-             }
-          ?>
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
-
-    </div>
-  </header>
+<script>
+    var userid = '<?php echo $_SESSION['id_cliente']; ?>';
+    var correoU ='<?php echo $_SESSION['userid']; ?>';
+</script>
 	<!-- End Header -->
-
+  <script src="assets/js/verMasDetallesProducto.js"></script>
   <main id="main">
 
     <!-- ======= Breadcrumbs Section ======= -->
@@ -130,15 +104,32 @@
           
 
           <div class="col-lg-4">
-            <div class="portfolio-info">
-              <h3>Informacion del Producto</h3>
-              <ul>
-                <li><strong>Categoria</strong>: Penachos</li>
-                <li><strong>Cliente</strong>: ASU Company</li>
-                <li><strong>Fecha de Entrega</strong>: 15 de Noviembre, 2022</li>
-                <li><strong>Project URL</strong>: <a href="#">www.example.com</a></li>
-              </ul>
+            <div class="portfolio-info" id="verMasDetalleProductos">
+              
             </div>
+
+            <form method="post" id="datosProductoForm">
+                <input type="hidden" name="id_producto" id="id_producto" /> 
+                <input type="hidden" name="id_carrito" id="id_carrito" />  
+                <label class="control-label">Cantidad</label>   
+                <input type="number" name="cantidad" id="cantidad" min="1" max="100" required/>           
+                <input type="hidden" name="btn_action" id="btn_action" />						
+						 </form>
+             <input type="submit" name="action" id="action" class="btn btn-primary rounded-0 btn-sm" value="+Agregar al carrito" form="datosProductoForm" 
+             <?php
+            if (!empty($_SESSION['cname'])) {
+              ?>
+              
+              <?php
+            } else {
+              ?>
+                disabled
+              <?php
+            }
+            ?>
+             
+             />
+
             <div class="portfolio-description">
               <h2>Acerca de la elaboracion de nuestros Penachos</h2>
               <p>
@@ -181,7 +172,7 @@
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
-  <script src="assets/js/verMasDetallesProducto.js"></script>
+ 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 

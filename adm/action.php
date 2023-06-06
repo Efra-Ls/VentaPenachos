@@ -147,6 +147,20 @@ if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'cargarProductos'){
 if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'verMasImagenesProductos'){
 	$inventory->verMasImagenesProductos();
 }
+if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'verMasDetalleProductos'){
+	$inventory->verMasDetalleProductos();
+} 
+if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'agregaralCarrito'){
+	$inventory->agregaralCarrito();
+}
+if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'cargarExistencia'){
+	$inventory->cargarExistencia();
+}
+if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'cargarIdCarrito'){
+	$inventory->cargarIdCarrito();
+}
+
+
 // manage supplier
 if(!empty($_POST['action']) && $_POST['action'] == 'supplierList') {
 	$inventory->getSupplierList();

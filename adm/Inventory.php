@@ -13,6 +13,8 @@ class Inventory
 	private $brandTable = 'ims_brand';
 	private $productTable = 'producto';
 	private $promocionTable = 'promocion';
+	private $carritoTable = 'carrito';
+	private $detallecarritoTable = 'detallecarrito';
 	private $supplierTable = 'ims_supplier';
 	private $purchaseTable = 'ims_purchase';
 	private $orderTable = 'ims_order';
@@ -230,6 +232,18 @@ class Inventory
 
 		echo 'New Customer Added';
 	}
+
+	public function agregaralCarrito()
+	{
+		$sqlInsert = "
+			INSERT INTO " . $this->detallecarritoTable . "
+			VALUES ('" . $_POST['id_carrito'] . "', '" . $_POST['id_producto'] . "', '" . $_POST['cantidad'] . "')";
+		mysqli_query($this->dbConnect, $sqlInsert);		
+
+		echo 'Agredado al carrito';
+	}
+	
+
 	public function updateCustomer()
 	{
 		if ($_POST['userid']) {
@@ -945,6 +959,29 @@ class Inventory
 		}
 		echo json_encode($output);
 	}
+	public function cargarExistencia()
+	{
+		$sqlQuery = "SELECT * FROM producto WHERE id_producto = '" . $_POST["id_producto"] . "'";
+		$result = mysqli_query($this->dbConnect, $sqlQuery);
+		while ($product = mysqli_fetch_assoc($result)) {
+			$output['existencia'] = $product['existencia'];
+			$output['id_producto'] = $product['id_producto'];
+			//$output['foto'] = $product['foto'];
+		}
+		echo json_encode($output);
+	}
+
+	public function cargarIdCarrito()
+	{
+		$sqlQuery = "SELECT * FROM carrito WHERE id_cliente = '" . $_POST["id_cliente"] . "'";
+		$result = mysqli_query($this->dbConnect, $sqlQuery);
+		while ($product = mysqli_fetch_assoc($result)) {
+			$output['id_carrito'] = $product['id_carrito'];
+			//$output['foto'] = $product['foto'];
+		}
+		echo json_encode($output);
+	}
+	
 	public function updateProduct()
 	{		
 		$precio = str_replace(',', '', $_POST['precio']);
@@ -1228,6 +1265,27 @@ class Inventory
 		}
 		echo $imagenesextra;
 	}
+	
+	public function verMasDetalleProductos()
+	{
+		$sqlQuery = "SELECT pr.id_producto,pr.nombre,pr.descripcion,c.nombre as categoria,pr.precio,pr.existencia,pr.unidad FROM " . $this->productTable . " as pr INNER JOIN categoria as c ON pr.id_categoria=c.id_categoria WHERE id_producto = '" . $_POST["id_producto"] . "'";
+		$result = mysqli_query($this->dbConnect, $sqlQuery);
+	
+		$detallesextra = "<h3>Informacion del Producto</h3>
+		<ul>";
+
+		while ($product = mysqli_fetch_assoc($result)) {
+			$detallesextra .= "<li><strong>Nombre</strong>: ".$product["nombre"]."</li>";
+			$detallesextra .= "<li><strong>Descripcion</strong>: ".$product["descripcion"]."</li>";
+			$detallesextra .= "<li><strong>Categoria</strong>: ".$product["categoria"]."</li>";
+			$detallesextra .= "<li><strong>Precio</strong>: $".$product["precio"]."</li>";
+			$detallesextra .= "<li><strong>Existencia</strong>: ".$product["existencia"]."  ".$product["unidad"]."</li>";
+		}
+		$detallesextra .= "</ul>";
+		echo $detallesextra;
+
+	}
+	
 	// supplier 
 	public function getSupplierList()
 	{

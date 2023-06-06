@@ -16,8 +16,22 @@
     include('menu.php');
     ?>
     <!-- End Header -->
+      <script src="adm/js/jquery.dataTables.min.js"></script>
+    <script src="adm/js/dataTables.bootstrap.min.js"></script>
+    <link rel="stylesheet" href="adm/scss/dataTables.bootstrap.min.css" />
+    <script src="assets/js/carrito.js"></script>
 
+    <script>
+    var userid = '<?php echo $_SESSION['id_cliente']; ?>';
+    var correoU ='<?php echo $_SESSION['userid']; ?>';
+</script>
 
+<style>
+    .product-image {
+      max-width: 100px; /* Cambia este valor al ancho máximo que desees */
+      max-height: 100px; /* Cambia este valor a la altura máxima que desees */
+    }
+    </style>
 
     <main id="main">
 
@@ -45,7 +59,7 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                             <form action="#">
                                 <div class="table-content table-responsive cart-table-content">
-                                    <table>
+                                    <table id="misComprasList" >
                                         <thead>
                                             <tr>
                                                 <th>Imagen</th>
@@ -55,63 +69,7 @@
                                                 <th>Subtotal</th>
                                                 <th>Acciones</th>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="product-thumbnail">
-                                                    <a href="#"><img src="assets/img/cart/cart-1.png" alt=""></a>
-                                                </td>
-                                                <td class="product-name"><a href="#">Nombre del producto</a></td>
-                                                <td class="product-price-cart"><span class="amount">$100.00</span></td>
-                                                <td class="product-quantity">
-                                                    <div class="cart-plus-minus">
-                                                        <input class="cart-plus-minus-box" type="text" name="qtybutton"
-                                                            value="2">
-                                                    </div>
-                                                </td>
-                                                <td class="product-subtotal">$200.00</td>
-                                                <td class="product-remove">
-                                                    <a href="#"><i class="fa fa-pencil"></i></a>
-                                                    <a href="#"><i class="fa fa-times"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="product-thumbnail">
-                                                    <a href="#"><img src="assets/img/cart/cart-2.png" alt=""></a>
-                                                </td>
-                                                <td class="product-name"><a href="#">Nombre del producto</a></td>
-                                                <td class="product-price-cart"><span class="amount">$150.00</span></td>
-                                                <td class="product-quantity">
-                                                    <div class="cart-plus-minus">
-                                                        <input class="cart-plus-minus-box" type="text" name="qtybutton"
-                                                            value="2">
-                                                    </div>
-                                                </td>
-                                                <td class="product-subtotal">$300.00</td>
-                                                <td class="product-remove">
-                                                    <a href="#"><i class="fa fa-pencil"></i></a>
-                                                    <a href="#"><i class="fa fa-times"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="product-thumbnail">
-                                                    <a href="#"><img src="assets/img/cart/cart-1.png" alt=""></a>
-                                                </td>
-                                                <td class="product-name"><a href="#">Nombre del producto</a></td>
-                                                <td class="product-price-cart"><span class="amount">$170.00</span></td>
-                                                <td class="product-quantity">
-                                                    <div class="cart-plus-minus">
-                                                        <input class="cart-plus-minus-box" type="text" name="qtybutton"
-                                                            value="2">
-                                                    </div>
-                                                </td>
-                                                <td class="product-subtotal">$340.00</td>
-                                                <td class="product-remove">
-                                                    <a href="#"><i class="fa fa-pencil"></i></a>
-                                                    <a href="#"><i class="fa fa-times"></i></a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
+                                        </thead>                                        
                                     </table>
                                 </div>
                                 <div class="row">

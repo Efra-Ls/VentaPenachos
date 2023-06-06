@@ -1,6 +1,5 @@
 $(document).ready(function() {
 
-
         var misComprasdataTable = $('#misComprasList').DataTable({
             "lengthChange": false,
             "processing": true, 

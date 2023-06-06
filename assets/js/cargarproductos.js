@@ -1,6 +1,6 @@
 $(document).ready(function() {
-
-    function loadProducts() {
+ 
+    function loadProducts() { 
         var btn_action = 'cargarProductos';
         $.ajax({
             url: "adm/action.php",
