@@ -146,7 +146,7 @@ document.getElementById("passwordR").addEventListener("input", function() {
     });
     var userdataTable = $('#customerList').DataTable({
         "lengthChange": false,
-        "processing": true,
+        "processing": true, 
         "serverSide": true,
         "order": [],
         "ajax": {

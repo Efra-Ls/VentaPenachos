@@ -291,9 +291,11 @@
     <?php
     include('footer.php');
     ?>
+    <script src="assets/js/vendor/jquery-1.12.4.min.js"></script>
     <script src="assets/js/usuarioCliente.js"></script>
     <script src="assets/js/usuarioContras.js"></script>
     <script src="assets/js/usuarioDomicilio.js"></script>
+
     
 </body>
 

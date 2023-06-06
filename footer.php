@@ -35,7 +35,7 @@
     <script src="assets/js/main.js"></script>
 
     <!-- jQuery JS -->
-    <script src="assets/js/vendor/jquery-1.12.4.min.js"></script>
+    
     <!-- Popper JS -->
     <script src="assets/js/popper.min.js"></script>
     <!-- Bootstrap JS -->

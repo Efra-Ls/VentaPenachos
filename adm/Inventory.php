@@ -154,6 +154,67 @@ class Inventory
 		);															
 		echo json_encode($output);
 	}
+	
+	public function getmisComprasList()
+	{
+		$sqlQuery = "SELECT * FROM pedido AS p INNER JOIN detalle_pedido AS dp ON p.id_pedido=dp.id_pedido INNER JOIN producto AS pr ON dp.id_producto=pr.id_producto WHERE p.id_cliente=". $_POST['id_cliente']." ";
+
+		if (!empty($_POST["search"]["value"])) { 			
+			$sqlQuery .= 'AND pr.nombre LIKE "%' . $_POST["search"]["value"] . '%" ';	
+		}
+		
+		if (!empty($_POST["order"])) {
+			$sqlQuery .= ' ORDER BY ' . $_POST['order']['0']['column'] . ' ' . $_POST['order']['0']['dir'] . ' ';
+		} 
+		else {
+			$sqlQuery .= ' ORDER BY p.id_pedido ASC ';
+		}
+
+
+		if ($_POST["length"] != -1) {
+			$sqlQuery .= 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
+		}
+
+		$result = mysqli_query($this->dbConnect, $sqlQuery);
+		$numRows = mysqli_num_rows($result);
+		$customerData = array();
+		while ($customer = mysqli_fetch_assoc($result)) {
+				
+		// Obtén los datos de la imagen de la base de datos
+		$imageData = $customer["fotoprincipal"];
+		// Convierte los datos de la imagen en una cadena base64
+		$imageBase64 = base64_encode($imageData);
+		// Crea una URL de datos que puede ser utilizada en la etiqueta <img>
+		$imageSrc = 'data:image/jpeg;base64,' . $imageBase64;
+			
+
+			$customerRows = array();
+			$customerRows[] = '<td class="product-thumbnail">
+									<a href="#"><img src="' . $imageSrc . '" class="product-image" alt=""></a>
+								</td>';
+			$customerRows[] = '<td class="product-name"><a href="#">'.$customer['nombre'].'</a></td>';
+			$customerRows[] = '<td class="product-price-cart"><span class="amount">$'.$customer['precio'].'</span></td>';
+			$customerRows[] = '<td class="product-quantity">
+									<div class="cart-plus-minus">
+										<input class="cart-plus-minus-box" type="text" name="qtybutton"
+											value="'.$customer['cantidad'].'">
+									</div>
+								</td>';
+			$customerRows[] = '<td class="product-subtotal">'. ($customer['cantidad']*$customer['precio']) .'</td>';
+			$customerRows[] = '<td class="product-wishlist-cart">
+									<a href="#">++ carrito</a>
+								</td>';
+			$customerData[] = $customerRows;
+		}
+		$output = array(
+			"draw"				=>	intval($_POST["draw"]),
+			"recordsTotal"  	=>  $numRows,
+			"recordsFiltered" 	=> 	$numRows,
+			"data"    			=> 	$customerData
+		);															
+		echo json_encode($output);
+	}
+	
 
 	public function saveCustomer()
 	{

@@ -6,7 +6,7 @@ $inventory = new Inventory();
 
 if(!empty($_GET['action']) && $_GET['action'] == 'logout') {
 	session_unset();
-	session_destroy();
+	session_destroy(); 
 	header("Location:index.php");
 }
 if(!empty($_POST['action']) && $_POST['action'] == 'getInventoryDetails') {
@@ -16,6 +16,10 @@ if(!empty($_POST['action']) && $_POST['action'] == 'getInventoryDetails') {
 if(!empty($_POST['action']) && $_POST['action'] == 'customerList') {	
 	$inventory->getCustomerList();
 }
+if(!empty($_POST['action']) && $_POST['action'] == 'misComprasList') {	
+	$inventory->getmisComprasList();
+}
+
 if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'customerAdd'){
 	$inventory->saveCustomer();
 }
