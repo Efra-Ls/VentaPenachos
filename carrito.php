@@ -61,7 +61,7 @@
                                 <div class="table-content table-responsive cart-table-content">
                                     <table id="misComprasList" >
                                         <thead>
-                                            <tr>
+                                            <tr> 
                                                 <th>Imagen</th>
                                                 <th>Nombre del producto</th>
                                                 <th>Precio unitario</th>

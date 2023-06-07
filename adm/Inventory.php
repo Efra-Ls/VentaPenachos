@@ -264,8 +264,7 @@ class Inventory
 								</td>';
 			$customerRows[] = '<td class="product-subtotal">'. ($customer['cantidad']*$customer['precio']) .'</td>';
 			$customerRows[] = ' <td class="product-remove">
-									<a href="#"><i class="fa fa-pencil"></i></a>
-									<a href="#"><i class="fa fa-times"></i></a>
+									<a href="#" name="delete" id_producto="' . $customer["id_producto"] . '" ><i class="fa fa-times"></i></a>									
 								</td>';
 			$customerData[] = $customerRows;
 		}
@@ -1129,6 +1128,14 @@ class Inventory
 			WHERE id_producto = '" . $_POST["id_producto"] . "'";
 		mysqli_query($this->dbConnect, $sqlQuery);
 	}
+	public function deleteProductcarrito()
+	{
+		$sqlQuery = "
+			DELETE FROM " . $this->detallecarritoTable . " 
+			WHERE id_producto = '" . $_POST["id_producto"] . "'";
+		mysqli_query($this->dbConnect, $sqlQuery);
+	}
+	
 	public function deletePromocion()
 	{
 		$sqlQuery = "

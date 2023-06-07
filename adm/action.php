@@ -27,6 +27,11 @@ if(!empty($_POST['action']) && $_POST['action'] == 'miscosasCarrito') {
 if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'customerAdd'){
 	$inventory->saveCustomer();
 }
+if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'deleteProductcarrito'){
+	$inventory->deleteProductcarrito();
+}
+
+
 if(!empty($_POST['btn_action']) && $_POST['btn_action'] == 'getCustomer'){
 	$inventory->getCustomer();
 }
